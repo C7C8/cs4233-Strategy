@@ -23,6 +23,7 @@
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -52,12 +53,16 @@ dependencies {
 	)
 }
 
-jar {
-	from configurations.runtime.collect { zipTree(it) }
-}
+mainClassName = 'edu.wpi.dyn.ravana.strategy.Main'
 
 test {
 	useJUnitPlatform()
 	dependsOn 'cleanTest'
 }
 
+jar {
+	manifest{
+			attributes 'Main-Class': mainClassName
+	}
+	from configurations.runtime.collect { zipTree(it) }
+}

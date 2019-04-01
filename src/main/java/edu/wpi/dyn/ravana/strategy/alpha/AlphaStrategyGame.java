@@ -20,33 +20,20 @@
  * This file was developed as part of CS 4233: Object Oriented Analysis &
  * Design, at Worcester Polytechnic Institute.
  */
+package edu.wpi.dyn.ravana.strategy.alpha;
 
-package edu.wpi.dyn.ravana.strategy.required;
-
-import edu.wpi.dyn.ravana.strategy.alpha.AlphaStrategyGame;
-import strategy.Board;
-import strategy.NotImplementedException;
 import strategy.StrategyGame;
-import strategy.StrategyGame.Version;
+import static strategy.StrategyGame.MoveResult.*;
 
 /**
- * Factory for creating Strategy games.
+ * Description
  * @version Mar 18, 2019
  */
-public class StrategyGameFactory
+public class AlphaStrategyGame implements StrategyGame
 {
-	public static StrategyGame makeGame(Version version, Board board)
+	public MoveResult move(int fr, int fc, int tr, int tc)
 	{
-		StrategyGame game;
-		switch (version)
-		{
-			case ALPHA:					// No need for the board
-				game = new AlphaStrategyGame();
-				break;
-			default:
-				throw new NotImplementedException(
-						"StrategyGameFactory.makeGame for version " + version);
-		}
-		return game;
+		return
+			(fr == 0 && fc == 0 && tr == 1 && tc == 0) ? RED_WINS : BLUE_WINS;
 	}
 }

@@ -21,7 +21,7 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package edu.wpi.dyn.ravana.strategy.gpollice;
+package edu.wpi.dyn.ravana.strategy;
 
 import strategy.Board;
 
