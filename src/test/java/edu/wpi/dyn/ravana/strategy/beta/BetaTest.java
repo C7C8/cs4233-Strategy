@@ -23,5 +23,55 @@
 
 package edu.wpi.dyn.ravana.strategy.beta;
 
-public class BetaTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import strategy.Piece;
+import strategy.StrategyException;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+
+/**
+ * For implementation-specific tests of internal components
+ */
+class BetaTest {
+
+	static Board board;
+
+	@BeforeEach
+	static void setup() {
+		board = new Board();
+	}
+
+	@Test
+	void boardSanity () {
+		assertAll("Board pieces sanity",
+				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(-1, -1)),
+				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(7, 7)),
+				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(-1, 0)),
+				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(0, -1))
+		);
+
+		assertAll("Board squares sanity",
+				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(-1, -1)),
+				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(7, 7)),
+				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(-1, 0)),
+				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(0, -1))
+		);
+
+		Piece mockPiece = mock(Piece.class);
+		assertAll("Board put sanity",
+				() -> assertThrows(StrategyException.class, () -> board.put(mockPiece, -1, -1)),
+				() -> assertThrows(StrategyException.class, () -> board.put(mockPiece, 7, 7)),
+				() -> assertThrows(StrategyException.class, () -> board.put(mockPiece, -1, 0)),
+				() -> assertThrows(StrategyException.class, () -> board.put(mockPiece, 0, -1)),
+				() -> assertThrows(StrategyException.class, () -> board.put(null, 0, 0))
+		);
+
+		board.put(mockPiece, 0, 0);
+		assertThat(board.getPieceAt(0, 0), equalTo(mockPiece));
+	}
 }
