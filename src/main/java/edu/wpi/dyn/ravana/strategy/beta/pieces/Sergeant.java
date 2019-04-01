@@ -67,6 +67,6 @@ public class Sergeant extends PieceDefined {
 
 	@Override
 	public PieceType getPieceType() {
-		return null;
+		return PieceType.SERGEANT;
 	}
 }

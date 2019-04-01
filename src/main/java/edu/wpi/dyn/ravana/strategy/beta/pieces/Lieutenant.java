@@ -30,11 +30,11 @@ import strategy.StrategyException;
 import strategy.StrategyGame;
 
 /**
- * Class to represent a Leiutenant
+ * Class to represent a Lieutenant
  */
-public class Leiutenant extends PieceDefined {
+public class Lieutenant extends PieceDefined {
 
-	public Leiutenant(PieceColor color) {
+	public Lieutenant(PieceColor color) {
 		super(color);
 	}
 
@@ -67,6 +67,6 @@ public class Leiutenant extends PieceDefined {
 
 	@Override
 	public PieceType getPieceType() {
-		return null;
+		return PieceType.LIEUTENANT;
 	}
 }

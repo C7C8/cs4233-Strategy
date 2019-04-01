@@ -23,6 +23,7 @@
 
 package edu.wpi.dyn.ravana.strategy.beta;
 
+import edu.wpi.dyn.ravana.strategy.beta.pieces.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static strategy.Piece.PieceColor.BLUE;
+import static strategy.Piece.PieceColor.RED;
+import static strategy.Piece.PieceType.*;
 
 /**
  * For implementation-specific tests of internal components
@@ -53,7 +57,7 @@ class BetaTest {
 		// underlying implementation.
 		m1 = mock(PieceDefined.class);
 		when(m1.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
-		when(m1.getPieceType()).thenReturn(Piece.PieceType.BOMB);
+		when(m1.getPieceType()).thenReturn(BOMB);
 
 		m2 = mock(PieceDefined.class);
 		when(m2.getPieceColor()).thenReturn(Piece.PieceColor.RED);
@@ -195,5 +199,48 @@ class BetaTest {
 
 		//...but moving to a different square succeeds
 		assertFalse(mobilePiece.moveRepetition(0, 0, 0, 1));
+	}
+
+	/**
+	 * Do pieces declare they're the right type?
+	 * (why is this even a test?)
+	 */
+	@Test
+	void pieceTypes() {
+		Piece bomb = new Bomb(BLUE);
+		assertThat(bomb.getPieceType(), is(equalTo(BOMB)));
+
+		Piece captain = new Captain(RED);
+		assertThat(captain.getPieceType(), is(equalTo(CAPTAIN)));
+
+		Piece colonel = new Colonel(RED);
+		assertThat(colonel.getPieceType(), is(equalTo(COLONEL)));
+
+		Piece flag = new Flag(BLUE);
+		assertThat(flag.getPieceType(), is(equalTo(FLAG)));
+
+		Piece general = new General(RED);
+		assertThat(general.getPieceType(), is(equalTo(GENERAL)));
+
+		Piece lieutenant = new Lieutenant(BLUE);
+		assertThat(lieutenant.getPieceType(), is(equalTo(LIEUTENANT)));
+
+		Piece major = new Major(RED);
+		assertThat(major.getPieceType(), is(equalTo(MAJOR)));
+
+		Piece marshal = new Marshall(BLUE);
+		assertThat(marshal.getPieceType(), is(equalTo(MARSHALL)));
+
+		Piece miner = new Miner(RED);
+		assertThat(miner.getPieceType(), is(equalTo(MINER)));
+
+		Piece scout = new Scout(BLUE);
+		assertThat(scout.getPieceType(), is(equalTo(SCOUT)));
+
+		Piece sergeant = new Sergeant(RED);
+		assertThat(sergeant.getPieceType(), is(equalTo(SERGEANT)));
+
+		Piece spy = new Spy(BLUE);
+		assertThat(spy.getPieceType(), is(equalTo(SPY)));
 	}
 }

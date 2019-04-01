@@ -67,6 +67,6 @@ public class Flag extends PieceDefined {
 
 	@Override
 	public PieceType getPieceType() {
-		return null;
+		return PieceType.FLAG;
 	}
 }

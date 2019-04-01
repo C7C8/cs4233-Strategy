@@ -29,6 +29,8 @@ import strategy.Piece;
 import strategy.StrategyException;
 import strategy.StrategyGame;
 
+import static strategy.Piece.PieceType.CAPTAIN;
+
 /**
  * Class to represent a Captain piece.
  */
@@ -67,6 +69,6 @@ public class Captain extends PieceDefined {
 
 	@Override
 	public PieceType getPieceType() {
-		return null;
+		return CAPTAIN;
 	}
 }

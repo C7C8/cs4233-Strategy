@@ -30,11 +30,11 @@ import strategy.StrategyException;
 import strategy.StrategyGame;
 
 /**
- * Class to represent a Marshal
+ * Class to represent a Marshall
  */
-public class Marshal extends PieceDefined {
+public class Marshall extends PieceDefined {
 
-	public Marshal(PieceColor color) {
+	public Marshall(PieceColor color) {
 		super(color);
 	}
 
@@ -67,6 +67,6 @@ public class Marshal extends PieceDefined {
 
 	@Override
 	public PieceType getPieceType() {
-		return null;
+		return PieceType.MARSHALL;
 	}
 }

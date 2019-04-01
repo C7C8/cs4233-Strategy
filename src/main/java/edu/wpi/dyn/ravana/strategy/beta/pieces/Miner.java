@@ -67,6 +67,6 @@ public class Miner extends PieceDefined {
 
 	@Override
 	public PieceType getPieceType() {
-		return null;
+		return PieceType.MINER;
 	}
 }
