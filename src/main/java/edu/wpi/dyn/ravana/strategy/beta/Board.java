@@ -23,7 +23,6 @@
 
 package edu.wpi.dyn.ravana.strategy.beta;
 
-import strategy.Piece;
 import strategy.StrategyException;
 
 public class Board implements strategy.Board {
@@ -32,14 +31,14 @@ public class Board implements strategy.Board {
 	static final int ROWS = 6;
 	static final int COLS = 6;
 
-	protected Piece[][] pieces;
+	protected PieceDefined[][] pieces;
 	protected SquareType[][] squares;
 
 	/**
 	 * Initialize the board; in beta strategy, there are no choke points and the board does not have pieces by default.
 	 */
 	public Board() {
-		pieces = new Piece[ROWS][COLS];
+		pieces = new PieceDefined[ROWS][COLS];
 		squares = new SquareType[ROWS][COLS];
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
@@ -66,7 +65,7 @@ public class Board implements strategy.Board {
 	 * @return Piece at location; null if nothing there.
 	 * @throws StrategyException Thrown if row/column invalid
 	 */
-	public Piece getPieceAt(int row, int column) throws StrategyException {
+	public PieceDefined getPieceAt(int row, int column) throws StrategyException {
 		checkBounds(row, column);
 		return pieces[row][column];
 	}
@@ -90,7 +89,7 @@ public class Board implements strategy.Board {
 	 * @param column Column
 	 * @throws StrategyException Thrown if row/column invalid, piece is null, or square already occupied.
 	 */
-	public void put(Piece piece, int row, int column) throws StrategyException {
+	public void put(PieceDefined piece, int row, int column) throws StrategyException {
 		checkBounds(row, column);
 		if (piece == null)
 			throw new StrategyException("Piece to place is null");

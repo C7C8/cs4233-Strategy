@@ -28,11 +28,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.Piece;
 import strategy.StrategyException;
+import strategy.StrategyGame;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,30 +42,39 @@ import static org.mockito.Mockito.when;
 class BetaTest {
 
 	private static Board board;
-	private static Piece m1, m2, m3;
+	private static PieceDefined m1, m2, m3;
 
+	/**
+	 * Setup for tests -- global to all
+	 */
 	@BeforeAll
 	static void setup_global() {
 		// Make some dummy pieces we can use that will respond based on their type without us actually caring about the
 		// underlying implementation.
-		m1 = mock(Piece.class);
+		m1 = mock(PieceDefined.class);
 		when(m1.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
 		when(m1.getPieceType()).thenReturn(Piece.PieceType.BOMB);
 
-		m2 = mock(Piece.class);
+		m2 = mock(PieceDefined.class);
 		when(m2.getPieceColor()).thenReturn(Piece.PieceColor.RED);
 		when(m2.getPieceType()).thenReturn(Piece.PieceType.CAPTAIN);
 
-		m3 = mock(Piece.class);
+		m3 = mock(PieceDefined.class);
 		when(m3.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
 		when(m3.getPieceType()).thenReturn(Piece.PieceType.SPY);
 	}
 
+	/**
+	 * Setup for tests -- run once before each test
+	 */
 	@BeforeEach
 	void setup_local() {
 		board = new Board();
 	}
 
+	/**
+	 * Basic board sanity checking
+	 */
 	@Test
 	void boardSanity () {
 		// Grouped into assertAll's because if you fail one bounds check test... you don't really have bounds checking
@@ -98,6 +107,9 @@ class BetaTest {
 		assertThrows(StrategyException.class, () -> board.put(m2, 0, 0));
 	}
 
+	/**
+	 * Can we compare boards?
+	 */
 	@Test
 	void boardEquals() {
 		board.put(m1, 0, 0);
@@ -126,8 +138,11 @@ class BetaTest {
 		assertThat(board, not(equalTo("Why would you do this")));
 	}
 
+	/**
+	 * Test board initial state
+	 */
 	@Test
-	void boardSetup() {
+	void boardInit() {
 		// Board should start with no choke points and should be completely empty.
 		for (int i = 0; i < Board.ROWS; i++) {
 			for (int j = 0; j < Board.COLS; j++) {
@@ -135,5 +150,50 @@ class BetaTest {
 				assertThat(board.getSquareTypeAt(i, j), is(equalTo(strategy.Board.SquareType.NORMAL)));
 			}
 		}
+	}
+
+	/**
+	 * Make sure piece direction checking works
+	 */
+	@Test
+	void pieceCheckDirection() {
+		assertFalse(PieceDefined.isDiagonal(0, 0, 1, 0));
+		assertFalse(PieceDefined.isDiagonal(0, 0, 0, 1));
+		assertFalse(PieceDefined.isDiagonal(5, 5, 4, 5));
+		assertFalse(PieceDefined.isDiagonal(5, 5, 5, 4));
+		assertTrue(PieceDefined.isDiagonal(0, 0, 1, 1));
+		assertTrue(PieceDefined.isDiagonal(5, 5, 4, 4));
+		assertTrue(PieceDefined.isDiagonal(5, 0, 4, 1));
+		assertTrue(PieceDefined.isDiagonal(0, 5, 1, 4));
+	}
+
+	/**
+	 * Make sure that piece repetition checking works. Totally not needed for this assignment, but it's simple to
+	 * implement, so why not?
+	 */
+	@Test
+	void pieceCheckRepetition() {
+		// Use an anonymous class to define this piece since we really only care about moveRepetition()
+		PieceDefined mobilePiece = new PieceDefined(Piece.PieceColor.BLUE) {
+			@Override
+			public StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+				return null;
+			}
+
+			@Override
+			public StrategyGame.MoveResult strike(Piece target) {
+				return null;
+			}
+		};
+
+		// Make two moves to start the repetition, both are valid
+		assertFalse(mobilePiece.moveRepetition(0, 0, 1, 0));
+		assertFalse(mobilePiece.moveRepetition(0, 1, 0, 0));
+
+		//Completing the repetition fails...
+		assertTrue(mobilePiece.moveRepetition(0, 0, 1, 0));
+
+		//...but moving to a different square succeeds
+		assertFalse(mobilePiece.moveRepetition(0, 0, 0, 1));
 	}
 }
