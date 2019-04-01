@@ -36,6 +36,9 @@ wrapper {
 
 repositories {
 	mavenCentral()
+
+	// For libstrategy -- I hosted the jar file on my own [semi-]private Maven repository to make the build process a
+	// little easier. Technically anyone can download it, BUT this server isn't publicly listed anywhere.
 	maven {
 		url 'https://ravana.dyn.wpi.edu/maven/'
 	}

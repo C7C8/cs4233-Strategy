@@ -20,24 +20,21 @@
  * This file was developed as part of CS 4233: Object Oriented Analysis &
  * Design, at Worcester Polytechnic Institute.
  */
+package edu.wpi.dyn.ravana.strategy.alpha;
 
-package edu.wpi.dyn.ravana.strategy;
+import strategy.StrategyGame;
 
-import strategy.Board;
+import static strategy.StrategyGame.MoveResult.BLUE_WINS;
+import static strategy.StrategyGame.MoveResult.RED_WINS;
 
 /**
  * Description
+ *
  * @version Mar 18, 2019
  */
-public class BoardImpl implements Board
-{
-
-	/**
-	 * Description
-	 */
-	public BoardImpl()
-	{
-		// TODO Auto-generated constructor stub
+public class AlphaGame implements StrategyGame {
+	public MoveResult move(int fr, int fc, int tr, int tc) {
+		return
+				(fr == 0 && fc == 0 && tr == 1 && tc == 0) ? RED_WINS : BLUE_WINS;
 	}
-
 }

@@ -20,41 +20,8 @@
  * This file was developed as part of CS 4233: Object Oriented Analysis &
  * Design, at Worcester Polytechnic Institute.
  */
-package edu.wpi.dyn.ravana.strategy.alpha;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import strategy.StrategyGame;
+package edu.wpi.dyn.ravana.strategy.beta;
 
-import static edu.wpi.dyn.ravana.strategy.required.StrategyGameFactory.makeGame;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static strategy.StrategyGame.MoveResult.BLUE_WINS;
-import static strategy.StrategyGame.MoveResult.RED_WINS;
-import static strategy.StrategyGame.Version.ALPHA;
-
-/**
- * Test cases for Alpha Strategy.
- * @version Mar 18, 2019
- */
-class AlphaStrategyTest
-{
-	private StrategyGame game;
-	
-	@BeforeEach
-	private void setup()
-	{
-		game = makeGame(ALPHA, null);
-	}
-	
-	@Test
-	void validGame()
-	{
-		assertEquals(RED_WINS, game.move(0, 0, 1, 0));
-	}
-
-	@Test
-	void wrongMove()
-	{
-		assertEquals(BLUE_WINS, game.move(0, 0, 0, 1));
-	}
+public class BetaTest {
 }

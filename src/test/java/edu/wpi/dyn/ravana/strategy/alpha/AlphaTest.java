@@ -20,31 +20,38 @@
  * This file was developed as part of CS 4233: Object Oriented Analysis &
  * Design, at Worcester Polytechnic Institute.
  */
+package edu.wpi.dyn.ravana.strategy.alpha;
 
-package edu.wpi.dyn.ravana.strategy.required;
-
-import edu.wpi.dyn.ravana.strategy.alpha.AlphaGame;
-import edu.wpi.dyn.ravana.strategy.beta.BetaGame;
-import strategy.Board;
-import strategy.NotImplementedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import strategy.StrategyGame;
-import strategy.StrategyGame.Version;
+
+import static edu.wpi.dyn.ravana.strategy.required.StrategyGameFactory.makeGame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static strategy.StrategyGame.MoveResult.BLUE_WINS;
+import static strategy.StrategyGame.MoveResult.RED_WINS;
+import static strategy.StrategyGame.Version.ALPHA;
 
 /**
- * Factory for creating Strategy games.
+ * Test cases for Alpha Strategy.
  *
  * @version Mar 18, 2019
  */
-public class StrategyGameFactory {
-	public static StrategyGame makeGame(Version version, Board board) {
-		switch (version) {
-			case ALPHA:                    // No need for the board
-				return new AlphaGame();
-			case BETA:
-				return new BetaGame();
-			default:
-				throw new NotImplementedException(
-						"StrategyGameFactory.makeGame for version " + version);
-		}
+class AlphaTest {
+	private StrategyGame game;
+
+	@BeforeEach
+	private void setup() {
+		game = makeGame(ALPHA, null);
+	}
+
+	@Test
+	void validGame() {
+		assertEquals(RED_WINS, game.move(0, 0, 1, 0));
+	}
+
+	@Test
+	void wrongMove() {
+		assertEquals(BLUE_WINS, game.move(0, 0, 0, 1));
 	}
 }
