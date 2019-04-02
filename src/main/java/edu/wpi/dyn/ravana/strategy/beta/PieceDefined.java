@@ -27,6 +27,10 @@ import strategy.Piece;
 import strategy.StrategyException;
 import strategy.StrategyGame;
 
+import static strategy.Piece.PieceColor.BLUE;
+import static strategy.StrategyGame.MoveResult.STRIKE_BLUE;
+import static strategy.StrategyGame.MoveResult.STRIKE_RED;
+
 public abstract class PieceDefined implements Piece {
 
 	protected PieceColor color;
@@ -117,5 +121,21 @@ public abstract class PieceDefined implements Piece {
 		last2 = last;
 		last = move;
 		return false;
+	}
+
+	/**
+	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
+	 * @return Strike result
+	 */
+	StrategyGame.MoveResult pieceVictory() {
+		return color == BLUE ? STRIKE_BLUE : STRIKE_RED;
+	}
+
+	/**
+	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
+	 * @return Strike result
+	 */
+	StrategyGame.MoveResult pieceLoss() {
+		return color == BLUE ? STRIKE_RED : STRIKE_BLUE;
 	}
 }

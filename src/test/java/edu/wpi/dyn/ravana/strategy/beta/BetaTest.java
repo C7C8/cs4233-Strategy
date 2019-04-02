@@ -47,6 +47,18 @@ class BetaTest {
 
 	private static Board board;
 	private static PieceDefined m1, m2, m3;
+	private static PieceDefined bomb;
+	private static PieceDefined captain;
+	private static PieceDefined colonel;
+	private static PieceDefined flag;
+	private static PieceDefined general;
+	private static PieceDefined lieutenant;
+	private static PieceDefined major;
+	private static PieceDefined marshall;
+	private static PieceDefined miner;
+	private static PieceDefined scout;
+	private static PieceDefined sergeant;
+	private static PieceDefined spy;
 
 	/**
 	 * Setup for tests -- global to all
@@ -74,6 +86,20 @@ class BetaTest {
 	@BeforeEach
 	void setup_local() {
 		board = new Board();
+
+		// These pieces are stateful, so we have to recreate them each time
+		marshall = new Marshall(RED);
+		general = new General(BLUE);
+		colonel = new Colonel(RED);
+		major = new Major(BLUE);
+		captain = new Captain(RED);
+		lieutenant = new Lieutenant(BLUE);
+		sergeant = new Sergeant(RED);
+		miner = new Miner(BLUE);
+		scout = new Scout(RED);
+		spy = new Spy(BLUE);
+		bomb = new Bomb(RED);
+		flag = new Flag(BLUE);
 	}
 
 	/**
@@ -207,40 +233,145 @@ class BetaTest {
 	 */
 	@Test
 	void pieceTypes() {
-		Piece bomb = new Bomb(BLUE);
 		assertThat(bomb.getPieceType(), is(equalTo(BOMB)));
-
-		Piece captain = new Captain(RED);
 		assertThat(captain.getPieceType(), is(equalTo(CAPTAIN)));
-
-		Piece colonel = new Colonel(RED);
 		assertThat(colonel.getPieceType(), is(equalTo(COLONEL)));
-
-		Piece flag = new Flag(BLUE);
 		assertThat(flag.getPieceType(), is(equalTo(FLAG)));
-
-		Piece general = new General(RED);
 		assertThat(general.getPieceType(), is(equalTo(GENERAL)));
-
-		Piece lieutenant = new Lieutenant(BLUE);
 		assertThat(lieutenant.getPieceType(), is(equalTo(LIEUTENANT)));
-
-		Piece major = new Major(RED);
 		assertThat(major.getPieceType(), is(equalTo(MAJOR)));
-
-		Piece marshal = new Marshall(BLUE);
-		assertThat(marshal.getPieceType(), is(equalTo(MARSHALL)));
-
-		Piece miner = new Miner(RED);
+		assertThat(marshall.getPieceType(), is(equalTo(MARSHALL)));
 		assertThat(miner.getPieceType(), is(equalTo(MINER)));
-
-		Piece scout = new Scout(BLUE);
 		assertThat(scout.getPieceType(), is(equalTo(SCOUT)));
-
-		Piece sergeant = new Sergeant(RED);
 		assertThat(sergeant.getPieceType(), is(equalTo(SERGEANT)));
-
-		Piece spy = new Spy(BLUE);
 		assertThat(spy.getPieceType(), is(equalTo(SPY)));
+	}
+
+	/**
+	 * Test marshall actions
+	 */
+	@Test
+	void marshalAction() {
+		//marshals can defeat 3-11
+		assertThat(marshall.strike(general), is(equalTo(marshall.pieceVictory())));
+		assertThat(marshall.strike(marshall), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test general actions
+	 */
+	@Test
+	void generalAction() {
+		//generals can defeat 3-10
+		assertThat(general.strike(colonel), is(equalTo(general.pieceVictory())));
+		assertThat(general.strike(marshall), is(equalTo(general.pieceLoss())));
+		assertThat(general.strike(general), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test colonel actions
+	 */
+	@Test
+	void colonelAction() {
+		assertThat(colonel.strike(major), is(equalTo(colonel.pieceVictory())));
+		assertThat(colonel.strike(general), is(equalTo(colonel.pieceLoss())));
+		assertThat(colonel.strike(colonel), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test major actions
+	 */
+	@Test
+	void majorActions() {
+		assertThat(major.strike(captain), is(equalTo(major.pieceVictory())));
+		assertThat(major.strike(colonel), is(equalTo(major.pieceLoss())));
+		assertThat(major.strike(major), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test captain actions
+	 */
+	@Test
+	void captainAction() {
+		// captains can defeat 3-7
+		assertThat(captain.strike(lieutenant), is(equalTo(captain.pieceVictory())));
+		assertThat(captain.strike(major), is(equalTo(captain.pieceLoss())));
+		assertThat(captain.strike(captain), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test lieutenant actions
+	 */
+	@Test
+	void lieutenant() {
+		assertThat(lieutenant.strike(sergeant), is(equalTo(lieutenant.pieceVictory())));
+		assertThat(lieutenant.strike(captain), is(equalTo(lieutenant.pieceLoss())));
+		assertThat(lieutenant.strike(lieutenant), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test sergeant actions
+	 */
+	@Test
+	void sergeant() {
+		assertThat(sergeant.strike(miner), is(equalTo(sergeant.pieceVictory())));
+		assertThat(sergeant.strike(lieutenant), is(equalTo(sergeant.pieceLoss())));
+		assertThat(sergeant.strike(sergeant), is(equalTo(StrategyGame.MoveResult.OK)));
+	}
+
+	/**
+	 * Test miner actions
+	 */
+	@Test
+	void miner() {
+		assertThat(miner.strike(scout), is(equalTo(miner.pieceVictory())));
+		assertThat(miner.strike(sergeant), is(equalTo(miner.pieceLoss())));
+		assertThat(miner.strike(miner), is(equalTo(StrategyGame.MoveResult.OK)));
+
+		// Miners have the unique ability to take out bombs
+		assertThat(miner.strike(bomb), is(equalTo(miner.pieceVictory())));
+	}
+
+	/**
+	 * Test scout actions
+	 */
+	@Test
+	void scout() {
+		assertThat(scout.strike(spy), is(equalTo(scout.pieceVictory())));
+		assertThat(scout.strike(miner), is(equalTo(scout.pieceLoss())));
+		assertThat(scout.strike(scout), is(equalTo(StrategyGame.MoveResult.OK)));
+
+		// Scouts have the added bonus of being able to move any amount in any vertical/horizontal direction
+		assertThat(scout.move(board, 0, 0, 0, 5), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(scout.move(board, 0, 0, 5, 0), is(equalTo(StrategyGame.MoveResult.OK)));
+
+		// ...but not if there's a piece in the way
+		board.put(marshall, 0, 3);
+		assertThrows(StrategyException.class, () -> scout.move(board, 0, 0, 0, 5));
+	}
+
+	/**
+	 * Test spy actions
+	 */
+	@Test
+	void spy() {
+		// Spies can't succeed at striking anything other than marshalls
+		assertThat(spy.strike(marshall), is(equalTo(spy.pieceVictory())));
+	}
+
+	/**
+	 * Test bomb movement (or lack thereof)
+	 */
+	@Test
+	void bombAction() {
+		assertThrows(StrategyException.class, () -> bomb.move(board, 0, 0, 1, 1));
+	}
+
+	/**
+	 * Test flag movement (or lack thereof)
+	 */
+	@Test
+	void flagAction() {
+		assertThrows(StrategyException.class, () -> flag.move(board, 0, 0, 1, 1));
 	}
 }
