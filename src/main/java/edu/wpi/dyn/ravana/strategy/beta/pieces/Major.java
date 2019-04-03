@@ -38,4 +38,9 @@ public class Major extends PieceDefined {
 	public PieceType getPieceType() {
 		return PieceType.MAJOR;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "J";
+	}
 }

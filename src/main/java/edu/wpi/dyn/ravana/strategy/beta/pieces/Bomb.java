@@ -23,7 +23,7 @@
 
 package edu.wpi.dyn.ravana.strategy.beta.pieces;
 
-import edu.wpi.dyn.ravana.strategy.beta.Board;
+import edu.wpi.dyn.ravana.strategy.beta.BetaBoard;
 import edu.wpi.dyn.ravana.strategy.beta.PieceDefined;
 import strategy.Piece;
 import strategy.StrategyException;
@@ -40,7 +40,7 @@ public class Bomb extends PieceDefined {
 	/**
 	 * Move the piece.
 	 *
-	 * @param board Board to move on
+	 * @param board BetaBoard to move on
 	 * @param fr    From row
 	 * @param fc    From column
 	 * @param tr    To row
@@ -49,7 +49,7 @@ public class Bomb extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
 		throw new StrategyException("Bombs cannot move");
 	}
 
@@ -67,5 +67,10 @@ public class Bomb extends PieceDefined {
 	@Override
 	public PieceType getPieceType() {
 		return PieceType.BOMB;
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "B";
 	}
 }

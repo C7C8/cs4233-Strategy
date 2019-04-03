@@ -39,4 +39,9 @@ public class General extends PieceDefined {
 	public PieceType getPieceType() {
 		return PieceType.GENERAL;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "G";
+	}
 }

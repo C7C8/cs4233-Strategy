@@ -38,4 +38,9 @@ public class Lieutenant extends PieceDefined {
 	public PieceType getPieceType() {
 		return PieceType.LIEUTENANT;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "L";
+	}
 }

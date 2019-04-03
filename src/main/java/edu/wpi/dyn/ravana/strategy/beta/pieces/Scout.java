@@ -23,7 +23,7 @@
 
 package edu.wpi.dyn.ravana.strategy.beta.pieces;
 
-import edu.wpi.dyn.ravana.strategy.beta.Board;
+import edu.wpi.dyn.ravana.strategy.beta.BetaBoard;
 import edu.wpi.dyn.ravana.strategy.beta.PieceDefined;
 import strategy.StrategyException;
 
@@ -39,7 +39,7 @@ public class Scout extends PieceDefined {
 	/**
 	 * Move the piece.
 	 *
-	 * @param board Board to move on
+	 * @param board BetaBoard to move on
 	 * @param fr    From row
 	 * @param fc    From column
 	 * @param tr    To row
@@ -48,7 +48,7 @@ public class Scout extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
 		int dx = tc - fc;
 		int dy = tr - fr;
 		dx /= (dx == 0 ? 1 : Math.abs(dx));
@@ -64,5 +64,10 @@ public class Scout extends PieceDefined {
 	@Override
 	public PieceType getPieceType() {
 		return PieceType.SCOUT;
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "U";
 	}
 }

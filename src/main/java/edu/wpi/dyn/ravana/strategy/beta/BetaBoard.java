@@ -23,9 +23,11 @@
 
 package edu.wpi.dyn.ravana.strategy.beta;
 
+import edu.wpi.dyn.ravana.strategy.beta.pieces.*;
+import strategy.Piece;
 import strategy.StrategyException;
 
-public class Board implements strategy.Board {
+public class BetaBoard extends Object implements strategy.Board {
 
 	// Constants
 	static final int ROWS = 6;
@@ -37,12 +39,73 @@ public class Board implements strategy.Board {
 	/**
 	 * Initialize the board; in beta strategy, there are no choke points and the board does not have pieces by default.
 	 */
-	public Board() {
+	public BetaBoard() {
 		pieces = new PieceDefined[ROWS][COLS];
 		squares = new SquareType[ROWS][COLS];
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
 				squares[i][j] = SquareType.NORMAL;
+			}
+		}
+	}
+
+	/**
+	 * Copy constructor; accepts a board, copies it to this implementation.
+	 * @param board BetaBoard to copy
+	 */
+	public BetaBoard(strategy.Board board) {
+		pieces = new PieceDefined[ROWS][COLS];
+		squares = new SquareType[ROWS][COLS];
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLS; j++) {
+				squares[i][j] = board.getSquareTypeAt(i, j);
+
+				final Piece piece = board.getPieceAt(i, j);
+				if (piece == null)
+					continue;
+				final Piece.PieceColor color = piece.getPieceColor();
+
+				PieceDefined newPiece;
+				switch (piece.getPieceType()) {
+					case BOMB:
+						newPiece = new Bomb(color);
+						break;
+					case CAPTAIN:
+						newPiece = new Captain(color);
+						break;
+					case COLONEL:
+						newPiece = new Colonel(color);
+						break;
+					case FLAG:
+						newPiece = new Flag(color);
+						break;
+					case GENERAL:
+						newPiece = new General(color);
+						break;
+					case LIEUTENANT:
+						newPiece = new Lieutenant(color);
+						break;
+					case MAJOR:
+						newPiece = new Major(color);
+						break;
+					case MARSHAL:
+						newPiece = new Marshal(color);
+						break;
+					case MINER:
+						newPiece = new Miner(color);
+						break;
+					case SCOUT:
+						newPiece = new Scout(color);
+						break;
+					case SERGEANT:
+						newPiece = new Sergeant(color);
+						break;
+					default: // Spy
+						newPiece = new Spy(color);
+						break;
+				}
+
+				pieces[i][j] = newPiece;
 			}
 		}
 	}
@@ -91,12 +154,8 @@ public class Board implements strategy.Board {
 	 */
 	public void put(PieceDefined piece, int row, int column) throws StrategyException {
 		checkBounds(row, column);
-		if (piece == null)
-			throw new StrategyException("Piece to place is null");
 		if (squares[row][column] != SquareType.NORMAL)
 			throw new StrategyException("Place to put at is not a normal square");
-		if (pieces[row][column] != null)
-			throw new StrategyException("Place to put at is already occupied");
 		pieces[row][column] = piece;
 	}
 
@@ -111,7 +170,7 @@ public class Board implements strategy.Board {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-		Board board = (Board) o;
+		BetaBoard board = (BetaBoard) o;
 
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
@@ -129,5 +188,22 @@ public class Board implements strategy.Board {
 		}
 
 		return true;
+	}
+
+	public String toString() {
+		StringBuilder ret = new StringBuilder();
+		for (int i = ROWS - 1; i >= 0; i--) {
+			for (int j = 0; j < COLS; j++) {
+				final Piece p = getPieceAt(i, j);
+				ret.append(" ");
+				if (p == null)
+					ret.append("  ");
+				else
+					ret.append(p.toString());
+			}
+			ret.append('\n');
+		}
+
+		return ret.toString();
 	}
 }

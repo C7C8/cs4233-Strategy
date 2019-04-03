@@ -53,4 +53,9 @@ public class Miner extends PieceDefined {
 	public PieceType getPieceType() {
 		return PieceType.MINER;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "M";
+	}
 }

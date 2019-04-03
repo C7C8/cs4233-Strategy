@@ -38,4 +38,9 @@ public class Marshal extends PieceDefined {
 	public PieceType getPieceType(){
 		return PieceType.MARSHAL;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "H";
+	}
 }

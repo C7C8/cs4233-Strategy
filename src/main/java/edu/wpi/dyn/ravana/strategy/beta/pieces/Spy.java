@@ -53,4 +53,9 @@ public class Spy extends PieceDefined {
 	public PieceType getPieceType() {
 		return PieceType.SPY;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "Y";
+	}
 }

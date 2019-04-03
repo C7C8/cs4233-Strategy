@@ -28,4 +28,4 @@
 
 # Base Game
 
-* Hook everything into game move function
+* Hook everything into game move function (should be simple at that point)

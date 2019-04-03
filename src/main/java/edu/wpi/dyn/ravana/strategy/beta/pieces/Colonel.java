@@ -34,6 +34,14 @@ public class Colonel extends PieceDefined {
 		super(color);
 	}
 
+	/**
+	 * @return Symbol that represents this piece
+	 */
+	@Override
+	public String toString() {
+		return getColorStr() + "O";
+	}
+
 	@Override
 	public PieceType getPieceType() {
 		return PieceType.COLONEL;

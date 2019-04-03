@@ -40,4 +40,9 @@ public class Captain extends PieceDefined {
 	public PieceType getPieceType() {
 		return CAPTAIN;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "P";
+	}
 }

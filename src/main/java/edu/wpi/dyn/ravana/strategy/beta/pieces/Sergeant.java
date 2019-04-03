@@ -38,4 +38,9 @@ public class Sergeant extends PieceDefined {
 	public PieceType getPieceType() {
 		return PieceType.SERGEANT;
 	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "A";
+	}
 }

@@ -41,7 +41,7 @@ public class StrategyGameFactory {
 			case ALPHA:                    // No need for the board
 				return new AlphaGame();
 			case BETA:
-				return new BetaGame();
+				return new BetaGame(board);
 			default:
 				throw new NotImplementedException(
 						"StrategyGameFactory.makeGame for version " + version);

@@ -27,6 +27,7 @@ import edu.wpi.dyn.ravana.strategy.beta.pieces.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import strategy.Board;
 import strategy.Piece;
 import strategy.StrategyException;
 
@@ -44,7 +45,8 @@ import static strategy.Piece.PieceType.*;
  */
 class BetaTest {
 
-	private static Board board;
+	private static BetaBoard board;
+	private static BetaBoard boardReal; // with real pieces and stuff on it!
 	private static PieceDefined m1, m2, m3;
 	private static PieceDefined bomb;
 	private static PieceDefined captain;
@@ -84,7 +86,7 @@ class BetaTest {
 	 */
 	@BeforeEach
 	void setup_local() {
-		board = new Board();
+		board = new BetaBoard();
 
 		// These pieces are stateful, so we have to recreate them each time
 		marshal = new Marshal(RED);
@@ -99,6 +101,7 @@ class BetaTest {
 		spy = new Spy(BLUE);
 		bomb = new Bomb(RED);
 		flag = new Flag(BLUE);
+
 	}
 
 	/**
@@ -107,33 +110,29 @@ class BetaTest {
 	@Test
 	void boardSanity () {
 		// Grouped into assertAll's because if you fail one bounds check test... you don't really have bounds checking
-		assertAll("Board pieces sanity",
+		assertAll("BetaBoard pieces sanity",
 				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(-1, -1)),
 				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(7, 7)),
 				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(-1, 0)),
 				() -> assertThrows(StrategyException.class, () -> board.getPieceAt(0, -1))
 		);
 
-		assertAll("Board squares sanity",
+		assertAll("BetaBoard squares sanity",
 				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(-1, -1)),
 				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(7, 7)),
 				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(-1, 0)),
 				() -> assertThrows(StrategyException.class, () -> board.getSquareTypeAt(0, -1))
 		);
 
-		assertAll("Board put sanity",
+		assertAll("BetaBoard put sanity",
 				() -> assertThrows(StrategyException.class, () -> board.put(m1, -1, -1)),
 				() -> assertThrows(StrategyException.class, () -> board.put(m1, 7, 7)),
 				() -> assertThrows(StrategyException.class, () -> board.put(m1, -1, 0)),
-				() -> assertThrows(StrategyException.class, () -> board.put(m1, 0, -1)),
-				() -> assertThrows(StrategyException.class, () -> board.put(null, 0, 0))
+				() -> assertThrows(StrategyException.class, () -> board.put(m1, 0, -1))
 		);
 
 		board.put(m1, 0, 0);
 		assertThat(board.getPieceAt(0, 0), is(equalTo(m1)));
-
-		// Can't put a piece on a spot where there's already another piece
-		assertThrows(StrategyException.class, () -> board.put(m2, 0, 0));
 	}
 
 	/**
@@ -145,7 +144,7 @@ class BetaTest {
 		board.put(m2, 1, 0);
 		board.put(m3, 2, 0);
 
-		Board board2 = new Board();
+		BetaBoard board2 = new BetaBoard();
 		board2.put(m1, 0, 0);
 		board2.put(m2, 1, 0);
 		board2.put(m3, 2, 0);
@@ -172,13 +171,42 @@ class BetaTest {
 	 */
 	@Test
 	void boardInit() {
-		// Board should start with no choke points and should be completely empty.
-		for (int i = 0; i < Board.ROWS; i++) {
-			for (int j = 0; j < Board.COLS; j++) {
+		// BetaBoard should start with no choke points and should be completely empty.
+		for (int i = 0; i < BetaBoard.ROWS; i++) {
+			for (int j = 0; j < BetaBoard.COLS; j++) {
 				assertThat(board.getPieceAt(i, j), is(nullValue()));
 				assertThat(board.getSquareTypeAt(i, j), is(equalTo(strategy.Board.SquareType.NORMAL)));
 			}
 		}
+	}
+
+	/**
+	 * BetaBoard copy constructor test
+	 */
+	@Test
+	void boardCopyConstructor() {
+		// Create a mock board that doesn't rely on the BetaBoard implementation.
+		Board mockBoard = mock(strategy.Board.class);
+		when(mockBoard.getPieceAt(0, 0)).thenReturn(m1);
+		when(mockBoard.getPieceAt(5, 5)).thenReturn(m2);
+		when(mockBoard.getPieceAt(3, 3)).thenReturn(m3);
+		for (int i = 0; i < BetaBoard.ROWS; i++) {
+			for (int j = 0; j < BetaBoard.COLS; j++) {
+				when(mockBoard.getSquareTypeAt(i, j)).thenReturn(Board.SquareType.CHOKE);
+			}
+		}
+		when(mockBoard.getSquareTypeAt(0, 0)).thenReturn(Board.SquareType.NORMAL);
+		when(mockBoard.getSquareTypeAt(5, 5)).thenReturn(Board.SquareType.NORMAL);
+		when(mockBoard.getSquareTypeAt(3, 3)).thenReturn(Board.SquareType.NORMAL);
+
+		BetaBoard realBoard = new BetaBoard(mockBoard);
+		assertThat(realBoard.getPieceAt(0, 0).getClass(), is(equalTo(Bomb.class)));
+		assertThat(realBoard.getPieceAt(5, 5).getClass(), is(equalTo(Captain.class)));
+		assertThat(realBoard.getPieceAt(3, 3).getClass(), is(equalTo(Spy.class)));
+		assertThat(realBoard.getSquareTypeAt(0, 0), equalTo(Board.SquareType.NORMAL));
+		assertThat(realBoard.getSquareTypeAt(5, 5), equalTo(Board.SquareType.NORMAL));
+		assertThat(realBoard.getSquareTypeAt(3, 3), equalTo(Board.SquareType.NORMAL));
+		assertThat(realBoard.getSquareTypeAt(1, 1), equalTo(Board.SquareType.CHOKE));
 	}
 
 	/**
@@ -206,13 +234,21 @@ class BetaTest {
 		// Use an anonymous class to define this piece since we really only care about moveRepetition()
 		PieceDefined mobilePiece = new PieceDefined(Piece.PieceColor.BLUE) {
 			@Override
-			public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+			public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
 				return null;
 			}
 
 			@Override
 			public MoveResult strike(Piece target) {
 				return null;
+			}
+
+			/**
+			 * @return Symbol that represents this piece
+			 */
+			@Override
+			public String toString() {
+				return "--";
 			}
 		};
 

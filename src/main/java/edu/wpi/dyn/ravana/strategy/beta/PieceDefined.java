@@ -27,6 +27,7 @@ import strategy.Piece;
 import strategy.StrategyException;
 
 import static strategy.Piece.PieceColor.BLUE;
+import static strategy.Piece.PieceColor.RED;
 import static strategy.Piece.PieceType.BOMB;
 import static strategy.Piece.PieceType.FLAG;
 
@@ -36,10 +37,10 @@ public abstract class PieceDefined implements Piece {
 		OK,
 		STRIKE_RED,
 		STRIKE_BLUE,
-		STRIKE_DRAW,
 		RED_WINS,
 		BLUE_WINS,
 		GAME_OVER,
+		STRIKE_DRAW,
 	}
 
 	protected PieceColor color;
@@ -48,13 +49,14 @@ public abstract class PieceDefined implements Piece {
 		this.color = color;
 	}
 
-	public PieceColor getColor() {
+	@Override
+	public PieceColor getPieceColor() {
 		return color;
 	}
 
 	/**
 	 * Move the piece.
-	 * @param board Board to move on
+	 * @param board BetaBoard to move on
 	 * @param fr From row
 	 * @param fc From column
 	 * @param tr To row
@@ -62,7 +64,7 @@ public abstract class PieceDefined implements Piece {
 	 * @return Result of move
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
-	public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
 		if (isDiagonal(fr, fc, tr, tc))
 			throw new StrategyException("Diagonal move made");
 		if (moveRepetition(fr, fc, tr, tc))
@@ -71,6 +73,8 @@ public abstract class PieceDefined implements Piece {
 		Piece piece = board.getPieceAt(tr, tc);
 		if (piece == null)
 			return MoveResult.OK;
+		if (piece.getPieceColor() == getPieceColor())
+			throw new StrategyException("Tried to strike a piece of the same color!");
 
 		return strike(piece);
 	}
@@ -171,5 +175,18 @@ public abstract class PieceDefined implements Piece {
 	 */
 	protected MoveResult pieceLoss() {
 		return color == BLUE ? MoveResult.STRIKE_RED : MoveResult.STRIKE_BLUE;
+	}
+
+	/**
+	 * @return Symbol that represents this piece
+	 */
+	public abstract String toString();
+
+	/**
+	 * Helper to to ease construction of getStr stuff, just returns a code for the color
+	 * @return R for red, B for blue
+	 */
+	public String getColorStr() {
+		return color == RED ? "R" : "B";
 	}
 }
