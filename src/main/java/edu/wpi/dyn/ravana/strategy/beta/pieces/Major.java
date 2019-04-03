@@ -23,11 +23,7 @@
 
 package edu.wpi.dyn.ravana.strategy.beta.pieces;
 
-import edu.wpi.dyn.ravana.strategy.beta.Board;
 import edu.wpi.dyn.ravana.strategy.beta.PieceDefined;
-import strategy.Piece;
-import strategy.StrategyException;
-import strategy.StrategyGame;
 
 /**
  * Class to represent a Major
@@ -36,33 +32,6 @@ public class Major extends PieceDefined {
 
 	public Major(PieceColor color) {
 		super(color);
-	}
-
-	/**
-	 * Move the piece.
-	 *
-	 * @param board Board to move on
-	 * @param fr    From row
-	 * @param fc    From column
-	 * @param tr    To row
-	 * @param tc    To column
-	 * @return Result of move
-	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
-	 */
-	@Override
-	public StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
-		return null;
-	}
-
-	/**
-	 * Determine the outcome of a particular strike.
-	 *
-	 * @param target Targeted piece.
-	 * @return Result of the strike!
-	 */
-	@Override
-	public StrategyGame.MoveResult strike(Piece target) {
-		return null;
 	}
 
 	@Override

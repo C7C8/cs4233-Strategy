@@ -25,13 +25,22 @@ package edu.wpi.dyn.ravana.strategy.beta;
 
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.StrategyGame;
 
 import static strategy.Piece.PieceColor.BLUE;
-import static strategy.StrategyGame.MoveResult.STRIKE_BLUE;
-import static strategy.StrategyGame.MoveResult.STRIKE_RED;
+import static strategy.Piece.PieceType.BOMB;
+import static strategy.Piece.PieceType.FLAG;
 
 public abstract class PieceDefined implements Piece {
+
+	public enum MoveResult {
+		OK,
+		STRIKE_RED,
+		STRIKE_BLUE,
+		STRIKE_DRAW,
+		RED_WINS,
+		BLUE_WINS,
+		GAME_OVER,
+	}
 
 	protected PieceColor color;
 
@@ -53,14 +62,39 @@ public abstract class PieceDefined implements Piece {
 	 * @return Result of move
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
-	public abstract StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException;
+	public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+		if (isDiagonal(fr, fc, tr, tc))
+			throw new StrategyException("Diagonal move made");
+		if (moveRepetition(fr, fc, tr, tc))
+			throw new StrategyException("Move repeated");
+
+		Piece piece = board.getPieceAt(tr, tc);
+		if (piece == null)
+			return MoveResult.OK;
+
+		return strike(piece);
+	}
 
 	/**
 	 * Determine the outcome of a particular strike.
+	 *
 	 * @param target Targeted piece.
 	 * @return Result of the strike!
 	 */
-	public abstract StrategyGame.MoveResult strike(Piece target);
+	public MoveResult strike(Piece target) {
+		if (target.getPieceType() == BOMB)
+			return pieceLoss();
+		else if (target.getPieceType() == FLAG)
+			return color == BLUE ? MoveResult.BLUE_WINS : MoveResult.RED_WINS;
+
+		final int ourRank = getPieceType().ordinal();
+		final int theirRank = target.getPieceType().ordinal();
+		if (ourRank > theirRank)
+			return pieceVictory();
+		else if (ourRank < theirRank)
+			return pieceLoss();
+		return MoveResult.STRIKE_DRAW;
+	}
 
 	/**
 	 * Dumb helper function to check that we're only moving in one direction at once
@@ -83,7 +117,7 @@ public abstract class PieceDefined implements Piece {
 		int tr;
 		int tc;
 
-		public Move(int fr, int fc, int tr, int tc) {
+		Move(int fr, int fc, int tr, int tc) {
 			this.fr = fr;
 			this.fc = fc;
 			this.tr = tr;
@@ -127,15 +161,15 @@ public abstract class PieceDefined implements Piece {
 	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
 	 * @return Strike result
 	 */
-	StrategyGame.MoveResult pieceVictory() {
-		return color == BLUE ? STRIKE_BLUE : STRIKE_RED;
+	protected MoveResult pieceVictory() {
+		return color == BLUE ? MoveResult.STRIKE_BLUE : MoveResult.STRIKE_RED;
 	}
 
 	/**
 	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
 	 * @return Strike result
 	 */
-	StrategyGame.MoveResult pieceLoss() {
-		return color == BLUE ? STRIKE_RED : STRIKE_BLUE;
+	protected MoveResult pieceLoss() {
+		return color == BLUE ? MoveResult.STRIKE_RED : MoveResult.STRIKE_BLUE;
 	}
 }

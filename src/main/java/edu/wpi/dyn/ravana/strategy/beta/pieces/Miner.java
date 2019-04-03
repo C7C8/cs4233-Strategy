@@ -23,11 +23,8 @@
 
 package edu.wpi.dyn.ravana.strategy.beta.pieces;
 
-import edu.wpi.dyn.ravana.strategy.beta.Board;
 import edu.wpi.dyn.ravana.strategy.beta.PieceDefined;
 import strategy.Piece;
-import strategy.StrategyException;
-import strategy.StrategyGame;
 
 /**
  * Class to represent a Miner piece.
@@ -39,30 +36,17 @@ public class Miner extends PieceDefined {
 	}
 
 	/**
-	 * Move the piece.
-	 *
-	 * @param board Board to move on
-	 * @param fr    From row
-	 * @param fc    From column
-	 * @param tr    To row
-	 * @param tc    To column
-	 * @return Result of move
-	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
-	 */
-	@Override
-	public StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
-		return null;
-	}
-
-	/**
 	 * Determine the outcome of a particular strike.
 	 *
 	 * @param target Targeted piece.
 	 * @return Result of the strike!
 	 */
 	@Override
-	public StrategyGame.MoveResult strike(Piece target) {
-		return null;
+	public MoveResult strike(Piece target) {
+		// Miners have the ability to attack bombs, so we perform that check before defaulting to regular strike rules
+		if (target.getPieceType() == PieceType.BOMB)
+			return pieceVictory();
+		return super.strike(target);
 	}
 
 	@Override

@@ -29,7 +29,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.StrategyGame;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -54,7 +53,7 @@ class BetaTest {
 	private static PieceDefined general;
 	private static PieceDefined lieutenant;
 	private static PieceDefined major;
-	private static PieceDefined marshall;
+	private static PieceDefined marshal;
 	private static PieceDefined miner;
 	private static PieceDefined scout;
 	private static PieceDefined sergeant;
@@ -88,7 +87,7 @@ class BetaTest {
 		board = new Board();
 
 		// These pieces are stateful, so we have to recreate them each time
-		marshall = new Marshall(RED);
+		marshal = new Marshal(RED);
 		general = new General(BLUE);
 		colonel = new Colonel(RED);
 		major = new Major(BLUE);
@@ -197,6 +196,8 @@ class BetaTest {
 		assertTrue(PieceDefined.isDiagonal(0, 5, 1, 4));
 	}
 
+
+
 	/**
 	 * Make sure that piece repetition checking works. Totally not needed for this assignment, but it's simple to
 	 * implement, so why not?
@@ -206,12 +207,12 @@ class BetaTest {
 		// Use an anonymous class to define this piece since we really only care about moveRepetition()
 		PieceDefined mobilePiece = new PieceDefined(Piece.PieceColor.BLUE) {
 			@Override
-			public StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+			public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
 				return null;
 			}
 
 			@Override
-			public StrategyGame.MoveResult strike(Piece target) {
+			public MoveResult strike(Piece target) {
 				return null;
 			}
 		};
@@ -240,7 +241,7 @@ class BetaTest {
 		assertThat(general.getPieceType(), is(equalTo(GENERAL)));
 		assertThat(lieutenant.getPieceType(), is(equalTo(LIEUTENANT)));
 		assertThat(major.getPieceType(), is(equalTo(MAJOR)));
-		assertThat(marshall.getPieceType(), is(equalTo(MARSHALL)));
+		assertThat(marshal.getPieceType(), is(equalTo(MARSHAL)));
 		assertThat(miner.getPieceType(), is(equalTo(MINER)));
 		assertThat(scout.getPieceType(), is(equalTo(SCOUT)));
 		assertThat(sergeant.getPieceType(), is(equalTo(SERGEANT)));
@@ -248,13 +249,13 @@ class BetaTest {
 	}
 
 	/**
-	 * Test marshall actions
+	 * Test marshal actions
 	 */
 	@Test
 	void marshalAction() {
 		//marshals can defeat 3-11
-		assertThat(marshall.strike(general), is(equalTo(marshall.pieceVictory())));
-		assertThat(marshall.strike(marshall), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(marshal.strike(general), is(equalTo(marshal.pieceVictory())));
+		assertThat(marshal.strike(marshal), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
@@ -264,8 +265,8 @@ class BetaTest {
 	void generalAction() {
 		//generals can defeat 3-10
 		assertThat(general.strike(colonel), is(equalTo(general.pieceVictory())));
-		assertThat(general.strike(marshall), is(equalTo(general.pieceLoss())));
-		assertThat(general.strike(general), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(general.strike(marshal), is(equalTo(general.pieceLoss())));
+		assertThat(general.strike(general), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
@@ -275,17 +276,17 @@ class BetaTest {
 	void colonelAction() {
 		assertThat(colonel.strike(major), is(equalTo(colonel.pieceVictory())));
 		assertThat(colonel.strike(general), is(equalTo(colonel.pieceLoss())));
-		assertThat(colonel.strike(colonel), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(colonel.strike(colonel), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
 	 * Test major actions
 	 */
 	@Test
-	void majorActions() {
+	void majorAction() {
 		assertThat(major.strike(captain), is(equalTo(major.pieceVictory())));
 		assertThat(major.strike(colonel), is(equalTo(major.pieceLoss())));
-		assertThat(major.strike(major), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(major.strike(major), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
@@ -296,37 +297,37 @@ class BetaTest {
 		// captains can defeat 3-7
 		assertThat(captain.strike(lieutenant), is(equalTo(captain.pieceVictory())));
 		assertThat(captain.strike(major), is(equalTo(captain.pieceLoss())));
-		assertThat(captain.strike(captain), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(captain.strike(captain), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
 	 * Test lieutenant actions
 	 */
 	@Test
-	void lieutenant() {
+	void lieutenantAction() {
 		assertThat(lieutenant.strike(sergeant), is(equalTo(lieutenant.pieceVictory())));
 		assertThat(lieutenant.strike(captain), is(equalTo(lieutenant.pieceLoss())));
-		assertThat(lieutenant.strike(lieutenant), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(lieutenant.strike(lieutenant), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
 	 * Test sergeant actions
 	 */
 	@Test
-	void sergeant() {
+	void sergeantAction() {
 		assertThat(sergeant.strike(miner), is(equalTo(sergeant.pieceVictory())));
 		assertThat(sergeant.strike(lieutenant), is(equalTo(sergeant.pieceLoss())));
-		assertThat(sergeant.strike(sergeant), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(sergeant.strike(sergeant), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 	}
 
 	/**
 	 * Test miner actions
 	 */
 	@Test
-	void miner() {
+	void minerAction() {
 		assertThat(miner.strike(scout), is(equalTo(miner.pieceVictory())));
 		assertThat(miner.strike(sergeant), is(equalTo(miner.pieceLoss())));
-		assertThat(miner.strike(miner), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(miner.strike(miner), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 
 		// Miners have the unique ability to take out bombs
 		assertThat(miner.strike(bomb), is(equalTo(miner.pieceVictory())));
@@ -336,17 +337,17 @@ class BetaTest {
 	 * Test scout actions
 	 */
 	@Test
-	void scout() {
+	void scoutAction() {
 		assertThat(scout.strike(spy), is(equalTo(scout.pieceVictory())));
 		assertThat(scout.strike(miner), is(equalTo(scout.pieceLoss())));
-		assertThat(scout.strike(scout), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(scout.strike(scout), is(equalTo(PieceDefined.MoveResult.STRIKE_DRAW)));
 
 		// Scouts have the added bonus of being able to move any amount in any vertical/horizontal direction
-		assertThat(scout.move(board, 0, 0, 0, 5), is(equalTo(StrategyGame.MoveResult.OK)));
-		assertThat(scout.move(board, 0, 0, 5, 0), is(equalTo(StrategyGame.MoveResult.OK)));
+		assertThat(scout.move(board, 0, 0, 0, 5), is(equalTo(PieceDefined.MoveResult.OK)));
+		assertThat(scout.move(board, 0, 0, 5, 0), is(equalTo(PieceDefined.MoveResult.OK)));
 
 		// ...but not if there's a piece in the way
-		board.put(marshall, 0, 3);
+		board.put(marshal, 0, 3);
 		assertThrows(StrategyException.class, () -> scout.move(board, 0, 0, 0, 5));
 	}
 
@@ -356,7 +357,7 @@ class BetaTest {
 	@Test
 	void spy() {
 		// Spies can't succeed at striking anything other than marshalls
-		assertThat(spy.strike(marshall), is(equalTo(spy.pieceVictory())));
+		assertThat(spy.strike(marshal), is(equalTo(spy.pieceVictory())));
 	}
 
 	/**

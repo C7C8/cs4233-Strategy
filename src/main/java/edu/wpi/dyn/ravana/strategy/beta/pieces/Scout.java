@@ -25,9 +25,7 @@ package edu.wpi.dyn.ravana.strategy.beta.pieces;
 
 import edu.wpi.dyn.ravana.strategy.beta.Board;
 import edu.wpi.dyn.ravana.strategy.beta.PieceDefined;
-import strategy.Piece;
 import strategy.StrategyException;
-import strategy.StrategyGame;
 
 /**
  * Class to represent a Scout piece.
@@ -50,19 +48,17 @@ public class Scout extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
-		return null;
-	}
+	public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+		int dx = tc - fc;
+		int dy = tr - fr;
+		dx /= (dx == 0 ? 1 : Math.abs(dx));
+		dy /= (dy == 0 ? 1 : Math.abs(dy));
 
-	/**
-	 * Determine the outcome of a particular strike.
-	 *
-	 * @param target Targeted piece.
-	 * @return Result of the strike!
-	 */
-	@Override
-	public StrategyGame.MoveResult strike(Piece target) {
-		return null;
+		for (int r = fr + dy, c = fc + dx; r != tr && c != tc; r += dy, c += dx) {
+			if (board.getPieceAt(r, c) != null || board.getSquareTypeAt(r, c) != strategy.Board.SquareType.NORMAL)
+				throw new StrategyException("Scout cannot jump over pieces/chokepoints");
+		}
+		return super.move(board, fr, fc, tr, tc);
 	}
 
 	@Override

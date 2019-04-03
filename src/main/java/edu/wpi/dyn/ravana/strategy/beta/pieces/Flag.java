@@ -27,7 +27,6 @@ import edu.wpi.dyn.ravana.strategy.beta.Board;
 import edu.wpi.dyn.ravana.strategy.beta.PieceDefined;
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.StrategyGame;
 
 /**
  * Class to represent a Flag piece.
@@ -50,8 +49,8 @@ public class Flag extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public StrategyGame.MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
-		return null;
+	public MoveResult move(Board board, int fr, int fc, int tr, int tc) throws StrategyException {
+		throw new StrategyException("Flags cannot move");
 	}
 
 	/**
@@ -61,8 +60,8 @@ public class Flag extends PieceDefined {
 	 * @return Result of the strike!
 	 */
 	@Override
-	public StrategyGame.MoveResult strike(Piece target) {
-		return null;
+	public MoveResult strike(Piece target) {
+		throw new StrategyException("Flags cannot strike");
 	}
 
 	@Override
