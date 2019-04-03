@@ -194,9 +194,8 @@ class BetaTest {
 		assertTrue(PieceDefined.isDiagonal(5, 5, 4, 4));
 		assertTrue(PieceDefined.isDiagonal(5, 0, 4, 1));
 		assertTrue(PieceDefined.isDiagonal(0, 5, 1, 4));
+		assertThrows(StrategyException.class, () -> marshal.move(board, 0, 0, 1, 1));
 	}
-
-
 
 	/**
 	 * Make sure that piece repetition checking works. Totally not needed for this assignment, but it's simple to
@@ -366,6 +365,10 @@ class BetaTest {
 	@Test
 	void bombAction() {
 		assertThrows(StrategyException.class, () -> bomb.move(board, 0, 0, 1, 1));
+		assertThrows(StrategyException.class, () -> bomb.strike(flag));
+
+		// Anything against a bomb fails (except miners, but that's tested elsewhere)
+		assertThat(marshal.strike(bomb), is(equalTo(marshal.pieceLoss())));
 	}
 
 	/**
@@ -374,5 +377,9 @@ class BetaTest {
 	@Test
 	void flagAction() {
 		assertThrows(StrategyException.class, () -> flag.move(board, 0, 0, 1, 1));
+		assertThrows(StrategyException.class, () -> flag.strike(flag));
+
+		// Anything can take a flag
+		assertThat(spy.strike(flag), is(equalTo(PieceDefined.MoveResult.BLUE_WINS)));
 	}
 }

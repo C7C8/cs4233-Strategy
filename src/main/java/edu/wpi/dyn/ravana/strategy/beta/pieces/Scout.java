@@ -54,7 +54,7 @@ public class Scout extends PieceDefined {
 		dx /= (dx == 0 ? 1 : Math.abs(dx));
 		dy /= (dy == 0 ? 1 : Math.abs(dy));
 
-		for (int r = fr + dy, c = fc + dx; r != tr && c != tc; r += dy, c += dx) {
+		for (int r = fr + dy, c = fc + dx; r != tr || c != tc; r += dy, c += dx) {
 			if (board.getPieceAt(r, c) != null || board.getSquareTypeAt(r, c) != strategy.Board.SquareType.NORMAL)
 				throw new StrategyException("Scout cannot jump over pieces/chokepoints");
 		}
