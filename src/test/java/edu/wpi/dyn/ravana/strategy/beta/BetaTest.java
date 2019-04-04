@@ -391,7 +391,7 @@ class BetaTest {
 	 */
 	@Test
 	void spy() {
-		// Spies can't succeed at striking anything other than marshalls
+		// Spies can't succeed at striking anything other than marshals
 		assertThat(spy.strike(marshal), is(equalTo(spy.pieceVictory())));
 	}
 

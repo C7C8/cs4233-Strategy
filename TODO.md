@@ -1,31 +1,35 @@
 # Board
 
-* Add 6x6 arrays for choke points, game pieces
-* Initialize choke points
-* Add "put" method
-* `equals()`
-* Random deployment of pieces?
+* Board is sane
+	* Checks bounds correctly
+	* Stores pieces correctly
+	* Board comparisons work
+	* Board initializes correctly (all empty, all non-choke)
+	* Board can copy construct from input boards
 
 # Pieces
+* Pieces can't move diagonally
+* Pieces can't perform move repetition (implemented but not used)
+* Pieces return correct piece type
+* Pieces draw when striking against themselves
+* Individual pieces:
+	* [one task for normal piece without special movement rules]: Defeated by higher, defeats lower, draws against self
+* Miners can defeat bombs
+* Scouts can move multiple squares at a time
+* Scouts can't jump over other pieces
+* Spies can defeat marshals
+* Bombs can't move
+* Anything but a miner vs. a bomb loses
+* Flags can't move
+* Anything that can move can defeat a flag
 
-* Extend piece interface into abstract class to include move validation function
-* Add move repetition detection to Piece
-* Add base (non-functional) implementations for pieces
-	1. Flag
-	2. Bomb
-	3. Spy
-	4. Scout
-	5. Miner
-	6. Sergeant
-	7. Lieutenant
-	8. Captain
-	9. Major
-	10. Colonel
-	11. General
-	12. Marshal
-* Implement movement and strike checking for all
-	* Implement Scout clear-path checking
-
-# Base Game
-
-* Hook everything into game move function (should be simple at that point)
+# Full game
+* Back-and-forth play
+* *Added by BetaStrategyMasterTests* Games can't last more than 8 turns
+* Games return GAME_OVER after a victory of any kind
+* Players lose if they move out of turn
+* Players lose if they try to move a piece that doesn't exist
+* Draws result in both pieces getting annihilated
+* Moving diagonally results in a victory for the other player
+* Friendly fire results in a victory for the other player
+* Opponent wins if you can't make a move
