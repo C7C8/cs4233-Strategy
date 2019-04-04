@@ -13,3 +13,15 @@ wizard and it'll treat it just like any other project.
 To build and run, use the included Gradle wrapper. The "test"
 task will run all tests. Eclipse will also be able to do this
 directly.
+
+## Package Structure
+
+This project complies with the package structure required,
+although folders are a little different:
+
+* Source files are under `src/main/java`
+* Test files are under `src/test/java`
+
+This is an extremely common Java project layout, it will be
+automatically recognized by Eclipse when imported using the
+Gradle import wizard.
