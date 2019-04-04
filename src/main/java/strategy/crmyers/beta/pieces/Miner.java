@@ -23,8 +23,8 @@
 
 package strategy.crmyers.beta.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
 import strategy.Piece;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
  * Class to represent a Miner piece.
@@ -50,12 +50,12 @@ public class Miner extends PieceDefined {
 	}
 
 	@Override
-	public PieceType getPieceType() {
-		return PieceType.MINER;
+	public String toString() {
+		return getColorStr() + "M";
 	}
 
 	@Override
-	public String toString() {
-		return getColorStr() + "M";
+	public PieceType getPieceType() {
+		return PieceType.MINER;
 	}
 }

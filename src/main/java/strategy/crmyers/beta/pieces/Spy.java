@@ -23,8 +23,8 @@
 
 package strategy.crmyers.beta.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
 import strategy.Piece;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
  * Class to represent a Spy piece
@@ -50,12 +50,12 @@ public class Spy extends PieceDefined {
 	}
 
 	@Override
-	public PieceType getPieceType() {
-		return PieceType.SPY;
+	public String toString() {
+		return getColorStr() + "Y";
 	}
 
 	@Override
-	public String toString() {
-		return getColorStr() + "Y";
+	public PieceType getPieceType() {
+		return PieceType.SPY;
 	}
 }

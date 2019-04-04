@@ -23,12 +23,12 @@
 
 package strategy.required;
 
-import strategy.crmyers.alpha.AlphaGame;
-import strategy.crmyers.beta.BetaGame;
 import strategy.Board;
 import strategy.NotImplementedException;
 import strategy.StrategyGame;
 import strategy.StrategyGame.Version;
+import strategy.crmyers.alpha.AlphaGame;
+import strategy.crmyers.beta.BetaGame;
 
 /**
  * Factory for creating Strategy games.

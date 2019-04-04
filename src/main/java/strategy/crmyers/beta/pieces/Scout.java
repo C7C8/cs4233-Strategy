@@ -23,9 +23,9 @@
 
 package strategy.crmyers.beta.pieces;
 
+import strategy.StrategyException;
 import strategy.crmyers.beta.BetaBoard;
 import strategy.crmyers.beta.PieceDefined;
-import strategy.StrategyException;
 
 /**
  * Class to represent a Scout piece.
@@ -65,12 +65,12 @@ public class Scout extends PieceDefined {
 	}
 
 	@Override
-	public PieceType getPieceType() {
-		return PieceType.SCOUT;
+	public String toString() {
+		return getColorStr() + "U";
 	}
 
 	@Override
-	public String toString() {
-		return getColorStr() + "U";
+	public PieceType getPieceType() {
+		return PieceType.SCOUT;
 	}
 }

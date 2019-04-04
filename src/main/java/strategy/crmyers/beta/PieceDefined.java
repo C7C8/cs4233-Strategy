@@ -33,6 +33,10 @@ import static strategy.Piece.PieceType.FLAG;
 
 public abstract class PieceDefined implements Piece {
 
+	private final PieceColor color;
+	private Move last;
+	private Move last2;
+
 	public enum MoveResult {
 		OK,
 		STRIKE_RED,
@@ -43,10 +47,21 @@ public abstract class PieceDefined implements Piece {
 		STRIKE_DRAW,
 	}
 
-	private final PieceColor color;
-
 	public PieceDefined(PieceColor color) {
 		this.color = color;
+	}
+
+	/**
+	 * Dumb helper function to check that we're only moving in one direction at once
+	 *
+	 * @param fr From row
+	 * @param fc From column
+	 * @param tr To row
+	 * @param tc To column
+	 * @return Whether the move is non-diagonal
+	 */
+	static boolean isDiagonal(int fr, int fc, int tr, int tc) {
+		return Math.abs(tc - fc) != 0 && Math.abs(tr - fr) != 0;
 	}
 
 	@Override
@@ -56,11 +71,12 @@ public abstract class PieceDefined implements Piece {
 
 	/**
 	 * Move the piece.
+	 *
 	 * @param board BetaBoard to move on
-	 * @param fr From row
-	 * @param fc From column
-	 * @param tr To row
-	 * @param tc To column
+	 * @param fr    From row
+	 * @param fc    From column
+	 * @param tr    To row
+	 * @param tc    To column
 	 * @return Result of move
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
@@ -102,17 +118,56 @@ public abstract class PieceDefined implements Piece {
 	}
 
 	/**
-	 * Dumb helper function to check that we're only moving in one direction at once
+	 * Determine whether the piece would perform a back-and-forth move. Calling this function is equivalent to stating
+	 * that the move is being made, UNLESS the result is TRUE.
+	 *
 	 * @param fr From row
 	 * @param fc From column
 	 * @param tr To row
 	 * @param tc To column
-	 * @return Whether the move is non-diagonal
+	 * @return Whether the move is a repeat or not
 	 */
-	static boolean isDiagonal(int fr, int fc, int tr, int tc) {
-		return Math.abs(tc - fc) != 0 && Math.abs(tr - fr) != 0;
+	@SuppressWarnings("SameParameterValue")
+	boolean moveRepetition(int fr, int fc, int tr, int tc) {
+		Move move = new Move(fr, fc, tr, tc);
+		if (move.equals(last2))
+			return true;
+		last2 = last;
+		last = move;
+		return false;
 	}
 
+	/**
+	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
+	 *
+	 * @return Strike result
+	 */
+	protected MoveResult pieceVictory() {
+		return color == BLUE ? MoveResult.STRIKE_BLUE : MoveResult.STRIKE_RED;
+	}
+
+	/**
+	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
+	 *
+	 * @return Strike result
+	 */
+	MoveResult pieceLoss() {
+		return color == BLUE ? MoveResult.STRIKE_RED : MoveResult.STRIKE_BLUE;
+	}
+
+	/**
+	 * @return Symbol that represents this piece
+	 */
+	public abstract String toString();
+
+	/**
+	 * Helper to to ease construction of getStr stuff, just returns a code for the color
+	 *
+	 * @return R for red, B for blue
+	 */
+	protected String getColorStr() {
+		return color == RED ? "R" : "B";
+	}
 
 	/**
 	 * Helper class to store moves
@@ -141,55 +196,5 @@ public abstract class PieceDefined implements Piece {
 					tr == move.tr &&
 					tc == move.tc;
 		}
-	}
-	private Move last;
-	private Move last2;
-
-	/**
-	 * Determine whether the piece would perform a back-and-forth move. Calling this function is equivalent to stating
-	 * that the move is being made, UNLESS the result is TRUE.
-	 * @param fr From row
-	 * @param fc From column
-	 * @param tr To row
-	 * @param tc To column
-	 * @return Whether the move is a repeat or not
-	 */
-	@SuppressWarnings("SameParameterValue")
-	boolean moveRepetition(int fr, int fc, int tr, int tc) {
-		Move move = new Move(fr, fc, tr, tc);
-		if (move.equals(last2))
-			return true;
-		last2 = last;
-		last = move;
-		return false;
-	}
-
-	/**
-	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
-	 * @return Strike result
-	 */
-	protected MoveResult pieceVictory() {
-		return color == BLUE ? MoveResult.STRIKE_BLUE : MoveResult.STRIKE_RED;
-	}
-
-	/**
-	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
-	 * @return Strike result
-	 */
-	MoveResult pieceLoss() {
-		return color == BLUE ? MoveResult.STRIKE_RED : MoveResult.STRIKE_BLUE;
-	}
-
-	/**
-	 * @return Symbol that represents this piece
-	 */
-	public abstract String toString();
-
-	/**
-	 * Helper to to ease construction of getStr stuff, just returns a code for the color
-	 * @return R for red, B for blue
-	 */
-	protected String getColorStr() {
-		return color == RED ? "R" : "B";
 	}
 }

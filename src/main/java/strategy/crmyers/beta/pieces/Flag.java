@@ -23,10 +23,10 @@
 
 package strategy.crmyers.beta.pieces;
 
-import strategy.crmyers.beta.BetaBoard;
-import strategy.crmyers.beta.PieceDefined;
 import strategy.Piece;
 import strategy.StrategyException;
+import strategy.crmyers.beta.BetaBoard;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
  * Class to represent a Flag piece.
@@ -64,12 +64,12 @@ public class Flag extends PieceDefined {
 		throw new StrategyException("Flags cannot strike");
 	}
 
+	public String toString() {
+		return getColorStr() + "F";
+	}
+
 	@Override
 	public PieceType getPieceType() {
 		return PieceType.FLAG;
-	}
-
-	public String toString() {
-		return getColorStr() + "F";
 	}
 }

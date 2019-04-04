@@ -35,7 +35,7 @@ public class Marshal extends PieceDefined {
 	}
 
 	@Override
-	public PieceType getPieceType(){
+	public PieceType getPieceType() {
 		return PieceType.MARSHAL;
 	}
 

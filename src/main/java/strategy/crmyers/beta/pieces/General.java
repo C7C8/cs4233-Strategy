@@ -23,8 +23,8 @@
 
 package strategy.crmyers.beta.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
 import strategy.Piece;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
  * Class to represent a General piece.

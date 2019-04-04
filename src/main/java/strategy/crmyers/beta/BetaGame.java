@@ -46,6 +46,7 @@ public class BetaGame implements StrategyGame {
 
 	/**
 	 * Make a move!
+	 *
 	 * @param fr from row..
 	 * @param fc from column...
 	 * @param tr ...to row
@@ -88,8 +89,7 @@ public class BetaGame implements StrategyGame {
 				// Strike defeat, attacked piece moves into original spot
 				board.put(board.getPieceAt(tr, tc), fr, fc);
 				board.put(null, tr, tc);
-			}
-			else if (result == PieceDefined.MoveResult.STRIKE_DRAW) {
+			} else if (result == PieceDefined.MoveResult.STRIKE_DRAW) {
 
 				// Draw, both pieces eliminated
 				board.put(null, tr, tc);
@@ -104,7 +104,7 @@ public class BetaGame implements StrategyGame {
 			System.err.println(ex.getMessage());
 
 			turns = 8; // End the game
-			result = colorTurn == RED ? PieceDefined.MoveResult.BLUE_WINS: PieceDefined.MoveResult.RED_WINS;
+			result = colorTurn == RED ? PieceDefined.MoveResult.BLUE_WINS : PieceDefined.MoveResult.RED_WINS;
 		}
 
 		// Logic for incrementing turns and determining who goes next
@@ -127,6 +127,7 @@ public class BetaGame implements StrategyGame {
 	/**
 	 * This BetaStrategy implementation uses an extended MoveResult enum to make move handling
 	 * a little easier; this function serves as a bridge between the two.
+	 *
 	 * @param result Move result in PieceDefined format
 	 * @return Move result in Strategy format
 	 */

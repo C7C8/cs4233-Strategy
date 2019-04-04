@@ -23,10 +23,10 @@
 
 package strategy.crmyers.beta.pieces;
 
-import strategy.crmyers.beta.BetaBoard;
-import strategy.crmyers.beta.PieceDefined;
 import strategy.Piece;
 import strategy.StrategyException;
+import strategy.crmyers.beta.BetaBoard;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
  * Class to represent a Bomb piece.
@@ -65,12 +65,12 @@ public class Bomb extends PieceDefined {
 	}
 
 	@Override
-	public PieceType getPieceType() {
-		return PieceType.BOMB;
+	public String toString() {
+		return getColorStr() + "B";
 	}
 
 	@Override
-	public String toString() {
-		return getColorStr() + "B";
+	public PieceType getPieceType() {
+		return PieceType.BOMB;
 	}
 }
