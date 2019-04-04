@@ -12,7 +12,9 @@ wizard and it'll treat it just like any other project.
 
 To build and run, use the included Gradle wrapper. The "test"
 task will run all tests. Eclipse will also be able to do this
-directly.
+directly. When you run, please make sure to hit "Coverage as" >
+"JUnit test" on the **ENTIRE TEST FOLDER**, otherwise JUnit
+will falsely report low coverage.
 
 ## Package Structure
 
@@ -24,4 +26,7 @@ although folders are a little different:
 
 This is an extremely common Java project layout, it will be
 automatically recognized by Eclipse when imported using the
-Gradle import wizard.
+Gradle import wizard; I was unable to convince Eclipse to accept
+any other format, unfortunately (it always thinks that
+things under test should be under `src.strategy` instead of
+just `strategy`).
