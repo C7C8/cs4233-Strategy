@@ -41,7 +41,7 @@ class AlphaTest {
 	private StrategyGame game;
 
 	@BeforeEach
-	private void setup() {
+	void setup() {
 		game = StrategyGameFactory.makeGame(ALPHA, null);
 	}
 

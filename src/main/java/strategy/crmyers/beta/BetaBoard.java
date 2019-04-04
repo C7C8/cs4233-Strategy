@@ -33,8 +33,8 @@ public class BetaBoard implements strategy.Board {
 	static final int ROWS = 6;
 	static final int COLS = 6;
 
-	protected PieceDefined[][] pieces;
-	protected SquareType[][] squares;
+	private final PieceDefined[][] pieces;
+	private final SquareType[][] squares;
 
 	/**
 	 * Initialize the board; in beta strategy, there are no choke points and the board does not have pieces by default.

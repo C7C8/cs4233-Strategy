@@ -28,6 +28,7 @@ import static strategy.StrategyGame.Version.ZETA;
  * Master tests for Beta Strategy
  * @version Mar 29, 2019
  */
+@SuppressWarnings("ALL")
 class BetaStrategyMasterTests
 {
 	private int rows = 0;

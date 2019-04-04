@@ -33,7 +33,7 @@ import static strategy.Piece.PieceColor.RED;
 import static strategy.StrategyGame.MoveResult.*;
 
 public class BetaGame implements StrategyGame {
-	private BetaBoard board;
+	private final BetaBoard board;
 	private Piece.PieceColor colorTurn;
 	private int turns;
 

@@ -25,7 +25,6 @@ package strategy.crmyers.beta;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy.Board;
 import strategy.StrategyGame;
 import strategy.crmyers.beta.pieces.*;
 import strategy.required.StrategyGameFactory;
@@ -41,7 +40,6 @@ import static strategy.StrategyGame.MoveResult.*;
  */
 class BetaTestExternal {
 
-	private static BetaBoard board;
 	private static StrategyGame game;
 
 	/**
@@ -58,8 +56,7 @@ class BetaTestExternal {
 			 RB       BH
 			 RF RB BO RH BY
 		 */
-
-		board = new BetaBoard();
+		BetaBoard board = new BetaBoard();
 		board.put(new Flag(RED), 0, 0);
 		board.put(new Bomb(RED), 1, 0);
 		board.put(new Bomb(RED), 0, 1);
@@ -79,7 +76,7 @@ class BetaTestExternal {
 		System.out.println("Starting board state: ");
 		System.out.println(board.toString());
 
-		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, (Board) board);
+		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, board);
 	}
 
 	/**

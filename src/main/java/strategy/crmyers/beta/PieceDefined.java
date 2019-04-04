@@ -39,11 +39,11 @@ public abstract class PieceDefined implements Piece {
 		STRIKE_BLUE,
 		RED_WINS,
 		BLUE_WINS,
-		GAME_OVER,
+		@SuppressWarnings("unused") GAME_OVER,
 		STRIKE_DRAW,
 	}
 
-	protected PieceColor color;
+	private final PieceColor color;
 
 	public PieceDefined(PieceColor color) {
 		this.color = color;
@@ -109,7 +109,7 @@ public abstract class PieceDefined implements Piece {
 	 * @param tc To column
 	 * @return Whether the move is non-diagonal
 	 */
-	protected static boolean isDiagonal(int fr, int fc, int tr, int tc) {
+	static boolean isDiagonal(int fr, int fc, int tr, int tc) {
 		return Math.abs(tc - fc) != 0 && Math.abs(tr - fr) != 0;
 	}
 
@@ -118,10 +118,10 @@ public abstract class PieceDefined implements Piece {
 	 * Helper class to store moves
 	 */
 	private static class Move {
-		int fr;
-		int fc;
-		int tr;
-		int tc;
+		final int fr;
+		final int fc;
+		final int tr;
+		final int tc;
 
 		Move(int fr, int fc, int tr, int tc) {
 			this.fr = fr;
@@ -154,7 +154,8 @@ public abstract class PieceDefined implements Piece {
 	 * @param tc To column
 	 * @return Whether the move is a repeat or not
 	 */
-	protected boolean moveRepetition(int fr, int fc, int tr, int tc) {
+	@SuppressWarnings("SameParameterValue")
+	boolean moveRepetition(int fr, int fc, int tr, int tc) {
 		Move move = new Move(fr, fc, tr, tc);
 		if (move.equals(last2))
 			return true;
@@ -175,7 +176,7 @@ public abstract class PieceDefined implements Piece {
 	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
 	 * @return Strike result
 	 */
-	protected MoveResult pieceLoss() {
+	MoveResult pieceLoss() {
 		return color == BLUE ? MoveResult.STRIKE_RED : MoveResult.STRIKE_BLUE;
 	}
 
@@ -188,7 +189,7 @@ public abstract class PieceDefined implements Piece {
 	 * Helper to to ease construction of getStr stuff, just returns a code for the color
 	 * @return R for red, B for blue
 	 */
-	public String getColorStr() {
+	protected String getColorStr() {
 		return color == RED ? "R" : "B";
 	}
 }

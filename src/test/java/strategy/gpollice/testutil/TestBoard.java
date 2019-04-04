@@ -20,6 +20,7 @@ import static strategy.Piece.PieceColor.RED;
  * Master tests for the students' code.
  * @version Apr 1, 2019
  */
+@SuppressWarnings("ALL")
 public class TestBoard implements Board
 {
 	private Map<TestCoordinate, Piece> board;

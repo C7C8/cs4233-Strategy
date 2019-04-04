@@ -28,7 +28,7 @@
 * *Added by BetaStrategyMasterTests* Games can't last more than 8 turns
 * Games return GAME_OVER after a victory of any kind
 * Players lose if they move out of turn
-* Players lose if they try to move a piece that doesn't exist
+* Players lose if they try to move a piece that does not exist
 * Draws result in both pieces getting annihilated
 * Moving diagonally results in a victory for the other player
 * Friendly fire results in a victory for the other player

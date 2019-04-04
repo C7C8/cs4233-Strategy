@@ -46,7 +46,6 @@ import static strategy.Piece.PieceType.*;
 class BetaTest {
 
 	private static BetaBoard board;
-	private static BetaBoard boardReal; // with real pieces and stuff on it!
 	private static PieceDefined m1, m2, m3;
 	private static PieceDefined bomb;
 	private static PieceDefined captain;
