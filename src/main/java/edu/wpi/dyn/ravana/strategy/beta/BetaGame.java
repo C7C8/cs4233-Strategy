@@ -61,12 +61,14 @@ public class BetaGame implements StrategyGame {
 		if (turns >= 8)
 			return MoveResult.GAME_OVER;
 
-		// Sanity checks to make sure that the player is grabbing a piece and it's the right color
+		// Sanity checks to make sure that the player is grabbing a piece and it's the right color.
 		final PieceDefined fPiece = board.getPieceAt(fr, fc);
-		if (fPiece == null || fPiece.getPieceColor() != colorTurn)
-			return defaultVictory();
+		if (fPiece == null)
+			return colorTurn == RED ? BLUE_WINS : RED_WINS;
+		if (fPiece.getPieceColor() != colorTurn)
+			return fPiece.getPieceColor() == RED ? BLUE_WINS : RED_WINS;
 
-		final PieceDefined.MoveResult result;
+		PieceDefined.MoveResult result;
 		try {
 			result = fPiece.move(board, fr, fc, tr, tc);
 
@@ -91,7 +93,6 @@ public class BetaGame implements StrategyGame {
 				board.put(null, tr, tc);
 				board.put(null, fr, fc);
 			} else {
-
 				// Some kind of victory condition
 				turns = 8;
 				return convertMoveResult(result);
@@ -101,7 +102,7 @@ public class BetaGame implements StrategyGame {
 			System.err.println(ex.getMessage());
 
 			turns = 8; // End the game
-			return defaultVictory();
+			result = colorTurn == RED ? PieceDefined.MoveResult.BLUE_WINS: PieceDefined.MoveResult.RED_WINS;
 		}
 
 		// Logic for incrementing turns and determining who goes next
@@ -110,17 +111,14 @@ public class BetaGame implements StrategyGame {
 		else {
 			colorTurn = RED;
 			turns++;
+
+			// Unique case for beta strategy -- if 8 turns elapse, red wins
+			if (turns >= 8)
+				return RED_WINS;
 		}
 
+		System.out.println(board.toString());
 		return convertMoveResult(result);
-	}
-
-	/**
-	 * Dumb helper function for returning victory condition based on when a player messes up.
-	 * @return BLUE_WINS if colorTurn is RED, RED_WINS if colorTurn is blue.
-	 */
-	private MoveResult defaultVictory() {
-		return colorTurn == RED ? BLUE_WINS	: RED_WINS;
 	}
 
 	/**

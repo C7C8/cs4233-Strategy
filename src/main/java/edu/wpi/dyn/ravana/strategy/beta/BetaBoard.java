@@ -186,7 +186,6 @@ public class BetaBoard extends Object implements strategy.Board {
 					return false;
 			}
 		}
-
 		return true;
 	}
 

@@ -90,26 +90,48 @@ class BetaTestExternal {
 	void minerFlag() {
 		//
 		assertThat(game.move(0, 3, 0, 2), equalTo(STRIKE_RED));
-		System.out.println(board.toString());
 		Piece temp = board.getPieceAt(0, 2);
 		assertThat(temp.getPieceType(), equalTo(Piece.PieceType.MARSHAL));
 		assertThat(temp.getPieceColor(), equalTo(RED));
 
 		assertThat(game.move(2, 0, 1, 0), equalTo(STRIKE_BLUE));
-		System.out.println(board.toString());
 		temp = board.getPieceAt(1, 0);
 		assertThat(temp.getPieceType(), equalTo(Piece.PieceType.MINER));
 		assertThat(temp.getPieceColor(), equalTo(BLUE));
 
 		assertThat(game.move(4, 4, 4, 3), equalTo(STRIKE_BLUE));
-		System.out.println(board.toString());
 		assertThat(board.getPieceAt(4, 3), equalTo(null));
 		temp = board.getPieceAt(4, 4);
 		assertThat(temp.getPieceType(), equalTo(Piece.PieceType.MAJOR));
 		assertThat(temp.getPieceColor(), equalTo(BLUE));
 
 		assertThat(game.move(1, 0, 0, 0), equalTo(BLUE_WINS));
-		System.out.println(board.toString());
 	}
 
+	/**
+	 * Test game 2 -- Red lieutenant tries to take out a blue major (fails), Blue tries (fails) to kill Red's marshall
+	 * Red's sergeant tries (fails) to take out Blue's major, Blue's spy inches closer to Red's marshal, Red's general
+	 * prepares for another strike, Blue's spy assassinates Red's marshal, Red goes for the kill and uses a captain to
+	 * take blue's flag (which was there all along). Further moves result in game over.
+	 */
+	@Test
+	void secondTimeCharm() {
+		assertThat(game.move(4, 4, 4, 3), equalTo(STRIKE_BLUE));
+		assertThat(game.move(0, 2, 0, 3), equalTo(STRIKE_RED));
+		assertThat(game.move(3, 4, 4, 4), equalTo(STRIKE_BLUE));
+		assertThat(game.move(0, 4, 0, 3), equalTo(OK));
+		assertThat(game.move(5, 4, 4, 4), equalTo(OK));
+		assertThat(game.move(0, 3, 0, 2), equalTo(STRIKE_BLUE));
+		assertThat(game.move(5, 5, 4, 5), equalTo(RED_WINS));
+
+		assertThat(game.move(0, 3, 0, 4), equalTo(GAME_OVER));
+	}
+
+	/**
+	 * Blue moves out of turn and loses the game
+	 */
+	@Test
+	void blueFUBAR() {
+		assertThat(game.move(3, 0, 3, 1), equalTo(RED_WINS));
+	}
 }

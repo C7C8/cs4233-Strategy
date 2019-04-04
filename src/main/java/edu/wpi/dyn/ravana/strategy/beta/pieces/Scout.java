@@ -49,6 +49,9 @@ public class Scout extends PieceDefined {
 	 */
 	@Override
 	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
+		// Disabled for beta strategy
+		// if (moveRepetition(fr, fc, tr, tc))
+		//	 throw new StrategyException("Move repeated");
 		int dx = tc - fc;
 		int dy = tr - fr;
 		dx /= (dx == 0 ? 1 : Math.abs(dx));

@@ -67,8 +67,9 @@ public abstract class PieceDefined implements Piece {
 	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
 		if (isDiagonal(fr, fc, tr, tc))
 			throw new StrategyException("Diagonal move made");
-		if (moveRepetition(fr, fc, tr, tc))
-			throw new StrategyException("Move repeated");
+		// Disabled for beta strategy
+		// if (moveRepetition(fr, fc, tr, tc))
+		// 	 throw new StrategyException("Move repeated");
 
 		Piece piece = board.getPieceAt(tr, tc);
 		if (piece == null)
