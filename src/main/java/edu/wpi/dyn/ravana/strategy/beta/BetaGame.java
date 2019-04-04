@@ -38,10 +38,7 @@ public class BetaGame implements StrategyGame {
 	private int turns;
 
 	public BetaGame(Board board) {
-		if (board.getClass() == BetaBoard.class)
-			this.board = (BetaBoard) board;
-		else
-			this.board = new BetaBoard(board);
+		this.board = new BetaBoard(board);
 
 		colorTurn = RED;
 		turns = 0;
@@ -63,10 +60,15 @@ public class BetaGame implements StrategyGame {
 
 		// Sanity checks to make sure that the player is grabbing a piece and it's the right color.
 		final PieceDefined fPiece = board.getPieceAt(fr, fc);
-		if (fPiece == null)
+		if (fPiece == null) {
+			turns = 8;
 			return colorTurn == RED ? BLUE_WINS : RED_WINS;
-		if (fPiece.getPieceColor() != colorTurn)
+		}
+		if (fPiece.getPieceColor() != colorTurn) {
+			turns = 8;
 			return fPiece.getPieceColor() == RED ? BLUE_WINS : RED_WINS;
+		}
+
 
 		PieceDefined.MoveResult result;
 		try {
@@ -117,6 +119,7 @@ public class BetaGame implements StrategyGame {
 				return RED_WINS;
 		}
 
+		System.out.println("Turn " + turns + ", color: " + colorTurn.name());
 		System.out.println(board.toString());
 		return convertMoveResult(result);
 	}

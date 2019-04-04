@@ -28,7 +28,6 @@ import edu.wpi.dyn.ravana.strategy.required.StrategyGameFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.Board;
-import strategy.Piece;
 import strategy.StrategyGame;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -52,11 +51,11 @@ class BetaTestExternal {
 	void setupLocal() {
 
 		/*
-			            RG RP
+			             RG RP
 			          BJ RL BF
 			 BU          RA
 			 BM
-			 RB
+			 RB       BH
 			 RF RB BO RH BY
 		 */
 
@@ -68,6 +67,7 @@ class BetaTestExternal {
 		board.put(new Scout(BLUE), 3, 0);
 		board.put(new Colonel(BLUE), 0, 2);
 		board.put(new Marshal(RED), 0, 3);
+		board.put(new Marshal(BLUE), 1, 3);
 		board.put(new Spy(BLUE), 0, 4);
 		board.put(new Captain(RED), 5, 5);
 		board.put(new Flag(BLUE), 4, 5);
@@ -90,21 +90,8 @@ class BetaTestExternal {
 	void minerFlag() {
 		//
 		assertThat(game.move(0, 3, 0, 2), equalTo(STRIKE_RED));
-		Piece temp = board.getPieceAt(0, 2);
-		assertThat(temp.getPieceType(), equalTo(Piece.PieceType.MARSHAL));
-		assertThat(temp.getPieceColor(), equalTo(RED));
-
 		assertThat(game.move(2, 0, 1, 0), equalTo(STRIKE_BLUE));
-		temp = board.getPieceAt(1, 0);
-		assertThat(temp.getPieceType(), equalTo(Piece.PieceType.MINER));
-		assertThat(temp.getPieceColor(), equalTo(BLUE));
-
 		assertThat(game.move(4, 4, 4, 3), equalTo(STRIKE_BLUE));
-		assertThat(board.getPieceAt(4, 3), equalTo(null));
-		temp = board.getPieceAt(4, 4);
-		assertThat(temp.getPieceType(), equalTo(Piece.PieceType.MAJOR));
-		assertThat(temp.getPieceColor(), equalTo(BLUE));
-
 		assertThat(game.move(1, 0, 0, 0), equalTo(BLUE_WINS));
 	}
 
@@ -133,5 +120,55 @@ class BetaTestExternal {
 	@Test
 	void blueFUBAR() {
 		assertThat(game.move(3, 0, 3, 1), equalTo(RED_WINS));
+		assertThat(game.move(3, 0, 3, 1), equalTo(GAME_OVER));
+	}
+
+	/**
+	 * Red tries to move a piece that doesn't exist, instantly causes Blue to win.
+	 */
+	@Test
+	void redFUBAR() {
+		assertThat(game.move(5, 0, 5, 4), equalTo(BLUE_WINS));
+		assertThat(game.move(5, 0, 5, 4), equalTo(GAME_OVER));
+	}
+
+	/**
+	 * Red and Blue engage in mutual annihilation when Red's marshal unknowingly tries to take out Blue's marshal.
+	 * Blue then fails to understand how movement works and tries to move diagonally, causing an instant Red win.
+	 *
+	 * (these test names are getting INTERESTING!)
+	 */
+	@Test
+	void redSNAFU() {
+		assertThat(game.move(0, 3, 1, 3), equalTo(OK));
+		assertThat(game.move(3, 0, 4, 1), equalTo(RED_WINS));
+	}
+
+	/**
+	 * What happens when a Red general tries to take on a Red captain? Friendly fire and a win for Blue, that's what.
+	 */
+	@Test
+	void friendlyFire() {
+		assertThat(game.move(5,4,5,5), equalTo(BLUE_WINS));
+		assertThat(game.move(5,4,5,5), equalTo(GAME_OVER));
+	}
+
+	/**
+	 * When a player runs out of moves to make, the other player should win immediately, even if they themselves have
+	 * no available moves to make.
+	 *
+	 * This actually doesn't need any special handling in the code since any attempt by Blue to move will result in an
+	 * exception, triggering a Red win
+	 */
+	@Test
+	void noMovesPossible() {
+		BetaBoard tBoard = new BetaBoard();
+		tBoard.put(new Bomb(BLUE), 0, 0);
+		tBoard.put(new Flag(BLUE), 0, 1);
+		tBoard.put(new Marshal(RED), 1, 0);
+		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, tBoard);
+
+		assertThat(game.move(1, 0, 0, 0), equalTo(STRIKE_BLUE));
+		assertThat(game.move(0, 1, 0, 0), equalTo(RED_WINS));
 	}
 }

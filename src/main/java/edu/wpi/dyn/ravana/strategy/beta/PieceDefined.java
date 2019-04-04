@@ -113,6 +113,7 @@ public abstract class PieceDefined implements Piece {
 		return Math.abs(tc - fc) != 0 && Math.abs(tr - fr) != 0;
 	}
 
+
 	/**
 	 * Helper class to store moves
 	 */

@@ -154,8 +154,9 @@ public class BetaBoard extends Object implements strategy.Board {
 	 */
 	public void put(PieceDefined piece, int row, int column) throws StrategyException {
 		checkBounds(row, column);
-		if (squares[row][column] != SquareType.NORMAL)
-			throw new StrategyException("Place to put at is not a normal square");
+		// No choke points in beta strategy
+//		if (squares[row][column] != SquareType.NORMAL)
+//			throw new StrategyException("Place to put at is not a normal square");
 		pieces[row][column] = piece;
 	}
 
@@ -182,8 +183,10 @@ public class BetaBoard extends Object implements strategy.Board {
 				// If individual pieces && squares don't equal each other, fail
 				if (board.pieces[i][j] != null && !board.pieces[i][j].equals(pieces[i][j]))
 					return false;
-				if (board.squares[i][j] != squares[i][j])
-					return false;
+
+				// No choke points in beta strategy
+//				if (board.squares[i][j] != squares[i][j])
+//					return false;
 			}
 		}
 		return true;
