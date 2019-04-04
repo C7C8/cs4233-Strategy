@@ -27,7 +27,6 @@ apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-group = "edu.wpi.dyn.ravana"
 version = '0.1.0'
 
 wrapper {
