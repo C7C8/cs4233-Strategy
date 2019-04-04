@@ -23,7 +23,6 @@
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -57,7 +56,6 @@ dependencies {
 	)
 }
 
-mainClassName = 'edu.wpi.dyn.ravana.strategy.Main'
 
 test {
 	useJUnitPlatform()
@@ -65,8 +63,20 @@ test {
 }
 
 jar {
-	manifest{
-		attributes 'Main-Class': mainClassName
-	}
 	from configurations.runtime.collect { zipTree(it) }
+}
+
+// I hate everything about this. This is NOT how Java projects are supposed to be structured!
+sourceSets {
+	main {
+		java {
+			srcDir 'src'
+		}
+	}
+
+	test {
+		java {
+			srcDir 'test'
+		}
+	}
 }
