@@ -21,23 +21,28 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta;
+package strategy.crmyers.gamma;
 
-public class BetaBoard extends strategy.crmyers.StrategyBoard {
+import strategy.crmyers.StrategyBoard;
+
+public class GammaBoard extends StrategyBoard {
 
 	/**
-	 * Initialize the board; in beta strategy, there are no choke points.
+	 * Initialize the board; in Gamma strategy, there is a 2x2 block of choke points in the center.
 	 */
-	public BetaBoard() {
+	public GammaBoard() {
 		super(6, 6);
+		squares[2][2] = SquareType.CHOKE;
+		squares[2][3] = SquareType.CHOKE;
+		squares[3][2] = SquareType.CHOKE;
+		squares[3][3] = SquareType.CHOKE;
 	}
 
 	/**
 	 * Copy constructor; accepts a board, copies it to this implementation.
-	 *
 	 * @param board Board to copy
 	 */
-	public BetaBoard(strategy.Board board) {
+	public GammaBoard(strategy.Board board) {
 		super(board, 6, 6);
 	}
 }

@@ -171,8 +171,8 @@ class BetaTest {
 	@Test
 	void boardInit() {
 		// BetaBoard should start with no choke points and should be completely empty.
-		for (int i = 0; i < BetaBoard.ROWS; i++) {
-			for (int j = 0; j < BetaBoard.COLS; j++) {
+		for (int i = 0; i < board.getRows(); i++) {
+			for (int j = 0; j < board.getRows(); j++) {
 				assertThat(board.getPieceAt(i, j), is(nullValue()));
 				assertThat(board.getSquareTypeAt(i, j), is(equalTo(strategy.Board.SquareType.NORMAL)));
 			}
@@ -189,8 +189,8 @@ class BetaTest {
 		when(mockBoard.getPieceAt(0, 0)).thenReturn(m1);
 		when(mockBoard.getPieceAt(5, 5)).thenReturn(m2);
 		when(mockBoard.getPieceAt(3, 3)).thenReturn(m3);
-		for (int i = 0; i < BetaBoard.ROWS; i++) {
-			for (int j = 0; j < BetaBoard.COLS; j++) {
+		for (int i = 0; i < board.getRows(); i++) {
+			for (int j = 0; j < board.getCols(); j++) {
 				when(mockBoard.getSquareTypeAt(i, j)).thenReturn(Board.SquareType.CHOKE);
 			}
 		}
