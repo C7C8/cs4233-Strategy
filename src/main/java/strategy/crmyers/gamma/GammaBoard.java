@@ -23,9 +23,9 @@
 
 package strategy.crmyers.gamma;
 
-import strategy.crmyers.common.StrategyBoard;
+import strategy.crmyers.common.StrategyBoardImpl;
 
-public class GammaBoard extends StrategyBoard {
+public class GammaBoard extends StrategyBoardImpl {
 
 	/**
 	 * Initialize the board; in Gamma strategy, there is a 2x2 block of choke points in the center.

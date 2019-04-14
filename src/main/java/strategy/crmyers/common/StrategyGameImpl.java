@@ -32,24 +32,26 @@ import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
 import static strategy.StrategyGame.MoveResult.*;
 
-public class StrategyGame implements strategy.StrategyGame {
+public class StrategyGameImpl implements strategy.StrategyGame {
 
 	// Game data
 	protected final BetaBoard board;
 	protected Piece.PieceColor colorTurn;
 	protected int turns;
+	protected boolean gameOver;
 
 	// Game configuration
 	protected final int maxTurns; // Unlimited if zero
 	protected final boolean noRepeatMoves;
 
 
-	public StrategyGame(Board board, int maxTurns, boolean noRepeatMoves) {
+	public StrategyGameImpl(Board board, int maxTurns, boolean noRepeatMoves) {
 		this.board = new BetaBoard(board);
 		this.maxTurns = maxTurns;
 		this.noRepeatMoves = noRepeatMoves;
 		colorTurn = RED;
 		turns = 0;
+		gameOver = false;
 	}
 
 	/**
@@ -64,17 +66,17 @@ public class StrategyGame implements strategy.StrategyGame {
 	@Override
 	public MoveResult move(int fr, int fc, int tr, int tc) {
 		// Sanity check for game over
-		if (turns >= 8)
-			return MoveResult.GAME_OVER;
+		if (gameOver)
+			return GAME_OVER;
 
 		// Sanity checks to make sure that the player is grabbing a piece and it's the right color.
 		final PieceDefined fPiece = board.getPieceAt(fr, fc);
 		if (fPiece == null) {
-			turns = 8;
+			gameOver = true;
 			return colorTurn == RED ? BLUE_WINS : RED_WINS;
 		}
 		if (fPiece.getPieceColor() != colorTurn) {
-			turns = 8;
+			gameOver = true;
 			return fPiece.getPieceColor() == RED ? BLUE_WINS : RED_WINS;
 		}
 
@@ -104,14 +106,14 @@ public class StrategyGame implements strategy.StrategyGame {
 				board.put(null, fr, fc);
 			} else {
 				// Some kind of victory condition
-				turns = 8;
+				gameOver = true;
 				return convertMoveResult(result);
 			}
 		} catch (StrategyException ex) {
 			// Moving player screwed up; opponent wins.
 			System.err.println(ex.getMessage());
 
-			turns = 8; // End the game
+			gameOver = true;
 			result = colorTurn == RED ? PieceDefined.MoveResult.BLUE_WINS : PieceDefined.MoveResult.RED_WINS;
 		}
 

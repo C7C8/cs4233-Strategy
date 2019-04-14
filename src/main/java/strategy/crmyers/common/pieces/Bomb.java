@@ -25,7 +25,7 @@ package strategy.crmyers.common.pieces;
 
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.common.StrategyBoard;
+import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.PieceDefined;
 
 /**
@@ -49,7 +49,7 @@ public class Bomb extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
+	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
 		throw new StrategyException("Bombs cannot move");
 	}
 

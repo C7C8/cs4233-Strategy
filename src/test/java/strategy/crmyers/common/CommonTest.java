@@ -43,14 +43,14 @@ import static strategy.Piece.PieceType.BOMB;
 
 public class CommonTest {
 
-	public static StrategyBoard board;
+	public static StrategyBoardImpl board;
 	public static PieceDefined marshal;
 	private static PieceDefined m1, m2, m3;
 
 
 	@BeforeAll
 	static void setup_global() {
-		board = new StrategyBoard(6, 6);
+		board = new StrategyBoardImpl(6, 6);
 		marshal = new Marshal(RED);
 
 		// Make some dummy pieces we can use that will respond based on their type without us actually caring about the
@@ -108,7 +108,7 @@ public class CommonTest {
 		board.put(m2, 1, 0);
 		board.put(m3, 2, 0);
 
-		StrategyBoard board2 = new StrategyBoard(6, 6);
+		StrategyBoardImpl board2 = new StrategyBoardImpl(6, 6);
 		board2.put(m1, 0, 0);
 		board2.put(m2, 1, 0);
 		board2.put(m3, 2, 0);
@@ -149,7 +149,7 @@ public class CommonTest {
 		when(mockBoard.getSquareTypeAt(5, 5)).thenReturn(Board.SquareType.NORMAL);
 		when(mockBoard.getSquareTypeAt(3, 3)).thenReturn(Board.SquareType.NORMAL);
 
-		StrategyBoard realBoard = new StrategyBoard(mockBoard, 6, 6);
+		StrategyBoardImpl realBoard = new StrategyBoardImpl(mockBoard, 6, 6);
 		assertThat(realBoard.getPieceAt(0, 0).getClass(), is(equalTo(Bomb.class)));
 		assertThat(realBoard.getPieceAt(5, 5).getClass(), is(equalTo(Captain.class)));
 		assertThat(realBoard.getPieceAt(3, 3).getClass(), is(equalTo(Spy.class)));

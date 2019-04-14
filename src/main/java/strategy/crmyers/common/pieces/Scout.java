@@ -24,7 +24,7 @@
 package strategy.crmyers.common.pieces;
 
 import strategy.StrategyException;
-import strategy.crmyers.common.StrategyBoard;
+import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.PieceDefined;
 
 /**
@@ -48,7 +48,7 @@ public class Scout extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noMoveRepetition) throws StrategyException {
+	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc, boolean noMoveRepetition) throws StrategyException {
 		// Disabled for beta strategy
 		// if (moveRepetition(fr, fc, tr, tc))
 		//	 throw new StrategyException("Move repeated");

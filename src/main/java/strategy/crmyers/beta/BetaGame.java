@@ -24,9 +24,9 @@
 package strategy.crmyers.beta;
 
 import strategy.Board;
-import strategy.crmyers.common.StrategyGame;
+import strategy.crmyers.common.StrategyGameImpl;
 
-public class BetaGame extends StrategyGame {
+public class BetaGame extends StrategyGameImpl {
 	public BetaGame(Board board) {
 		super(board, 8, false);
 	}

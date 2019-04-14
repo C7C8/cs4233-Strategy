@@ -27,7 +27,7 @@ import strategy.Piece;
 import strategy.StrategyException;
 import strategy.crmyers.common.pieces.*;
 
-public class StrategyBoard implements strategy.Board {
+public class StrategyBoardImpl implements strategy.Board {
 
 
 
@@ -44,7 +44,7 @@ public class StrategyBoard implements strategy.Board {
 	 * @param rows Board height
 	 * @param cols Board width
 	 */
-	public StrategyBoard(int rows, int cols) {
+	public StrategyBoardImpl(int rows, int cols) {
 		ROWS = rows;
 		COLS = cols;
 		pieces = new PieceDefined[ROWS][COLS];
@@ -62,7 +62,7 @@ public class StrategyBoard implements strategy.Board {
 	 * @param rows Board height
 	 * @param cols Board width
 	 */
-	public StrategyBoard(strategy.Board board, int rows, int cols) {
+	public StrategyBoardImpl(strategy.Board board, int rows, int cols) {
 		ROWS = rows;
 		COLS = cols;
 		pieces = new PieceDefined[ROWS][COLS];
@@ -186,7 +186,7 @@ public class StrategyBoard implements strategy.Board {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-		StrategyBoard board = (StrategyBoard) o;
+		StrategyBoardImpl board = (StrategyBoardImpl) o;
 
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {

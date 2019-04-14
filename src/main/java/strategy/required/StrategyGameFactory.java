@@ -29,6 +29,7 @@ import strategy.StrategyGame;
 import strategy.StrategyGame.Version;
 import strategy.crmyers.alpha.AlphaGame;
 import strategy.crmyers.beta.BetaGame;
+import strategy.crmyers.gamma.GammaGame;
 
 /**
  * Factory for creating Strategy games.
@@ -42,6 +43,8 @@ public class StrategyGameFactory {
 				return new AlphaGame();
 			case BETA:
 				return new BetaGame(board);
+			case GAMMA:
+				return new GammaGame(board);
 			default:
 				throw new NotImplementedException(
 						"StrategyGameFactory.makeGame for version " + version);

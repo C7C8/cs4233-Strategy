@@ -80,7 +80,7 @@ public abstract class PieceDefined implements Piece {
 	 * @return Result of move
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
-	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
+	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
 		if (isDiagonal(fr, fc, tr, tc))
 			throw new StrategyException("Diagonal move made");
 		if (noRepeatMoves && moveRepetition(fr, fc, tr, tc))
@@ -98,7 +98,7 @@ public abstract class PieceDefined implements Piece {
 	/**
 	 * Same as previous move() but with default of disabled repeat moves
 	 */
-	public final MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public final MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc) throws StrategyException {
 		return move(board, fr, fc, tr, tc, true);
 	}
 

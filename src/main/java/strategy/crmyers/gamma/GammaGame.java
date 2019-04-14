@@ -21,29 +21,13 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta;
+package strategy.crmyers.gamma;
 
-import strategy.StrategyGame;
-import strategy.required.StrategyGameFactory;
+import strategy.Board;
+import strategy.crmyers.common.StrategyGameImpl;
 
-/**
- * Beta-specific tests
- */
-public class BetaTestExternal extends strategy.crmyers.common.GameplayTest {
-
-	/**
-	 * Set the gameplay test to use a Beta board
-	 */
-	@Override
-	protected void boardConfig() {
-		board = new BetaBoard();
-	}
-
-	/**
-	 * Set the gameplay test to use a Beta game
-	 */
-	@Override
-	protected void gameConfig() {
-		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, board);
+public class GammaGame extends StrategyGameImpl {
+	public GammaGame(Board board) {
+		super(board, 0, true);
 	}
 }
