@@ -26,7 +26,7 @@ package strategy.crmyers.beta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.StrategyGame;
-import strategy.crmyers.beta.pieces.*;
+import strategy.crmyers.common.pieces.*;
 import strategy.required.StrategyGameFactory;
 
 import static org.hamcrest.MatcherAssert.assertThat;

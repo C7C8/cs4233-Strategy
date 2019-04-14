@@ -21,13 +21,12 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers;
+package strategy.crmyers.common;
 
 import strategy.Board;
 import strategy.Piece;
 import strategy.StrategyException;
 import strategy.crmyers.beta.BetaBoard;
-import strategy.crmyers.beta.PieceDefined;
 
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;

@@ -24,11 +24,10 @@
 package strategy.crmyers.beta;
 
 import strategy.Board;
+import strategy.crmyers.common.StrategyGame;
 
-public class BetaGame extends strategy.crmyers.StrategyGame {
-
+public class BetaGame extends StrategyGame {
 	public BetaGame(Board board) {
 		super(board, 8, false);
 	}
-
 }

@@ -21,26 +21,27 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta.pieces;
+package strategy.crmyers.common.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
+import strategy.Piece;
+import strategy.crmyers.common.PieceDefined;
 
 /**
- * Class to represent a Lieutenant
+ * Class to represent a General piece.
  */
-public class Lieutenant extends PieceDefined {
+public class General extends PieceDefined {
 
-	public Lieutenant(PieceColor color) {
+	public General(Piece.PieceColor color) {
 		super(color);
 	}
 
 	@Override
 	public PieceType getPieceType() {
-		return PieceType.LIEUTENANT;
+		return PieceType.GENERAL;
 	}
 
 	@Override
 	public String toString() {
-		return getColorStr() + "L";
+		return getColorStr() + "G";
 	}
 }

@@ -21,13 +21,11 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers;
+package strategy.crmyers.common;
 
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.beta.BetaBoard;
-import strategy.crmyers.beta.PieceDefined;
-import strategy.crmyers.beta.pieces.*;
+import strategy.crmyers.common.pieces.*;
 
 public class StrategyBoard implements strategy.Board {
 
@@ -188,7 +186,7 @@ public class StrategyBoard implements strategy.Board {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-		BetaBoard board = (BetaBoard) o;
+		StrategyBoard board = (StrategyBoard) o;
 
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {

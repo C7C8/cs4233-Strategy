@@ -21,28 +21,41 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta.pieces;
+package strategy.crmyers.common.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
-
-import static strategy.Piece.PieceType.CAPTAIN;
+import strategy.Piece;
+import strategy.crmyers.common.PieceDefined;
 
 /**
- * Class to represent a Captain piece.
+ * Class to represent a Spy piece
  */
-public class Captain extends PieceDefined {
+public class Spy extends PieceDefined {
 
-	public Captain(PieceColor color) {
+	public Spy(PieceColor color) {
 		super(color);
 	}
 
+	/**
+	 * Determine the outcome of a particular strike.
+	 *
+	 * @param target Targeted piece.
+	 * @return Result of the strike!
+	 */
 	@Override
-	public PieceType getPieceType() {
-		return CAPTAIN;
+	public MoveResult strike(Piece target) {
+		// Spies can only attack marshals, so perform that check before resorting to default
+		if (target.getPieceType() == PieceType.MARSHAL)
+			return pieceVictory();
+		return super.strike(target);
 	}
 
 	@Override
 	public String toString() {
-		return getColorStr() + "P";
+		return getColorStr() + "Y";
+	}
+
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.SPY;
 	}
 }

@@ -23,7 +23,9 @@
 
 package strategy.crmyers.beta;
 
-public class BetaBoard extends strategy.crmyers.StrategyBoard {
+import strategy.crmyers.common.StrategyBoard;
+
+public class BetaBoard extends StrategyBoard {
 
 	/**
 	 * Initialize the board; in beta strategy, there are no choke points.

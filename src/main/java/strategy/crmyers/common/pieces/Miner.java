@@ -21,10 +21,10 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta.pieces;
+package strategy.crmyers.common.pieces;
 
 import strategy.Piece;
-import strategy.crmyers.beta.PieceDefined;
+import strategy.crmyers.common.PieceDefined;
 
 /**
  * Class to represent a Miner piece.

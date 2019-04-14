@@ -21,26 +21,25 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta.pieces;
+package strategy.crmyers.common.pieces;
 
-import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.StrategyBoard;
-import strategy.crmyers.beta.PieceDefined;
+import strategy.crmyers.common.StrategyBoard;
+import strategy.crmyers.common.PieceDefined;
 
 /**
- * Class to represent a Flag piece.
+ * Class to represent a Scout piece.
  */
-public class Flag extends PieceDefined {
+public class Scout extends PieceDefined {
 
-	public Flag(PieceColor color) {
+	public Scout(PieceColor color) {
 		super(color);
 	}
 
 	/**
 	 * Move the piece.
 	 *
-	 * @param board Board to move on
+	 * @param board BetaBoard to move on
 	 * @param fr    From row
 	 * @param fc    From column
 	 * @param tr    To row
@@ -49,27 +48,29 @@ public class Flag extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
-		throw new StrategyException("Flags cannot move");
+	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noMoveRepetition) throws StrategyException {
+		// Disabled for beta strategy
+		// if (moveRepetition(fr, fc, tr, tc))
+		//	 throw new StrategyException("Move repeated");
+		int dx = tc - fc;
+		int dy = tr - fr;
+		dx /= (dx == 0 ? 1 : Math.abs(dx));
+		dy /= (dy == 0 ? 1 : Math.abs(dy));
+
+		for (int r = fr + dy, c = fc + dx; r != tr || c != tc; r += dy, c += dx) {
+			if (board.getPieceAt(r, c) != null || board.getSquareTypeAt(r, c) != strategy.Board.SquareType.NORMAL)
+				throw new StrategyException("Scout cannot jump over pieces/chokepoints");
+		}
+		return super.move(board, fr, fc, tr, tc, noMoveRepetition);
 	}
 
-	/**
-	 * Determine the outcome of a particular strike.
-	 *
-	 * @param target Targeted piece.
-	 * @return Result of the strike!
-	 */
 	@Override
-	public MoveResult strike(Piece target) {
-		throw new StrategyException("Flags cannot strike");
-	}
-
 	public String toString() {
-		return getColorStr() + "F";
+		return getColorStr() + "U";
 	}
 
 	@Override
 	public PieceType getPieceType() {
-		return PieceType.FLAG;
+		return PieceType.SCOUT;
 	}
 }

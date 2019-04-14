@@ -21,26 +21,26 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta.pieces;
+package strategy.crmyers.common.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
+import strategy.crmyers.common.PieceDefined;
 
 /**
- * Class to represent a Major
+ * Class to represent a Marshal
  */
-public class Major extends PieceDefined {
+public class Marshal extends PieceDefined {
 
-	public Major(PieceColor color) {
+	public Marshal(PieceColor color) {
 		super(color);
 	}
 
 	@Override
 	public PieceType getPieceType() {
-		return PieceType.MAJOR;
+		return PieceType.MARSHAL;
 	}
 
 	@Override
 	public String toString() {
-		return getColorStr() + "J";
+		return getColorStr() + "H";
 	}
 }

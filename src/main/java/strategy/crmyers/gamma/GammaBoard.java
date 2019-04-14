@@ -23,7 +23,7 @@
 
 package strategy.crmyers.gamma;
 
-import strategy.crmyers.StrategyBoard;
+import strategy.crmyers.common.StrategyBoard;
 
 public class GammaBoard extends StrategyBoard {
 

@@ -21,29 +21,28 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta.pieces;
+package strategy.crmyers.common.pieces;
 
-import strategy.crmyers.beta.PieceDefined;
+import strategy.crmyers.common.PieceDefined;
+
+import static strategy.Piece.PieceType.CAPTAIN;
 
 /**
- * Class to represent a Colonel piece.
+ * Class to represent a Captain piece.
  */
-public class Colonel extends PieceDefined {
+public class Captain extends PieceDefined {
 
-	public Colonel(PieceColor color) {
+	public Captain(PieceColor color) {
 		super(color);
-	}
-
-	/**
-	 * @return Symbol that represents this piece
-	 */
-	@Override
-	public String toString() {
-		return getColorStr() + "O";
 	}
 
 	@Override
 	public PieceType getPieceType() {
-		return PieceType.COLONEL;
+		return CAPTAIN;
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "P";
 	}
 }

@@ -21,11 +21,10 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta;
+package strategy.crmyers.common;
 
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.StrategyBoard;
 
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
@@ -158,7 +157,7 @@ public abstract class PieceDefined implements Piece {
 	 *
 	 * @return Strike result
 	 */
-	MoveResult pieceLoss() {
+	protected MoveResult pieceLoss() {
 		return color == BLUE ? MoveResult.STRIKE_RED : MoveResult.STRIKE_BLUE;
 	}
 
