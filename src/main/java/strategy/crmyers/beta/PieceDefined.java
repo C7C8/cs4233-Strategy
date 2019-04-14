@@ -25,6 +25,7 @@ package strategy.crmyers.beta;
 
 import strategy.Piece;
 import strategy.StrategyException;
+import strategy.crmyers.StrategyBoard;
 
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
@@ -80,12 +81,11 @@ public abstract class PieceDefined implements Piece {
 	 * @return Result of move
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
-	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
 		if (isDiagonal(fr, fc, tr, tc))
 			throw new StrategyException("Diagonal move made");
-		// Disabled for beta strategy
-		// if (moveRepetition(fr, fc, tr, tc))
-		// 	 throw new StrategyException("Move repeated");
+		if (noRepeatMoves && moveRepetition(fr, fc, tr, tc))
+		 	 throw new StrategyException("Move repeated");
 
 		Piece piece = board.getPieceAt(tr, tc);
 		if (piece == null)
@@ -94,6 +94,13 @@ public abstract class PieceDefined implements Piece {
 			throw new StrategyException("Tried to strike a piece of the same color!");
 
 		return strike(piece);
+	}
+
+	/**
+	 * Same as previous move() but with default of disabled repeat moves
+	 */
+	public final MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
+		return move(board, fr, fc, tr, tc, true);
 	}
 
 	/**

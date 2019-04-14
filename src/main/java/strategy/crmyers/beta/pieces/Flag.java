@@ -25,7 +25,7 @@ package strategy.crmyers.beta.pieces;
 
 import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.beta.BetaBoard;
+import strategy.crmyers.StrategyBoard;
 import strategy.crmyers.beta.PieceDefined;
 
 /**
@@ -40,7 +40,7 @@ public class Flag extends PieceDefined {
 	/**
 	 * Move the piece.
 	 *
-	 * @param board BetaBoard to move on
+	 * @param board Board to move on
 	 * @param fr    From row
 	 * @param fc    From column
 	 * @param tr    To row
@@ -49,7 +49,7 @@ public class Flag extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
 		throw new StrategyException("Flags cannot move");
 	}
 

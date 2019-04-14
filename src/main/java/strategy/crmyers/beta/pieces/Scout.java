@@ -24,7 +24,7 @@
 package strategy.crmyers.beta.pieces;
 
 import strategy.StrategyException;
-import strategy.crmyers.beta.BetaBoard;
+import strategy.crmyers.StrategyBoard;
 import strategy.crmyers.beta.PieceDefined;
 
 /**
@@ -48,7 +48,7 @@ public class Scout extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
+	public MoveResult move(StrategyBoard board, int fr, int fc, int tr, int tc, boolean noMoveRepetition) throws StrategyException {
 		// Disabled for beta strategy
 		// if (moveRepetition(fr, fc, tr, tc))
 		//	 throw new StrategyException("Move repeated");
@@ -61,7 +61,7 @@ public class Scout extends PieceDefined {
 			if (board.getPieceAt(r, c) != null || board.getSquareTypeAt(r, c) != strategy.Board.SquareType.NORMAL)
 				throw new StrategyException("Scout cannot jump over pieces/chokepoints");
 		}
-		return super.move(board, fr, fc, tr, tc);
+		return super.move(board, fr, fc, tr, tc, noMoveRepetition);
 	}
 
 	@Override

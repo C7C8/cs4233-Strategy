@@ -233,19 +233,6 @@ class BetaTest {
 		// Use an anonymous class to define this piece since we really only care about moveRepetition()
 		PieceDefined mobilePiece = new PieceDefined(Piece.PieceColor.BLUE) {
 			@Override
-			public MoveResult move(BetaBoard board, int fr, int fc, int tr, int tc) throws StrategyException {
-				return null;
-			}
-
-			@Override
-			public MoveResult strike(Piece target) {
-				return null;
-			}
-
-			/**
-			 * @return Symbol that represents this piece
-			 */
-			@Override
 			public String toString() {
 				return "--";
 			}
