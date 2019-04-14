@@ -8,3 +8,4 @@ my code compliant with Gamma & Delta Strategy requirements*
 
 ### Gameplay
 * Move repetition disallowed
+* Scouts can't strike and move at the same time (bugfix)

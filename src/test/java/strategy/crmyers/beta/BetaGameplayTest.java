@@ -21,47 +21,29 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.gamma;
+package strategy.crmyers.beta;
 
-
-import org.junit.jupiter.api.Test;
 import strategy.StrategyGame;
-import strategy.crmyers.common.GameplayTest;
 import strategy.required.StrategyGameFactory;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static strategy.StrategyGame.MoveResult.BLUE_WINS;
-import static strategy.StrategyGame.MoveResult.OK;
-
-public class GammaTestExternal extends GameplayTest  {
+/**
+ * Beta-specific tests
+ */
+public class BetaGameplayTest extends strategy.crmyers.common.GameplayTest {
 
 	/**
-	 * Set the gameplay test to use a Gamma board
+	 * Set the gameplay test to use a Beta board
 	 */
 	@Override
 	protected void boardConfig() {
-		board = new GammaBoard();
+		board = new BetaBoard();
 	}
 
 	/**
-	 * Set the gameplay test to use a Gamma game
+	 * Set the gameplay test to use a Beta game
 	 */
 	@Override
 	protected void gameConfig() {
-		game = StrategyGameFactory.makeGame(StrategyGame.Version.GAMMA, board);
-	}
-
-	/**
-	 * Red's move repetition causes Blue to win the game
-	 */
-	@Test
-	void noRepeatMoves() {
-		assertThat(game.move(5, 4, 5, 3), is(equalTo(OK))); // Red moves
-		assertThat(game.move(3, 0, 4, 0), is(equalTo(OK))); // Blue moves
-		assertThat(game.move(5, 3, 5, 4), is(equalTo(OK))); // Red moves back
-		assertThat(game.move(4, 0, 3, 0), is(equalTo(OK))); // Blue moves back
-		assertThat(game.move(5, 4, 5, 3), is(equalTo(BLUE_WINS))); // Red moves back
+		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, board);
 	}
 }
