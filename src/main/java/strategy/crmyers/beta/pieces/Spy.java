@@ -20,41 +20,42 @@
  * This file was developed as part of CS 4233: Object Oriented Analysis &
  * Design, at Worcester Polytechnic Institute.
  */
-package edu.wpi.dyn.ravana.strategy.alpha;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import strategy.StrategyGame;
+package strategy.crmyers.beta.pieces;
 
-import static edu.wpi.dyn.ravana.strategy.required.StrategyGameFactory.makeGame;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static strategy.StrategyGame.MoveResult.BLUE_WINS;
-import static strategy.StrategyGame.MoveResult.RED_WINS;
-import static strategy.StrategyGame.Version.ALPHA;
+import strategy.Piece;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
- * Test cases for Alpha Strategy.
- * @version Mar 18, 2019
+ * Class to represent a Spy piece
  */
-class AlphaStrategyTest
-{
-	private StrategyGame game;
-	
-	@BeforeEach
-	private void setup()
-	{
-		game = makeGame(ALPHA, null);
-	}
-	
-	@Test
-	void validGame()
-	{
-		assertEquals(RED_WINS, game.move(0, 0, 1, 0));
+public class Spy extends PieceDefined {
+
+	public Spy(PieceColor color) {
+		super(color);
 	}
 
-	@Test
-	void wrongMove()
-	{
-		assertEquals(BLUE_WINS, game.move(0, 0, 0, 1));
+	/**
+	 * Determine the outcome of a particular strike.
+	 *
+	 * @param target Targeted piece.
+	 * @return Result of the strike!
+	 */
+	@Override
+	public MoveResult strike(Piece target) {
+		// Spies can only attack marshals, so perform that check before resorting to default
+		if (target.getPieceType() == PieceType.MARSHAL)
+			return pieceVictory();
+		return super.strike(target);
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "Y";
+	}
+
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.SPY;
 	}
 }

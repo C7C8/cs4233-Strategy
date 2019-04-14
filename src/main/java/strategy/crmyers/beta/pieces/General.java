@@ -20,20 +20,28 @@
  * This file was developed as part of CS 4233: Object Oriented Analysis &
  * Design, at Worcester Polytechnic Institute.
  */
-package edu.wpi.dyn.ravana.strategy.gpollice.version.alpha;
 
-import strategy.StrategyGame;
-import static strategy.StrategyGame.MoveResult.*;
+package strategy.crmyers.beta.pieces;
+
+import strategy.Piece;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
- * Description
- * @version Mar 18, 2019
+ * Class to represent a General piece.
  */
-public class AlphaStrategyGame implements StrategyGame
-{
-	public MoveResult move(int fr, int fc, int tr, int tc)
-	{
-		return
-			(fr == 0 && fc == 0 && tr == 1 && tc == 0) ? RED_WINS : BLUE_WINS;
+public class General extends PieceDefined {
+
+	public General(Piece.PieceColor color) {
+		super(color);
+	}
+
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.GENERAL;
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "G";
 	}
 }

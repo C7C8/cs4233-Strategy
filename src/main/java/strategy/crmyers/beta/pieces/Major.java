@@ -21,32 +21,26 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package edu.wpi.dyn.ravana.strategy.required;
+package strategy.crmyers.beta.pieces;
 
-import edu.wpi.dyn.ravana.strategy.gpollice.version.alpha.AlphaStrategyGame;
-import strategy.Board;
-import strategy.NotImplementedException;
-import strategy.StrategyGame;
-import strategy.StrategyGame.Version;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
- * Factory for creating Strategy games.
- * @version Mar 18, 2019
+ * Class to represent a Major
  */
-public class StrategyGameFactory
-{
-	public static StrategyGame makeGame(Version version, Board board)
-	{
-		StrategyGame game;
-		switch (version)
-		{
-			case ALPHA:					// No need for the board
-				game = new AlphaStrategyGame();
-				break;
-			default:
-				throw new NotImplementedException(
-						"StrategyGameFactory.makeGame for version " + version);
-		}
-		return game;
+public class Major extends PieceDefined {
+
+	public Major(PieceColor color) {
+		super(color);
+	}
+
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.MAJOR;
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "J";
 	}
 }

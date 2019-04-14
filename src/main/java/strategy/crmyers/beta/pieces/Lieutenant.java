@@ -21,23 +21,26 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package edu.wpi.dyn.ravana.strategy.gpollice;
+package strategy.crmyers.beta.pieces;
 
-import strategy.Board;
+import strategy.crmyers.beta.PieceDefined;
 
 /**
- * Description
- * @version Mar 18, 2019
+ * Class to represent a Lieutenant
  */
-public class BoardImpl implements Board
-{
+public class Lieutenant extends PieceDefined {
 
-	/**
-	 * Description
-	 */
-	public BoardImpl()
-	{
-		// TODO Auto-generated constructor stub
+	public Lieutenant(PieceColor color) {
+		super(color);
 	}
 
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.LIEUTENANT;
+	}
+
+	@Override
+	public String toString() {
+		return getColorStr() + "L";
+	}
 }
