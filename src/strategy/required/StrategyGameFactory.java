@@ -29,6 +29,7 @@ import strategy.StrategyGame;
 import strategy.StrategyGame.Version;
 import strategy.crmyers.alpha.AlphaGame;
 import strategy.crmyers.beta.BetaGame;
+import strategy.crmyers.delta.DeltaGame;
 import strategy.crmyers.gamma.GammaGame;
 
 /**
@@ -39,12 +40,14 @@ import strategy.crmyers.gamma.GammaGame;
 public class StrategyGameFactory {
 	public static StrategyGame makeGame(Version version, Board board) {
 		switch (version) {
-			case ALPHA:                    // No need for the board
-				return new AlphaGame();
+			case ALPHA:
+				return new AlphaGame(); // No need for the board
 			case BETA:
 				return new BetaGame(board);
 			case GAMMA:
 				return new GammaGame(board);
+			case DELTA:
+				return new DeltaGame(board);
 			default:
 				throw new NotImplementedException(
 						"StrategyGameFactory.makeGame for version " + version);

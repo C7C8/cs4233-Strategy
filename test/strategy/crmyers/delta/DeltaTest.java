@@ -21,60 +21,50 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.gamma;
+package strategy.crmyers.delta;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy.crmyers.common.pieces.Marshal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static strategy.Board.SquareType.CHOKE;
-import static strategy.Piece.PieceColor.BLUE;
-import static strategy.Piece.PieceColor.RED;
-import static strategy.StrategyGame.MoveResult.BLUE_WINS;
-import static strategy.StrategyGame.MoveResult.RED_WINS;
 
-public class GammaTest {
-	private static GammaBoard board;
+public class DeltaTest {
+
+	DeltaBoard board;
 
 	@BeforeEach
 	void setup_local() {
-		board = new GammaBoard();
+		board = new DeltaBoard();
 	}
 
 	/**
 	 * Test initial board state
 	 */
-	@Test()
+	@Test
 	void boardInit() {
-		// GammaBoard should start with choke points in a square in the center and should be completely empty
+		// DeltaBoard should start with choke points in two squares in the center and should be completely empty
+		assertThat(board.getRows(), is(equalTo(10)));
+		assertThat(board.getCols(), is(equalTo(10)));
 		for (int i = 0; i < board.getRows(); i++) {
 			for (int j = 0; j < board.getRows(); j++) {
 				assertThat(board.getPieceAt(i, j), is(nullValue()));
 			}
 		}
 
-		assertThat(board.getSquareTypeAt(2, 2), is(equalTo(CHOKE)));
-		assertThat(board.getSquareTypeAt(2, 3), is(equalTo(CHOKE)));
-		assertThat(board.getSquareTypeAt(3, 2), is(equalTo(CHOKE)));
-		assertThat(board.getSquareTypeAt(3, 3), is(equalTo(CHOKE)));
-	}
+		// Left choke square
+		assertThat(board.getSquareTypeAt(4, 2), is(equalTo(CHOKE)));
+		assertThat(board.getSquareTypeAt(4, 3), is(equalTo(CHOKE)));
+		assertThat(board.getSquareTypeAt(5, 2), is(equalTo(CHOKE)));
+		assertThat(board.getSquareTypeAt(5, 3), is(equalTo(CHOKE)));
 
-	/**
-	 * Make sure moving into choke points is disallowed
-	 */
-	@Test
-	void chokePoints() {
-		board.put(new Marshal(RED), 2, 1);
-		board.put(new Marshal(BLUE), 4, 3);
-
-		// Red tries to move into a choke point, so Blue wins
-		GammaGame game = new GammaGame(board);
-		assertThat(game.move(2, 1, 2, 2), is(equalTo(BLUE_WINS)));
-
-		// Blue tries to move into a choke point, so Red wins
-		game = new GammaGame(board);
-		assertThat(game.move(4, 3, 3, 3), is(equalTo(RED_WINS)));
+		// Right choke square
+		assertThat(board.getSquareTypeAt(4, 6), is(equalTo(CHOKE)));
+		assertThat(board.getSquareTypeAt(4, 7), is(equalTo(CHOKE)));
+		assertThat(board.getSquareTypeAt(5, 6), is(equalTo(CHOKE)));
+		assertThat(board.getSquareTypeAt(5, 7), is(equalTo(CHOKE)));
 	}
 }
