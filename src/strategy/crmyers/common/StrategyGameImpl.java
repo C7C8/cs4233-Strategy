@@ -70,14 +70,20 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 			return GAME_OVER;
 
 		// Sanity checks to make sure that the player is grabbing a piece and it's the right color.
-		final PieceDefined fPiece = board.getPieceAt(fr, fc);
+		final PieceDefined fPiece;
+		try {
+			fPiece = board.getPieceAt(fr, fc);
+		} catch (StrategyException ex) {
+			gameOver = true;
+			return colorTurn == RED ? BLUE_WINS : RED_WINS;
+		}
 		if (fPiece == null) {
 			gameOver = true;
 			return colorTurn == RED ? BLUE_WINS : RED_WINS;
 		}
 		if (fPiece.getPieceColor() != colorTurn) {
 			gameOver = true;
-			return fPiece.getPieceColor() == RED ? BLUE_WINS : RED_WINS;
+			return colorTurn == RED ? BLUE_WINS : RED_WINS;
 		}
 
 

@@ -1,6 +1,14 @@
-// THIS FILE IS NOT MINE (crmyers) !
-// It has been imported into this project to assist with development.
-// The only change is to the package name and some of the imports.
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Copyright ©2016 Gary F. Pollice
+ *******************************************************************************/
 
 package strategy.gpollice.testutil;
 
@@ -20,7 +28,6 @@ import static strategy.Piece.PieceColor.RED;
  * Master tests for the students' code.
  * @version Apr 1, 2019
  */
-@SuppressWarnings("ALL")
 public class TestBoard implements Board
 {
 	private Map<TestCoordinate, Piece> board;

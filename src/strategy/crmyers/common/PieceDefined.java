@@ -25,6 +25,7 @@ package strategy.crmyers.common;
 
 import strategy.Piece;
 import strategy.StrategyException;
+import strategy.crmyers.common.pieces.Scout;
 
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
@@ -64,6 +65,12 @@ public abstract class PieceDefined implements Piece {
 		return Math.abs(tc - fc) != 0 && Math.abs(tr - fr) != 0;
 	}
 
+	static boolean isOneSpace(int fr, int fc, int tr, int tc) {
+		final int dx = Math.abs(tc - fc);
+		final int dy = Math.abs(tr - fr);
+		return dx > 1 || dy > 1;
+	}
+
 	@Override
 	public PieceColor getPieceColor() {
 		return color;
@@ -83,6 +90,9 @@ public abstract class PieceDefined implements Piece {
 	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
 		if (isDiagonal(fr, fc, tr, tc))
 			throw new StrategyException("Diagonal move made");
+		// Have to have special code to handle scouts, since scouts call into this code too
+		if (this.getClass() != Scout.class && isOneSpace(fr, fc, tr, tc))
+			throw new StrategyException("More than one move made by a non-scout piece");
 		if (noRepeatMoves && moveRepetition(fr, fc, tr, tc))
 		 	 throw new StrategyException("Move repeated");
 
