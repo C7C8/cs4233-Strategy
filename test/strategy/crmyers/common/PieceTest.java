@@ -188,9 +188,12 @@ public class PieceTest {
 		assertThat(scout.move(board, 0, 0, 0, 5), is(equalTo(PieceDefined.MoveResult.OK)));
 		assertThat(scout.move(board, 0, 0, 5, 0), is(equalTo(PieceDefined.MoveResult.OK)));
 
-		// ...but not if there's a piece in the way
+		// ...but not if there's a piece in the way...
 		board.put(marshal, 0, 3);
 		assertThrows(StrategyException.class, () -> scout.move(board, 0, 0, 0, 5));
+
+		// ...and they're not allowed to strike either
+		assertThrows(StrategyException.class, () -> scout.move(board, 0, 0, 0, 3));
 	}
 
 	/**

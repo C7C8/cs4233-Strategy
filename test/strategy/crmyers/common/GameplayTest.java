@@ -123,7 +123,7 @@ public abstract class GameplayTest {
 	 */
 	@Test
 	void blueFUBAR() {
-		assertThat(game.move(3, 0, 3, 1), equalTo(RED_WINS));
+		assertThat(game.move(3, 0, 3, 1), equalTo(BLUE_WINS));
 		assertThat(game.move(3, 0, 3, 1), equalTo(GAME_OVER));
 	}
 
@@ -174,5 +174,13 @@ public abstract class GameplayTest {
 
 		assertThat(game.move(1, 0, 0, 0), equalTo(STRIKE_BLUE));
 		assertThat(game.move(0, 1, 0, 0), equalTo(RED_WINS));
+	}
+
+	/**
+	 * Make sure pieces can't move from someplace out of bounds
+	 */
+	@Test
+	void badSourceSquare() {
+		assertThat(game.move(-1, 0, 0, 0), equalTo(BLUE_WINS));
 	}
 }

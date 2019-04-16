@@ -199,4 +199,13 @@ public class CommonTest {
 		//...but moving to a different square succeeds
 		assertFalse(mobilePiece.moveRepetition(0, 0, 0, 1));
 	}
+
+	/**
+	 * Non-scout pieces can't move more than one square at a time
+	 */
+	@Test
+	void noMultipleMotion() {
+		Marshal marshal = new Marshal(RED);
+		assertThrows(StrategyException.class, () -> marshal.move(board, 0, 0, 0, 2));
+	}
 }

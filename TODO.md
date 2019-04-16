@@ -3,6 +3,9 @@
 my code compliant with Gamma & Delta Strategy requirements*
 
 * Scouts can't strike and move at the same time (bugfix)
+* Non-scout pieces can't move more than one square (bugfix)
+* Pieces can't move to out-of-bounds positions (bugfix)
+* Report victories correctly in case of improper move (bugfix)
 
 ## Gamma
 ### Board

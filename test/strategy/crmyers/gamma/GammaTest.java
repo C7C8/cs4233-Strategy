@@ -32,8 +32,7 @@ import static org.hamcrest.Matchers.*;
 import static strategy.Board.SquareType.CHOKE;
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
-import static strategy.StrategyGame.MoveResult.BLUE_WINS;
-import static strategy.StrategyGame.MoveResult.RED_WINS;
+import static strategy.StrategyGame.MoveResult.*;
 
 public class GammaTest {
 	private static GammaBoard board;
@@ -77,6 +76,7 @@ public class GammaTest {
 
 		// Blue tries to move into a choke point, so Red wins
 		game = new GammaGame(board);
+		assertThat(game.move(2,1,1,1), is(equalTo(OK)));
 		assertThat(game.move(4, 3, 3, 3), is(equalTo(RED_WINS)));
 	}
 }
