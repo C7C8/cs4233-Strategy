@@ -30,8 +30,7 @@ import strategy.crmyers.common.GameplayTest;
 import strategy.required.StrategyGameFactory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static strategy.StrategyGame.MoveResult.BLUE_WINS;
 import static strategy.StrategyGame.MoveResult.OK;
 

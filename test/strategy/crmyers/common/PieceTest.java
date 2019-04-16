@@ -30,8 +30,8 @@ import strategy.crmyers.beta.BetaBoard;
 import strategy.crmyers.common.pieces.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;

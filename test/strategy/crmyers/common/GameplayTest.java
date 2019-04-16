@@ -31,7 +31,7 @@ import strategy.crmyers.common.pieces.*;
 import strategy.required.StrategyGameFactory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
 import static strategy.StrategyGame.MoveResult.*;

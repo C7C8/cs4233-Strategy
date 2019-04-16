@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import strategy.crmyers.common.pieces.Marshal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 import static strategy.Board.SquareType.CHOKE;
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;

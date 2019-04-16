@@ -26,11 +26,14 @@ package strategy.crmyers.delta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import strategy.StrategyGame;
+import strategy.StrategyGame.Version;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.IsNull.nullValue;
 import static strategy.Board.SquareType.CHOKE;
+import static strategy.required.StrategyGameFactory.makeGame;
 
 public class DeltaTest {
 
@@ -39,6 +42,7 @@ public class DeltaTest {
 	@BeforeEach
 	void setup_local() {
 		board = new DeltaBoard();
+		StrategyGame game = makeGame(Version.DELTA, board);
 	}
 
 	/**
