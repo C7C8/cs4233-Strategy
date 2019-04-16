@@ -32,10 +32,7 @@ public class GammaBoard extends StrategyBoardImpl {
 	 */
 	public GammaBoard() {
 		super(6, 6);
-		squares[2][2] = SquareType.CHOKE;
-		squares[2][3] = SquareType.CHOKE;
-		squares[3][2] = SquareType.CHOKE;
-		squares[3][3] = SquareType.CHOKE;
+		configureBoard();
 	}
 
 	/**
@@ -44,5 +41,17 @@ public class GammaBoard extends StrategyBoardImpl {
 	 */
 	public GammaBoard(strategy.Board board) {
 		super(board, 6, 6);
+		configureBoard();
+	}
+
+	private void configureBoard() {
+		squares[2][2] = SquareType.CHOKE;
+		squares[2][3] = SquareType.CHOKE;
+		squares[3][2] = SquareType.CHOKE;
+		squares[3][3] = SquareType.CHOKE;
+		pieces[2][2] = null;
+		pieces[2][3] = null;
+		pieces[3][2] = null;
+		pieces[3][3] = null;
 	}
 }

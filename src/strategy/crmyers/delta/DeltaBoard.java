@@ -24,6 +24,7 @@
 package strategy.crmyers.delta;
 
 import strategy.crmyers.common.StrategyBoardImpl;
+
 import static strategy.Board.SquareType.CHOKE;
 
 public class DeltaBoard extends StrategyBoardImpl {
@@ -33,18 +34,31 @@ public class DeltaBoard extends StrategyBoardImpl {
 	 */
 	public DeltaBoard() {
 		super(10, 10);
+		configureBoard();
+	}
+
+	public DeltaBoard(strategy.Board board) {
+		super(board, 10, 10);
+		configureBoard();
+	}
+
+	private void configureBoard() {
 		squares[4][2] = CHOKE;
 		squares[5][2] = CHOKE;
 		squares[4][3] = CHOKE;
 		squares[5][3] = CHOKE;
+		pieces[4][2] = null;
+		pieces[5][2] = null;
+		pieces[4][3] = null;
+		pieces[5][3] = null;
 
 		squares[4][6] = CHOKE;
 		squares[5][6] = CHOKE;
 		squares[4][7] = CHOKE;
 		squares[5][7] = CHOKE;
-	}
-
-	public DeltaBoard(strategy.Board board) {
-		super(board, 10, 10);
+		pieces[4][6] = null;
+		pieces[5][6] = null;
+		pieces[4][7] = null;
+		pieces[5][7] = null;
 	}
 }
