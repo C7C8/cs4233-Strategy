@@ -23,6 +23,7 @@
 
 package strategy.crmyers.common;
 
+import strategy.Board;
 import strategy.Piece;
 import strategy.StrategyException;
 
@@ -148,6 +149,10 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 				return RED_WINS;
 		}
 
+		// Make sure the new player can actually play
+		if (!canMove())
+			return colorTurn == RED ? BLUE_WINS : RED_WINS;
+
 		System.out.println("Turn " + turns + ", color: " + colorTurn.name());
 		System.out.println(board.toString());
 		return convertMoveResult(result);
@@ -202,5 +207,61 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 		if (curQueue.size() == 2 && move.equals(curQueue.pollLast()))
 			throw new StrategyException("Move repeated");
 		curQueue.addFirst(move);
+	}
+
+	/**
+	 * Checks to see if the player whose turn it is can actually move
+	 * @return Player mobility status
+	 */
+	private boolean canMove() throws StrategyException {
+		for (int r = 0; r < board.ROWS; r++) {
+			for (int c = 0; c < board.COLS; c++) {
+				if (canPieceMove(r, c))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Checks to see if a given piece can move or not
+	 * @param r Row
+	 * @param c Column
+	 * @return Piece mobility
+	 */
+	private boolean canPieceMove(int r, int c) {
+		final PieceDefined curPiece = board.getPieceAt(r, c);
+		if (curPiece == null || curPiece.getPieceColor() != colorTurn)
+			return false;
+
+		// Loop through piece's neighbors to see if it could move to one of those spots
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i == j)
+					continue;
+
+				// Let the board decide what's out of bounds. The checkBounds function uses exceptions to streamline
+				// things elsewhere, so this has to be done using a try/catch
+				try { board.checkBounds(r+i, c+j); } catch (StrategyException ex) {
+					continue;
+				}
+
+				// Can't move into a choke point
+				if (board.getSquareTypeAt(r+i, c+j) == Board.SquareType.CHOKE)
+					continue;
+
+				// Simulate moving the piece to the new location; if it works, return true.
+				final Piece nPiece = board.getPieceAt(r+i, c+j);
+				if (nPiece == null || nPiece.getPieceColor() != curPiece.getPieceColor()) {
+					try {
+						curPiece.move(board, r, c, r+i, c+j);
+						return true;
+					} catch (StrategyException ignored) { }
+				}
+			}
+		}
+
+		// No possible moves for this piece found
+		return false;
 	}
 }

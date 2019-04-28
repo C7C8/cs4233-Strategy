@@ -128,8 +128,8 @@ public class StrategyBoardImpl implements strategy.Board {
 	 * @param col Column
 	 * @throws StrategyException Thrown if bounds are exceeded
 	 */
-	private void checkBounds(int row, int col) throws StrategyException {
-		if (row < 0 || row > ROWS || col < 0 || col > COLS)
+	void checkBounds(int row, int col) throws StrategyException {
+		if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
 			throw new StrategyException("Row/column index out of bounds");
 	}
 
@@ -213,10 +213,12 @@ public class StrategyBoardImpl implements strategy.Board {
 			for (int j = 0; j < COLS; j++) {
 				final Piece p = getPieceAt(i, j);
 				ret.append(" ");
-				if (p == null)
-					ret.append("  ");
-				else
+				if (p != null)
 					ret.append(p.toString());
+				else if (squares[i][j] == SquareType.CHOKE)
+					ret.append("--");
+				else
+					ret.append("  ");
 			}
 			ret.append('\n');
 		}
