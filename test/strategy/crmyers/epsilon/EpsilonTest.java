@@ -26,9 +26,7 @@ package strategy.crmyers.epsilon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.Piece;
-import strategy.crmyers.common.pieces.Bomb;
-import strategy.crmyers.common.pieces.Marshal;
-import strategy.crmyers.common.pieces.Miner;
+import strategy.crmyers.common.pieces.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -71,7 +69,6 @@ public class EpsilonTest {
 		board.put(new Marshal(BLUE), 9, 9); // Blue must have a piece to move
 		board.put(new Marshal(RED), 0, 1);
 		board.put(new Miner(RED), 9, 0); // Red must also have a piece to move
-		board.configurePieces();
 		EpsilonGame game = new EpsilonGame(board);
 		System.out.println(board.toString());
 
@@ -81,5 +78,26 @@ public class EpsilonTest {
 		assertThat(board.getPieceAt(0, 0), is(nullValue()));
 		assertThat(board.getPieceAt(0, 1), is(nullValue()));
 		assertThat(board.getPieceAt(1, 0), is(nullValue()));
+	}
+
+	/**
+	 * Scouts can now attack from a range
+	 */
+	@Test
+	void scoutRangeAttack() {
+		board.put(new Scout(RED), 0, 1);
+		board.put(new Spy(BLUE), 0, 4);
+		board.put(new Spy(BLUE), 3, 4);
+		EpsilonGame game = new EpsilonGame(board);
+		System.out.println(board.toString());
+
+		// Scout takes out a spy at range
+		assertThat(game.move(0, 1, 0, 4), is(equalTo(STRIKE_RED)));
+
+		// Other spy in range moves out of scout's range
+		game.move(3,4, 4,4);
+
+		// jcout tries to strike blue's piece but it's out of range, so the move is illegal
+		assertThat(game.move(0, 4, 4, 4), is(equalTo(BLUE_WINS)));
 	}
 }

@@ -24,9 +24,13 @@
 package strategy.crmyers.epsilon;
 
 import strategy.Board;
+import strategy.Piece;
 import strategy.crmyers.common.AggressorAdvantageMoveProcessor;
+import strategy.crmyers.common.PieceDefined;
 import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.StrategyGameImpl;
+import strategy.crmyers.common.pieces.Bomb;
+import strategy.crmyers.common.pieces.Scout;
 
 public class EpsilonGame extends StrategyGameImpl {
 	public EpsilonGame(Board board) {
@@ -36,5 +40,20 @@ public class EpsilonGame extends StrategyGameImpl {
 			this.board = new EpsilonBoard(board);
 		else
 			this.board = (StrategyBoardImpl) board;
+
+
+		// Pieces are configurable by data they each store (with sane defaults); this loop sets up
+		// bombs to have charges and scouts to have an attack distance of three.
+		for (int i = 0; i < this.board.getRows(); i++) {
+			for (int j = 0; j < this.board.getCols(); j++) {
+				PieceDefined piece = this.board.getPieceAt(i, j);
+				if (piece == null)
+					continue;
+				if (piece.getPieceType() == Piece.PieceType.BOMB)
+					((Bomb) piece).setCharges(2);
+				if (piece.getPieceType() == Piece.PieceType.SCOUT)
+					((Scout) piece).setAttackDistance(3);
+			}
+		}
 	}
 }

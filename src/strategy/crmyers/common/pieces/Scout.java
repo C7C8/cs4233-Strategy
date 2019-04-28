@@ -32,6 +32,8 @@ import strategy.crmyers.common.PieceDefined;
  */
 public class Scout extends PieceDefined {
 
+	int attackDistance = 0;
+
 	public Scout(PieceColor color) {
 		super(color);
 	}
@@ -53,8 +55,10 @@ public class Scout extends PieceDefined {
 		int dy = tr - fr;
 
 		// Guard against scouts moving more than one square in a turn AND striking
-		if ((Math.abs(dx) > 1 || Math.abs(dy) > 1) && board.getPieceAt(tr, tc) != null)
-			throw new StrategyException("Scout tried to move >1 square and strike at the same time");
+		if ((board.getPieceAt(tr, tc) != null) &&
+				(Math.abs(dx) > 1 || Math.abs(dy) > 1) &&
+				((dx > dy ? dx : dy) > attackDistance))
+			throw new StrategyException("Scout tried to move >" + attackDistance + " and strike at the same time");
 
 		// Perform jump check -- scouts can't jump over choke points or other pieces
 		dx /= (dx == 0 ? 1 : Math.abs(dx));
@@ -74,5 +78,9 @@ public class Scout extends PieceDefined {
 	@Override
 	public PieceType getPieceType() {
 		return PieceType.SCOUT;
+	}
+
+	public void setAttackDistance(int attackDistance) {
+		this.attackDistance = attackDistance;
 	}
 }
