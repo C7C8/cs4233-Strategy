@@ -25,15 +25,17 @@ package strategy.crmyers.gamma;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import strategy.Board;
+import strategy.StrategyException;
 import strategy.crmyers.common.pieces.Marshal;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 import static strategy.Board.SquareType.CHOKE;
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
@@ -84,5 +86,16 @@ public class GammaTest {
 		game = new GammaGame(board);
 		assertThat(game.move(2,1,1,1), is(equalTo(OK)));
 		assertThat(game.move(4, 3, 3, 3), is(equalTo(RED_WINS)));
+	}
+
+	/**
+	 * Make sure gamma rejects bad boards.
+	 * Test is simple since we already have a test of the validation function elsewhere.
+	 */
+	@Test
+	void simpleGammaValidation() {
+		Board tBoard = mock(Board.class);
+		doReturn(null).when(tBoard).getPieceAt(anyInt(), anyInt());
+		assertThrows(StrategyException.class, () -> new GammaBoard(tBoard));
 	}
 }

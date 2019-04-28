@@ -48,8 +48,6 @@ public class GammaBoard extends StrategyBoardImpl {
 
 		// Validate pieces, configure board with choke points
 		final Integer[] refPieceCounts = new Integer[12];
-		for (int i = 0; i < 12; i++)
-			refPieceCounts[i] = 0;
 		refPieceCounts[FLAG.ordinal()] = 1;
 		refPieceCounts[MARSHAL.ordinal()] = 1;
 		refPieceCounts[COLONEL.ordinal()] = 2;

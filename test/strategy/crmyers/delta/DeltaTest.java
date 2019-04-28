@@ -25,15 +25,18 @@ package strategy.crmyers.delta;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import strategy.Board;
+import strategy.StrategyException;
 
-import strategy.StrategyGame;
-import strategy.StrategyGame.Version;
-
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static strategy.Board.SquareType.CHOKE;
-import static strategy.required.StrategyGameFactory.makeGame;
 
 public class DeltaTest {
 
@@ -42,7 +45,6 @@ public class DeltaTest {
 	@BeforeEach
 	void setup_local() {
 		board = new DeltaBoard();
-		StrategyGame game = makeGame(Version.DELTA, board);
 	}
 
 	/**
@@ -70,5 +72,16 @@ public class DeltaTest {
 		assertThat(board.getSquareTypeAt(4, 7), is(equalTo(CHOKE)));
 		assertThat(board.getSquareTypeAt(5, 6), is(equalTo(CHOKE)));
 		assertThat(board.getSquareTypeAt(5, 7), is(equalTo(CHOKE)));
+	}
+
+	/**
+	 * Make sure delta rejects bad boards.
+	 * Test is simple since we already have a test of the validation function elsewhere.
+	 */
+	@Test
+	void simpleDeltaValidation() {
+		Board tBoard = mock(Board.class);
+		doReturn(null).when(tBoard).getPieceAt(anyInt(), anyInt());
+		assertThrows(StrategyException.class, () -> new DeltaBoard(tBoard));
 	}
 }

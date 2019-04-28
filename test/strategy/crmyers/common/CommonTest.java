@@ -36,8 +36,7 @@ import strategy.crmyers.common.pieces.Spy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static strategy.Piece.PieceColor.RED;
 import static strategy.Piece.PieceType.BOMB;
 
@@ -45,7 +44,7 @@ public class CommonTest {
 
 	public static StrategyBoardImpl board;
 	public static PieceDefined marshal;
-	private static PieceDefined m1, m2, m3;
+	private static PieceDefined blueBomb, redBomb, redCaptain, blueSpy;
 
 
 	@BeforeAll
@@ -55,17 +54,21 @@ public class CommonTest {
 
 		// Make some dummy pieces we can use that will respond based on their type without us actually caring about the
 		// underlying implementation.
-		m1 = mock(PieceDefined.class);
-		when(m1.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
-		when(m1.getPieceType()).thenReturn(BOMB);
+		blueBomb = mock(PieceDefined.class);
+		when(blueBomb.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
+		when(blueBomb.getPieceType()).thenReturn(BOMB);
+		redBomb = mock(PieceDefined.class);
+		when(redBomb.getPieceColor()).thenReturn(Piece.PieceColor.RED);
+		when(redBomb.getPieceType()).thenReturn(BOMB);
+		System.out.println(redBomb.getPieceColor());
 
-		m2 = mock(PieceDefined.class);
-		when(m2.getPieceColor()).thenReturn(Piece.PieceColor.RED);
-		when(m2.getPieceType()).thenReturn(Piece.PieceType.CAPTAIN);
+		redCaptain = mock(PieceDefined.class);
+		when(redCaptain.getPieceColor()).thenReturn(Piece.PieceColor.RED);
+		when(redCaptain.getPieceType()).thenReturn(Piece.PieceType.CAPTAIN);
 
-		m3 = mock(PieceDefined.class);
-		when(m3.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
-		when(m3.getPieceType()).thenReturn(Piece.PieceType.SPY);
+		blueSpy = mock(PieceDefined.class);
+		when(blueSpy.getPieceColor()).thenReturn(Piece.PieceColor.BLUE);
+		when(blueSpy.getPieceType()).thenReturn(Piece.PieceType.SPY);
 	}
 
 		/**
@@ -89,14 +92,14 @@ public class CommonTest {
 		);
 
 		assertAll("Board put sanity",
-				() -> assertThrows(StrategyException.class, () -> board.put(m1, -1, -1)),
-				() -> assertThrows(StrategyException.class, () -> board.put(m1, 7, 7)),
-				() -> assertThrows(StrategyException.class, () -> board.put(m1, -1, 0)),
-				() -> assertThrows(StrategyException.class, () -> board.put(m1, 0, -1))
+				() -> assertThrows(StrategyException.class, () -> board.put(blueBomb, -1, -1)),
+				() -> assertThrows(StrategyException.class, () -> board.put(blueBomb, 7, 7)),
+				() -> assertThrows(StrategyException.class, () -> board.put(blueBomb, -1, 0)),
+				() -> assertThrows(StrategyException.class, () -> board.put(blueBomb, 0, -1))
 		);
 
-		board.put(m1, 0, 0);
-		assertThat(board.getPieceAt(0, 0), is(equalTo(m1)));
+		board.put(blueBomb, 0, 0);
+		assertThat(board.getPieceAt(0, 0), is(equalTo(blueBomb)));
 	}
 
 	/**
@@ -104,24 +107,24 @@ public class CommonTest {
 	 */
 	@Test
 	void boardEquals() {
-		board.put(m1, 0, 0);
-		board.put(m2, 1, 0);
-		board.put(m3, 2, 0);
+		board.put(blueBomb, 0, 0);
+		board.put(redCaptain, 1, 0);
+		board.put(blueSpy, 2, 0);
 
 		StrategyBoardImpl board2 = new StrategyBoardImpl(6, 6);
-		board2.put(m1, 0, 0);
-		board2.put(m2, 1, 0);
-		board2.put(m3, 2, 0);
+		board2.put(blueBomb, 0, 0);
+		board2.put(redCaptain, 1, 0);
+		board2.put(blueSpy, 2, 0);
 
 		// Boards constructed identically, they should be identical.
 		assertThat(board, is(equalTo(board2)));
 
 		// Modify board 2 to make it have one more piece; boards no longer equal.
-		board2.put(m3, 0, 1);
+		board2.put(blueSpy, 0, 1);
 		assertThat(board, not(equalTo(board2)));
 
 		// Ensure that if we put the wrong piece on the the right slot, it still won't be right
-		board.put(m2, 0, 1);
+		board.put(redCaptain, 0, 1);
 		assertThat(board, not(equalTo(board2)));
 
 		// Idiot checks to catch other branches in "equals" code
@@ -137,9 +140,9 @@ public class CommonTest {
 	void boardCopyConstructor() {
 		// Create a mock board that doesn't rely on the BetaBoard implementation.
 		Board mockBoard = mock(strategy.Board.class);
-		when(mockBoard.getPieceAt(0, 0)).thenReturn(m1);
-		when(mockBoard.getPieceAt(5, 5)).thenReturn(m2);
-		when(mockBoard.getPieceAt(3, 3)).thenReturn(m3);
+		when(mockBoard.getPieceAt(0, 0)).thenReturn(blueBomb);
+		when(mockBoard.getPieceAt(5, 5)).thenReturn(redCaptain);
+		when(mockBoard.getPieceAt(3, 3)).thenReturn(blueSpy);
 		for (int i = 0; i < board.getRows(); i++) {
 			for (int j = 0; j < board.getCols(); j++) {
 				when(mockBoard.getSquareTypeAt(i, j)).thenReturn(Board.SquareType.CHOKE);
@@ -182,5 +185,31 @@ public class CommonTest {
 	void noMultipleMotion() {
 		Marshal marshal = new Marshal(RED);
 		assertThrows(StrategyException.class, () -> marshal.move(board, 0, 0, 0, 2));
+	}
+
+	/**
+	 * Boards improper boards must be rejected
+	 */
+	@Test
+	void boardValidation() {
+		StrategyBoardImpl board = new StrategyBoardImpl(6, 6);
+		Integer[] refPiecesCount = new Integer[12];
+
+		// Base case -- expecting one row of units, but we have none, so don't validate.
+		assertThat(board.validateBoard(refPiecesCount, 1), is(equalTo(false)));
+
+		// Put a row of red bombs on the bottom -- still doesn't work, blue doesn't have enough bombs yet
+		refPiecesCount[BOMB.ordinal()] = 6;
+		for (int i = 0; i < board.getCols(); i++) {
+			board.put(redBomb, 0, i);
+		}
+		assertThat(board.validateBoard(refPiecesCount, 1), is(equalTo(false)));
+
+		// Put a row of blue bombs on top, validates now!
+		for (int i = 0; i < board.getCols(); i++) {
+			board.put(blueBomb, 5, i);
+		}
+		assertThat(board.validateBoard(refPiecesCount, 1), is(equalTo(true)));
+
 	}
 }

@@ -95,7 +95,6 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 		PieceDefined.MoveResult result;
 		try {
 			result = fPiece.move(board, fr, fc, tr, tc);
-			System.out.println(board.toString());
 			final boolean struck = (result == PieceDefined.MoveResult.STRIKE_RED
 					|| result == PieceDefined.MoveResult.STRIKE_BLUE
 					|| result == PieceDefined.MoveResult.STRIKE_DRAW);
