@@ -193,7 +193,7 @@ public class CommonTest {
 	@Test
 	void boardValidation() {
 		StrategyBoardImpl board = new StrategyBoardImpl(6, 6);
-		Integer[] refPiecesCount = new Integer[12];
+		int[] refPiecesCount = new int[12];
 
 		// Base case -- expecting one row of units, but we have none, so don't validate.
 		assertThat(board.validateBoard(refPiecesCount, 1), is(equalTo(false)));

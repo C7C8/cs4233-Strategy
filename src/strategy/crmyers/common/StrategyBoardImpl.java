@@ -184,7 +184,7 @@ public class StrategyBoardImpl implements strategy.Board {
 	 * @implNote Params are integers because this function is mocked for testing purposes,
 	 * and Java is dumb about primitive types
 	 */
-	public boolean validateBoard(Integer[] refPieceCounts, Integer startingPieceRows) {
+	public boolean validateBoard(int[] refPieceCounts, int startingPieceRows) {
 		int[][] pieceCounts = new int[12][2];
 
 		// First check to make sure pieces are laid out in the correct spots
@@ -210,7 +210,7 @@ public class StrategyBoardImpl implements strategy.Board {
 		// Now make sure piece counts are correct
 		for (int i = 0; i < 12; i++) {
 			for (int j = 0; j < 2; j++) {
-				if (pieceCounts[i][j] != (refPieceCounts[i] != null ? refPieceCounts[i] : 0))
+				if (pieceCounts[i][j] != refPieceCounts[i])
 					return false;
 			}
 		}

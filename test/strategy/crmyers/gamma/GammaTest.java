@@ -47,7 +47,7 @@ public class GammaTest {
 	@BeforeEach
 	void setup_local() {
 		board = spy(GammaBoard.class);
-		doReturn(true).when(board).validateBoard(any(Integer[].class), any(Integer.class));
+		doReturn(true).when(board).validateBoard(any(), anyInt());
 	}
 
 	/**

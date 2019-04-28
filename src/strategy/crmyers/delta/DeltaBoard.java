@@ -43,7 +43,7 @@ public class DeltaBoard extends StrategyBoardImpl{
 		super(board, 10, 10);
 
 		//Validate pieces, configure board with choke points
-		final Integer[] refPieceCounts = new Integer[12];
+		final int[] refPieceCounts = new int[12];
 		refPieceCounts[MARSHAL.ordinal()]		= 1;
 		refPieceCounts[GENERAL.ordinal()] 		= 1;
 		refPieceCounts[COLONEL.ordinal()] 		= 2;
