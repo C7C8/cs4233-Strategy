@@ -21,15 +21,20 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta;
+package strategy.crmyers.epsilon;
 
 import strategy.Board;
-import strategy.crmyers.common.DefaultMoveProcessor;
-import strategy.crmyers.common.StrategyGameImpl;
+import strategy.crmyers.delta.DeltaBoard;
 
-public class BetaGame extends StrategyGameImpl {
-	public BetaGame(Board board) {
-		super( 8, false, new DefaultMoveProcessor());
-		this.board = new BetaBoard(board);
+/**
+ * Epsilon board, really just a re-do of DeltaBoard since the board contains no further game logic.
+ */
+public class EpsilonBoard extends DeltaBoard {
+	public EpsilonBoard() {
+		super();
+	}
+
+	public EpsilonBoard(Board board) {
+		super(board);
 	}
 }

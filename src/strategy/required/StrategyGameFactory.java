@@ -30,6 +30,7 @@ import strategy.StrategyGame.Version;
 import strategy.crmyers.alpha.AlphaGame;
 import strategy.crmyers.beta.BetaGame;
 import strategy.crmyers.delta.DeltaGame;
+import strategy.crmyers.epsilon.EpsilonGame;
 import strategy.crmyers.gamma.GammaGame;
 
 /**
@@ -48,6 +49,8 @@ public class StrategyGameFactory {
 				return new GammaGame(board);
 			case DELTA:
 				return new DeltaGame(board);
+			case EPSILON:
+				return new EpsilonGame(board);
 			default:
 				throw new NotImplementedException(
 						"StrategyGameFactory.makeGame for version " + version);

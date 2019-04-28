@@ -42,16 +42,18 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 	protected boolean gameOver;
 	protected ArrayDeque<Move> redMoves;
 	protected ArrayDeque<Move> blueMoves;
+	protected MoveResultProcessor moveResultProcessor;
 
 	// Game configuration
 	protected final int maxTurns; // Unlimited if zero
 	protected final boolean noRepeatMoves;
 
 
-	public StrategyGameImpl(int maxTurns, boolean noRepeatMoves) {
+	public StrategyGameImpl(int maxTurns, boolean noRepeatMoves, MoveResultProcessor moveResultProcessor) {
 		this.board = new StrategyBoardImpl(10, 10); // sane default...?
 		this.maxTurns = maxTurns;
 		this.noRepeatMoves = noRepeatMoves;
+		this.moveResultProcessor = moveResultProcessor;
 		colorTurn = RED;
 		turns = 0;
 		gameOver = false;
@@ -105,30 +107,11 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 			if (struck)
 				(colorTurn == RED ? redMoves : blueMoves).clear();
 
-			// === Move result processing ===
-			if (result == PieceDefined.MoveResult.OK ||
-					(result == PieceDefined.MoveResult.STRIKE_BLUE && colorTurn == BLUE) ||
-					(result == PieceDefined.MoveResult.STRIKE_RED && colorTurn == RED)) {
-
-				// Either the move was fine or there was a strike victory -- either way, the piece moves.
-				board.put(fPiece, tr, tc);
-				board.put(null, fr, fc);
-			} else if ((result == PieceDefined.MoveResult.STRIKE_BLUE && colorTurn == RED) ||
-					(result == PieceDefined.MoveResult.STRIKE_RED && colorTurn == BLUE)) {
-
-				// Strike defeat, attacked piece moves into original spot
-				board.put(board.getPieceAt(tr, tc), fr, fc);
-				board.put(null, tr, tc);
-			} else if (result == PieceDefined.MoveResult.STRIKE_DRAW) {
-
-				// Draw, both pieces eliminated
-				board.put(null, tr, tc);
-				board.put(null, fr, fc);
-			} else {
-				// Some kind of victory condition
+			// Delegate to the appropriate move processor (either default or aggressor advantage)
+			result = moveResultProcessor.processMove(result, board, new Move(fr, fc, tr, tc), colorTurn);
+			if (result == PieceDefined.MoveResult.RED_WINS || result == PieceDefined.MoveResult.BLUE_WINS)
 				gameOver = true;
-				return convertMoveResult(result);
-			}
+
 		} catch (StrategyException ex) {
 			// Moving player screwed up; opponent wins.
 			System.err.println(ex.getMessage());

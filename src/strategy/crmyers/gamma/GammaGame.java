@@ -24,12 +24,13 @@
 package strategy.crmyers.gamma;
 
 import strategy.Board;
+import strategy.crmyers.common.DefaultMoveProcessor;
 import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.StrategyGameImpl;
 
 public class GammaGame extends StrategyGameImpl {
 	public GammaGame(Board board) {
-		super(0, true);
+		super(0, true, new DefaultMoveProcessor());
 		System.out.println(board.getClass());
 		// YES THIS IS HACKY
 		// BUT I need to do it in order to get mocking to work properly, because Mockito spies

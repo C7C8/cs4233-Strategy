@@ -21,15 +21,20 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta;
+package strategy.crmyers.epsilon;
 
 import strategy.Board;
-import strategy.crmyers.common.DefaultMoveProcessor;
+import strategy.crmyers.common.AggressorAdvantageMoveProcessor;
+import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.StrategyGameImpl;
 
-public class BetaGame extends StrategyGameImpl {
-	public BetaGame(Board board) {
-		super( 8, false, new DefaultMoveProcessor());
-		this.board = new BetaBoard(board);
+public class EpsilonGame extends StrategyGameImpl {
+	public EpsilonGame(Board board) {
+		super(0, true, new AggressorAdvantageMoveProcessor());
+		// See note in GammaGame constructor about why this exists
+		if (!board.getClass().toString().contains("EpsilonBoard"))
+			this.board = new EpsilonBoard(board);
+		else
+			this.board = (StrategyBoardImpl) board;
 	}
 }

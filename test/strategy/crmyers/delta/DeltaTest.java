@@ -52,7 +52,7 @@ public class DeltaTest {
 	 */
 	@Test
 	void boardInit() {
-		// DeltaBoard should start with choke points in two squares in the center and should be completely empty
+		// EpsilonBoard should start with choke points in two squares in the center and should be completely empty
 		assertThat(board.getRows(), is(equalTo(10)));
 		assertThat(board.getCols(), is(equalTo(10)));
 		for (int i = 0; i < board.getRows(); i++) {

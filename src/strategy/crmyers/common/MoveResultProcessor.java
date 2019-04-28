@@ -21,15 +21,17 @@
  * Design, at Worcester Polytechnic Institute.
  */
 
-package strategy.crmyers.beta;
+package strategy.crmyers.common;
 
-import strategy.Board;
-import strategy.crmyers.common.DefaultMoveProcessor;
-import strategy.crmyers.common.StrategyGameImpl;
+import strategy.Piece;
 
-public class BetaGame extends StrategyGameImpl {
-	public BetaGame(Board board) {
-		super( 8, false, new DefaultMoveProcessor());
-		this.board = new BetaBoard(board);
-	}
+public interface MoveResultProcessor {
+	/**
+	 * Process the result of a move
+	 * @param result Result that the piece output
+	 * @param board Board to move on
+	 * @param move Object containing coordinates for move
+	 * @return Processed move result
+	 */
+	public PieceDefined.MoveResult processMove(PieceDefined.MoveResult result, StrategyBoardImpl board, StrategyGameImpl.Move move, Piece.PieceColor colorTurn);
 }
