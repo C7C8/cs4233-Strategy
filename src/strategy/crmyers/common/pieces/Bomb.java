@@ -23,18 +23,30 @@
 
 package strategy.crmyers.common.pieces;
 
-import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.PieceDefined;
+import strategy.crmyers.common.StrategyBoardImpl;
 
 /**
  * Class to represent a Bomb piece.
  */
 public class Bomb extends PieceDefined {
 
+	int charges;
+
+	/**
+	 * Create a new bomb
+	 * @param color Bomb color
+	 * @param charges How many times the bomb can explode; on the last detonation it gets removed from play
+	 */
+	public Bomb(PieceColor color, int charges) {
+		super(color);
+		this.charges = charges;
+	}
+
 	public Bomb(PieceColor color) {
 		super(color);
+		charges = -1;
 	}
 
 	/**
@@ -60,8 +72,27 @@ public class Bomb extends PieceDefined {
 	 * @return Result of the strike!
 	 */
 	@Override
-	public MoveResult strike(Piece target) {
+	public MoveResult strike(PieceDefined target) {
 		throw new StrategyException("Bombs cannot strike");
+	}
+
+	/**
+	 * Return what happened to this bomb; victory
+	 * @param prediction Not used
+	 * @return What the attacked piece says should happen
+	 */
+	@Override
+	protected MoveResult defend(MoveResult prediction) {
+		// Simple logic for bombs with unlimited charges
+		if (charges < 0)
+			return MoveResult.STRIKE_BOMB;
+		else {
+			charges--;
+			if (charges == 0)
+				return MoveResult.DETONATION;
+			else
+				return MoveResult.STRIKE_BOMB;
+		}
 	}
 
 	@Override

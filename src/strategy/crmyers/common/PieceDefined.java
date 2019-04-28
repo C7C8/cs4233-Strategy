@@ -29,13 +29,14 @@ import strategy.crmyers.common.pieces.Scout;
 
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
-import static strategy.Piece.PieceType.BOMB;
-import static strategy.Piece.PieceType.FLAG;
 
 public abstract class PieceDefined implements Piece {
 
 	private final PieceColor color;
 
+	/**
+	 * Used to help make returns from piece moves and strikes easier to deal with
+	 */
 	public enum MoveResult {
 		OK,
 		STRIKE_RED,
@@ -43,7 +44,9 @@ public abstract class PieceDefined implements Piece {
 		RED_WINS,
 		BLUE_WINS,
 		@SuppressWarnings("unused") GAME_OVER,
-		STRIKE_DRAW,
+		STRIKE_DRAW, // If two pieces of the same rank fight
+		STRIKE_BOMB, // If a bomb is struck
+		DETONATION, // If a bomb is struck and it explodes for good
 	}
 
 	public PieceDefined(PieceColor color) {
@@ -92,7 +95,7 @@ public abstract class PieceDefined implements Piece {
 		if (this.getClass() != Scout.class && isOneSpace(fr, fc, tr, tc))
 			throw new StrategyException("More than one move made by a non-scout piece");
 
-		Piece piece = board.getPieceAt(tr, tc);
+		PieceDefined piece = board.getPieceAt(tr, tc);
 		if (piece == null)
 			return MoveResult.OK;
 		if (piece.getPieceColor() == getPieceColor())
@@ -107,19 +110,36 @@ public abstract class PieceDefined implements Piece {
 	 * @param target Targeted piece.
 	 * @return Result of the strike!
 	 */
-	public MoveResult strike(Piece target) {
-		if (target.getPieceType() == BOMB)
-			return pieceLoss();
-		else if (target.getPieceType() == FLAG)
-			return color == BLUE ? MoveResult.BLUE_WINS : MoveResult.RED_WINS;
+	public MoveResult strike(PieceDefined target) {
+//		if (target.getPieceType() == BOMB)
+//			return pieceLoss();
+//		else if (target.getPieceType() == FLAG)
+//			return color == BLUE ? MoveResult.BLUE_WINS : MoveResult.RED_WINS;
 
 		final int ourRank = getPieceType().ordinal();
 		final int theirRank = target.getPieceType().ordinal();
+		MoveResult result;
 		if (ourRank > theirRank)
-			return pieceVictory();
+			result = pieceVictory();
 		else if (ourRank < theirRank)
-			return pieceLoss();
-		return MoveResult.STRIKE_DRAW;
+			result = pieceLoss();
+		else
+			result = MoveResult.STRIKE_DRAW;
+
+		// If the defending piece has special code
+		MoveResult defenderResult = target.defend(result);
+		if (defenderResult != result)
+			return defenderResult;
+		return result;
+	}
+
+	/**
+	 * Any special code the piece should execute or or other special cases (flags, bombs, etc)
+	 * @param prediction What the attacker says should happen; simplifies this function greatly
+	 * @return What the attacked piece says should happen
+	 */
+	protected MoveResult defend(MoveResult prediction) {
+		return prediction;
 	}
 
 	/**
@@ -153,5 +173,4 @@ public abstract class PieceDefined implements Piece {
 	protected String getColorStr() {
 		return color == RED ? "R" : "B";
 	}
-
 }

@@ -25,11 +25,13 @@ package strategy.crmyers.common;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import strategy.Piece;
 import strategy.StrategyGame;
 import strategy.crmyers.beta.BetaBoard;
 import strategy.crmyers.common.pieces.*;
 import strategy.required.StrategyGameFactory;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static strategy.Piece.PieceColor.BLUE;
@@ -60,6 +62,7 @@ public abstract class GameplayTest {
 		board.put(new Flag(RED), 0, 0);
 		board.put(new Bomb(RED), 1, 0);
 		board.put(new Bomb(RED), 0, 1);
+		board.put(new Marshal(BLUE), 1, 1);
 		board.put(new Miner(BLUE), 2, 0);
 		board.put(new Scout(BLUE), 3, 0);
 		board.put(new Colonel(BLUE), 0, 2);
@@ -119,6 +122,18 @@ public abstract class GameplayTest {
 	}
 
 	/**
+	 * Red's marshal takes on a blue bomb. It doesn't go well.
+	 */
+	@Test
+	void marshalImmolation() {
+		game.move(5, 4, 5, 3);
+		assertThat(game.move(1, 1, 0, 1), equalTo(STRIKE_RED));
+		assertThat(board.getPieceAt(0, 1), notNullValue());
+		assertThat(board.getPieceAt(0, 1).getPieceType(), equalTo(Piece.PieceType.BOMB));
+		assertThat(board.getPieceAt(0, 1).getPieceColor(), equalTo(RED));
+	}
+
+	/**
 	 * Blue moves out of turn and loses the game
 	 */
 	@Test
@@ -169,6 +184,7 @@ public abstract class GameplayTest {
 		tBoard.put(new Marshal(RED), 1, 0);
 		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, tBoard);
 
+		System.out.println(tBoard.toString());
 		assertThat(game.move(1, 0, 0, 0), equalTo(RED_WINS));
 	}
 

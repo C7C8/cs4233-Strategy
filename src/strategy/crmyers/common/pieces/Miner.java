@@ -23,7 +23,6 @@
 
 package strategy.crmyers.common.pieces;
 
-import strategy.Piece;
 import strategy.crmyers.common.PieceDefined;
 
 /**
@@ -42,7 +41,7 @@ public class Miner extends PieceDefined {
 	 * @return Result of the strike!
 	 */
 	@Override
-	public MoveResult strike(Piece target) {
+	public MoveResult strike(PieceDefined target) {
 		// Miners have the ability to attack bombs, so we perform that check before defaulting to regular strike rules
 		if (target.getPieceType() == PieceType.BOMB)
 			return pieceVictory();

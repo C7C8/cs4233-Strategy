@@ -23,10 +23,11 @@
 
 package strategy.crmyers.common.pieces;
 
-import strategy.Piece;
 import strategy.StrategyException;
-import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.PieceDefined;
+import strategy.crmyers.common.StrategyBoardImpl;
+
+import static strategy.Piece.PieceColor.RED;
 
 /**
  * Class to represent a Flag piece.
@@ -60,8 +61,18 @@ public class Flag extends PieceDefined {
 	 * @return Result of the strike!
 	 */
 	@Override
-	public MoveResult strike(Piece target) {
+	public MoveResult strike(PieceDefined target) {
 		throw new StrategyException("Flags cannot strike");
+	}
+
+	/**
+	 * Always says the flag should lose
+	 * @param prediction Ignored
+	 * @return Flag loses
+	 */
+	@Override
+	protected MoveResult defend(MoveResult prediction) {
+		return getPieceColor() == RED ? MoveResult.BLUE_WINS : MoveResult.RED_WINS;
 	}
 
 	public String toString() {

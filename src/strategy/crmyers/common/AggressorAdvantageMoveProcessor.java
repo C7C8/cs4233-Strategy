@@ -58,6 +58,15 @@ public class AggressorAdvantageMoveProcessor implements MoveResultProcessor {
 			// Strike defeat, attacked piece moves into original spot
 			board.put(board.getPieceAt(move.tr, move.tc), move.fr, move.fc);
 			board.put(null, move.tr, move.tc);
+		} else if (result == PieceDefined.MoveResult.STRIKE_BOMB) {
+
+			//Attacking piece destroyed
+			board.put(null, move.fc, move.fr);
+		} else if (result == PieceDefined.MoveResult.DETONATION) {
+
+			// Both pieces destroyed
+			board.put(null, move.fc, move.fr);
+			board.put(null, move.tc, move.tr);
 		} // Else: some kind of victory condition
 
 		return result;

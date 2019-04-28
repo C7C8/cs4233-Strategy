@@ -214,7 +214,7 @@ public class PieceTest {
 		assertThrows(StrategyException.class, () -> bomb.strike(flag));
 
 		// Anything against a bomb fails (except miners, but that's tested elsewhere)
-		assertThat(marshal.strike(bomb), is(equalTo(marshal.pieceLoss())));
+		assertThat(marshal.strike(bomb), is(equalTo(PieceDefined.MoveResult.STRIKE_BOMB)));
 	}
 
 	/**
@@ -226,6 +226,6 @@ public class PieceTest {
 		assertThrows(StrategyException.class, () -> flag.strike(flag));
 
 		// Anything can take a flag
-		assertThat(spy.strike(flag), is(equalTo(PieceDefined.MoveResult.BLUE_WINS)));
+		assertThat(scout.strike(flag), is(equalTo(PieceDefined.MoveResult.RED_WINS)));
 	}
 }

@@ -99,7 +99,9 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 			result = fPiece.move(board, fr, fc, tr, tc);
 			final boolean struck = (result == PieceDefined.MoveResult.STRIKE_RED
 					|| result == PieceDefined.MoveResult.STRIKE_BLUE
-					|| result == PieceDefined.MoveResult.STRIKE_DRAW);
+					|| result == PieceDefined.MoveResult.STRIKE_DRAW
+					|| result == PieceDefined.MoveResult.STRIKE_BOMB
+					|| result == PieceDefined.MoveResult.DETONATION);
 			if (!struck && noRepeatMoves)
 				checkRepeatMoves(fr, fc, tr, tc);
 
@@ -121,6 +123,7 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 		}
 
 		// Logic for incrementing turns and determining who goes next
+		MoveResult ret = convertMoveResult(result);
 		if (colorTurn == RED)
 			colorTurn = BLUE;
 		else {
@@ -134,15 +137,15 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 
 		// Make sure the new player can actually play
 		if (!canMove())
-			result = (colorTurn == RED ? PieceDefined.MoveResult.BLUE_WINS : PieceDefined.MoveResult.RED_WINS);
+			ret = (colorTurn == RED ? BLUE_WINS : RED_WINS);
 
 		System.out.println("Turn " + turns + ", color: " + colorTurn.name());
 		System.out.println(board.toString());
-		return convertMoveResult(result);
+		return ret;
 	}
 
 	/**
-	 * This BetaStrategy implementation uses an extended MoveResult enum to make move handling
+	 * My implementation uses an extended MoveResult enum to make move handling
 	 * a little easier; this function serves as a bridge between the two.
 	 *
 	 * @param result Move result in PieceDefined format
@@ -151,6 +154,8 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 	private MoveResult convertMoveResult(PieceDefined.MoveResult result) {
 		if (result == PieceDefined.MoveResult.STRIKE_DRAW)
 			return OK;
+		else if (result == PieceDefined.MoveResult.STRIKE_BOMB || result == PieceDefined.MoveResult.DETONATION)
+			return colorTurn == RED ? STRIKE_BLUE : STRIKE_RED;
 		else
 			return MoveResult.values()[result.ordinal()];
 	}

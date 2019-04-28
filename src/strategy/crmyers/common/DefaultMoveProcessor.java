@@ -53,11 +53,15 @@ public class DefaultMoveProcessor implements MoveResultProcessor {
 			// Strike defeat, attacked piece moves into original spot
 			board.put(board.getPieceAt(move.tr, move.tc), move.fr, move.fc);
 			board.put(null, move.tr, move.tc);
-		} else if (result == PieceDefined.MoveResult.STRIKE_DRAW) {
+		} else if (result == PieceDefined.MoveResult.STRIKE_DRAW || result == PieceDefined.MoveResult.DETONATION) {
 
 			// Draw, both pieces eliminated
 			board.put(null, move.tr, move.tc);
 			board.put(null, move.fr, move.fc);
+		} else if (result == PieceDefined.MoveResult.STRIKE_BOMB) {
+
+			// Attacking piece destroyed
+			board.put(null, move.fc, move.tc);
 		} // Else: some kind of victory condition
 
 		return result;

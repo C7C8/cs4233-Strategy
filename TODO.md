@@ -6,6 +6,7 @@
 * Strikes cancel move repetition
 * Account for proper cannot-move checking
 * Validate board setup for Gamma & Delta boards
+* Bombs stay in place and aren't destroyed if they explode (***what?!***)
 
 ## Epsilon
 

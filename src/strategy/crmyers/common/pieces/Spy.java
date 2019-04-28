@@ -23,7 +23,6 @@
 
 package strategy.crmyers.common.pieces;
 
-import strategy.Piece;
 import strategy.crmyers.common.PieceDefined;
 
 /**
@@ -42,7 +41,7 @@ public class Spy extends PieceDefined {
 	 * @return Result of the strike!
 	 */
 	@Override
-	public MoveResult strike(Piece target) {
+	public MoveResult strike(PieceDefined target) {
 		// Spies can only attack marshals, so perform that check before resorting to default
 		if (target.getPieceType() == PieceType.MARSHAL)
 			return pieceVictory();
