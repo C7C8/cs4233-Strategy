@@ -27,8 +27,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.crmyers.common.pieces.Marshal;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static strategy.Board.SquareType.CHOKE;
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
@@ -39,7 +44,8 @@ public class GammaTest {
 
 	@BeforeEach
 	void setup_local() {
-		board = new GammaBoard();
+		board = spy(GammaBoard.class);
+		doReturn(true).when(board).validateBoard(any(Integer[].class), any(Integer.class));
 	}
 
 	/**

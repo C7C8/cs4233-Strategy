@@ -24,11 +24,16 @@
 package strategy.crmyers.delta;
 
 import strategy.Board;
+import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.StrategyGameImpl;
 
 public class DeltaGame extends StrategyGameImpl {
 	public DeltaGame(Board board) {
 		super(0, true);
-		this.board = new DeltaBoard(board);
+		// See note in GammaGame constructor about why this exists
+		if (!board.getClass().toString().contains("DeltaBoard"))
+			this.board = new DeltaBoard(board);
+		else
+			this.board = (StrategyBoardImpl) board;
 	}
 }

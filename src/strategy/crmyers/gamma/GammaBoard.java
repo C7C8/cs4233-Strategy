@@ -23,9 +23,13 @@
 
 package strategy.crmyers.gamma;
 
+import strategy.StrategyException;
 import strategy.crmyers.common.StrategyBoardImpl;
 
+import static strategy.Piece.PieceType.*;
+
 public class GammaBoard extends StrategyBoardImpl {
+
 
 	/**
 	 * Initialize the board; in Gamma strategy, there is a 2x2 block of choke points in the center.
@@ -41,10 +45,26 @@ public class GammaBoard extends StrategyBoardImpl {
 	 */
 	public GammaBoard(strategy.Board board) {
 		super(board, 6, 6);
+
+		// Validate pieces, configure board with choke points
+		final Integer[] refPieceCounts = new Integer[12];
+		for (int i = 0; i < 12; i++)
+			refPieceCounts[i] = 0;
+		refPieceCounts[FLAG.ordinal()] = 1;
+		refPieceCounts[MARSHAL.ordinal()] = 1;
+		refPieceCounts[COLONEL.ordinal()] = 2;
+		refPieceCounts[CAPTAIN.ordinal()] = 2;
+		refPieceCounts[LIEUTENANT.ordinal()] = 3;
+		refPieceCounts[SERGEANT.ordinal()] = 3;
+		if (!validateBoard(refPieceCounts, 2))
+			throw new StrategyException("Failed to validate board");
 		configureBoard();
 	}
 
-	private void configureBoard() {
+	/**
+	 * Configure the board with choke points
+	 */
+	protected void configureBoard() {
 		squares[2][2] = SquareType.CHOKE;
 		squares[2][3] = SquareType.CHOKE;
 		squares[3][2] = SquareType.CHOKE;

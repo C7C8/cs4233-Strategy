@@ -160,9 +160,6 @@ public abstract class GameplayTest {
 	/**
 	 * When a player runs out of moves to make, the other player should win immediately, even if they themselves have
 	 * no available moves to make.
-	 *
-	 * This actually doesn't need any special handling in the code since any attempt by Blue to move will result in an
-	 * exception, triggering a Red win
 	 */
 	@Test
 	void noMovesPossible() {
@@ -172,8 +169,7 @@ public abstract class GameplayTest {
 		tBoard.put(new Marshal(RED), 1, 0);
 		game = StrategyGameFactory.makeGame(StrategyGame.Version.BETA, tBoard);
 
-		assertThat(game.move(1, 0, 0, 0), equalTo(STRIKE_BLUE));
-		assertThat(game.move(0, 1, 0, 0), equalTo(RED_WINS));
+		assertThat(game.move(1, 0, 0, 0), equalTo(RED_WINS));
 	}
 
 	/**

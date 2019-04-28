@@ -95,6 +95,7 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 		PieceDefined.MoveResult result;
 		try {
 			result = fPiece.move(board, fr, fc, tr, tc);
+			System.out.println(board.toString());
 			final boolean struck = (result == PieceDefined.MoveResult.STRIKE_RED
 					|| result == PieceDefined.MoveResult.STRIKE_BLUE
 					|| result == PieceDefined.MoveResult.STRIKE_DRAW);
@@ -151,7 +152,7 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 
 		// Make sure the new player can actually play
 		if (!canMove())
-			return colorTurn == RED ? BLUE_WINS : RED_WINS;
+			result = (colorTurn == RED ? PieceDefined.MoveResult.BLUE_WINS : PieceDefined.MoveResult.RED_WINS);
 
 		System.out.println("Turn " + turns + ", color: " + colorTurn.name());
 		System.out.println(board.toString());
@@ -214,8 +215,8 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 	 * @return Player mobility status
 	 */
 	private boolean canMove() throws StrategyException {
-		for (int r = 0; r < board.ROWS; r++) {
-			for (int c = 0; c < board.COLS; c++) {
+		for (int r = 0; r < board.getRows(); r++) {
+			for (int c = 0; c < board.getCols(); c++) {
 				if (canPieceMove(r, c))
 					return true;
 			}

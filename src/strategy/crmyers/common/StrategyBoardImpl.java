@@ -27,13 +27,14 @@ import strategy.Piece;
 import strategy.StrategyException;
 import strategy.crmyers.common.pieces.*;
 
+import static strategy.Piece.PieceColor.BLUE;
+import static strategy.Piece.PieceColor.RED;
+
 public class StrategyBoardImpl implements strategy.Board {
 
-
-
 	// Constants
-	final int ROWS;
-	final int COLS;
+	private final int ROWS;
+	private final int COLS;
 
 	// Game data
 	protected PieceDefined[][] pieces;
@@ -172,6 +173,49 @@ public class StrategyBoardImpl implements strategy.Board {
 		if (squares[row][column] != SquareType.NORMAL)
 			throw new StrategyException("Place to put at is not a normal square");
 		pieces[row][column] = piece;
+	}
+
+	/**
+	 * Validate the board setup by making sure pieces are in the right places and have
+	 * the correct count
+	 * @param refPieceCounts Array that dictates what piece counts should be checked for
+	 * @param startingPieceRows How deep each side's starting position should be
+	 * @return True if valid board, false otherwise
+	 * @implNote Params are integers because this function is mocked for testing purposes,
+	 * and Java is dumb about primitive types
+	 */
+	public boolean validateBoard(Integer[] refPieceCounts, Integer startingPieceRows) {
+		int[][] pieceCounts = new int[12][2];
+
+		// First check to make sure pieces are laid out in the correct spots
+		for (int r = 0; r < startingPieceRows; r++) {
+			for (int c = 0; c < COLS; c++) {
+				final Piece piece = pieces[r][c];
+				if (piece == null || piece.getPieceColor() != RED)
+					return false;
+
+				pieceCounts[piece.getPieceType().ordinal()][RED.ordinal()]++;
+			}
+		}
+		for (int r = ROWS - startingPieceRows; r < ROWS; r++) {
+			for (int c = 0; c < COLS; c++) {
+				final Piece piece = pieces[r][c];
+				if (piece == null || piece.getPieceColor() != BLUE)
+					return false;
+
+				pieceCounts[piece.getPieceType().ordinal()][BLUE.ordinal()]++;
+			}
+		}
+
+		// Now make sure piece counts are correct
+		for (int i = 0; i < 12; i++) {
+			for (int j = 0; j < 2; j++) {
+				if (pieceCounts[i][j] != refPieceCounts[i])
+					return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

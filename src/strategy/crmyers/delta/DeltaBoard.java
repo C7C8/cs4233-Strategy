@@ -23,11 +23,13 @@
 
 package strategy.crmyers.delta;
 
+import strategy.StrategyException;
 import strategy.crmyers.common.StrategyBoardImpl;
 
 import static strategy.Board.SquareType.CHOKE;
+import static strategy.Piece.PieceType.*;
 
-public class DeltaBoard extends StrategyBoardImpl {
+public class DeltaBoard extends StrategyBoardImpl{
 
 	/**
 	 * Initialize the board; Delta board is a full size board with a full suite of choke points
@@ -39,10 +41,27 @@ public class DeltaBoard extends StrategyBoardImpl {
 
 	public DeltaBoard(strategy.Board board) {
 		super(board, 10, 10);
+
+		//Validate pieces, configure board with choke points
+		final Integer[] refPieceCounts = new Integer[12];
+		refPieceCounts[MARSHAL.ordinal()]		= 1;
+		refPieceCounts[GENERAL.ordinal()] 		= 1;
+		refPieceCounts[COLONEL.ordinal()] 		= 2;
+		refPieceCounts[MAJOR.ordinal()]			= 3;
+		refPieceCounts[CAPTAIN.ordinal()]		= 4;
+		refPieceCounts[LIEUTENANT.ordinal()] 	= 4;
+		refPieceCounts[SERGEANT.ordinal()] 		= 4;
+		refPieceCounts[MINER.ordinal()] 		= 5;
+		refPieceCounts[SCOUT.ordinal()] 		= 8;
+		refPieceCounts[SPY.ordinal()] 			= 1;
+		refPieceCounts[BOMB.ordinal()] 			= 6;
+		refPieceCounts[FLAG.ordinal()] 			= 1;
+		if (!validateBoard(refPieceCounts, 4))
+			throw new StrategyException("Failed to validate board");
 		configureBoard();
 	}
 
-	private void configureBoard() {
+	protected void configureBoard() {
 		squares[4][2] = CHOKE;
 		squares[5][2] = CHOKE;
 		squares[4][3] = CHOKE;
