@@ -32,6 +32,7 @@ import strategy.crmyers.common.StrategyBoardImpl;
  */
 public class Bomb extends PieceDefined {
 
+
 	int charges;
 
 	/**
@@ -103,5 +104,9 @@ public class Bomb extends PieceDefined {
 	@Override
 	public PieceType getPieceType() {
 		return PieceType.BOMB;
+	}
+
+	public void setCharges(int charges) {
+		this.charges = charges;
 	}
 }

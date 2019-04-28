@@ -27,6 +27,7 @@ import strategy.Piece;
 
 import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
+import static strategy.crmyers.common.PieceDefined.MoveResult.OK;
 
 public class AggressorAdvantageMoveProcessor implements MoveResultProcessor {
 	/**
@@ -40,7 +41,7 @@ public class AggressorAdvantageMoveProcessor implements MoveResultProcessor {
 	 */
 	@Override
 	public PieceDefined.MoveResult processMove(PieceDefined.MoveResult result, StrategyBoardImpl board, StrategyGameImpl.Move move, Piece.PieceColor colorTurn) {
-		if (result == PieceDefined.MoveResult.OK ||
+		if (result == OK ||
 				(result == PieceDefined.MoveResult.STRIKE_BLUE && colorTurn == BLUE) ||
 				(result == PieceDefined.MoveResult.STRIKE_RED && colorTurn == RED) ||
 				(result == PieceDefined.MoveResult.STRIKE_DRAW)) {
@@ -50,7 +51,8 @@ public class AggressorAdvantageMoveProcessor implements MoveResultProcessor {
 			board.put(null, move.fr, move.fc);
 
 			// Aggressor advantage -- if two same-ranking pieces do battle, the aggressor wins, so the result needs remapping
-			result = (colorTurn == RED ? PieceDefined.MoveResult.STRIKE_RED : PieceDefined.MoveResult.STRIKE_BLUE);
+			if (result != OK)
+				result = (colorTurn == RED ? PieceDefined.MoveResult.STRIKE_RED : PieceDefined.MoveResult.STRIKE_BLUE);
 
 		} else if ((result == PieceDefined.MoveResult.STRIKE_BLUE && colorTurn == RED) ||
 				(result == PieceDefined.MoveResult.STRIKE_RED && colorTurn == BLUE)) {
@@ -61,12 +63,12 @@ public class AggressorAdvantageMoveProcessor implements MoveResultProcessor {
 		} else if (result == PieceDefined.MoveResult.STRIKE_BOMB) {
 
 			//Attacking piece destroyed
-			board.put(null, move.fc, move.fr);
+			board.put(null, move.fr, move.fc);
 		} else if (result == PieceDefined.MoveResult.DETONATION) {
 
 			// Both pieces destroyed
-			board.put(null, move.fc, move.fr);
-			board.put(null, move.tc, move.tr);
+			board.put(null, move.fr, move.fc);
+			board.put(null, move.tr, move.tc);
 		} // Else: some kind of victory condition
 
 		return result;

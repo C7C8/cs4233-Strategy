@@ -26,11 +26,15 @@ package strategy.crmyers.epsilon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import strategy.Piece;
+import strategy.crmyers.common.pieces.Bomb;
 import strategy.crmyers.common.pieces.Marshal;
+import strategy.crmyers.common.pieces.Miner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static strategy.StrategyGame.MoveResult.STRIKE_RED;
+import static strategy.Piece.PieceColor.BLUE;
+import static strategy.Piece.PieceColor.RED;
+import static strategy.StrategyGame.MoveResult.*;
 
 public class EpsilonTest {
 	private EpsilonBoard board;
@@ -45,14 +49,37 @@ public class EpsilonTest {
 	 */
 	@Test
 	void aggressorAdvantage() {
-		board.put(new Marshal(Piece.PieceColor.RED), 0, 0);
-		board.put(new Marshal(Piece.PieceColor.BLUE), 0, 1);
-		board.put(new Marshal(Piece.PieceColor.BLUE), 9, 9); // Just so red doesn't automatically win
+		board.put(new Marshal(RED), 0, 0);
+		board.put(new Marshal(BLUE), 0, 1);
+		board.put(new Marshal(BLUE), 9, 9); // Just so red doesn't automatically win
 		EpsilonGame game = new EpsilonGame(board);
+		System.out.println(board.toString());
 
 		assertThat(game.move(0, 0, 0, 1), is(equalTo(STRIKE_RED)));
 		assertThat(board.getPieceAt(0, 0), is(nullValue()));
-		assertThat(board.getPieceAt(0, 1).getPieceColor(), is(equalTo(Piece.PieceColor.RED)));
+		assertThat(board.getPieceAt(0, 1).getPieceColor(), is(equalTo(RED)));
 		assertThat(board.getPieceAt(0, 1).getPieceType(), is(equalTo(Piece.PieceType.MARSHAL)));
+	}
+
+	/**
+	 * Bombs get only two "charges" with which to explode in Epsilon mode
+	 */
+	@Test
+	void bombExplodiness() {
+		board.put(new Bomb(BLUE), 0, 0);
+		board.put(new Marshal(RED), 1, 0);
+		board.put(new Marshal(BLUE), 9, 9); // Blue must have a piece to move
+		board.put(new Marshal(RED), 0, 1);
+		board.put(new Miner(RED), 9, 0); // Red must also have a piece to move
+		board.configurePieces();
+		EpsilonGame game = new EpsilonGame(board);
+		System.out.println(board.toString());
+
+		assertThat(game.move(1, 0, 0, 0), is(equalTo(STRIKE_BLUE)));
+		game.move(9, 9, 9, 8);
+		assertThat(game.move(0, 1, 0, 0), is(equalTo(OK)));
+		assertThat(board.getPieceAt(0, 0), is(nullValue()));
+		assertThat(board.getPieceAt(0, 1), is(nullValue()));
+		assertThat(board.getPieceAt(1, 0), is(nullValue()));
 	}
 }

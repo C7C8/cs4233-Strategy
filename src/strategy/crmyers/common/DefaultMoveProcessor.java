@@ -61,7 +61,7 @@ public class DefaultMoveProcessor implements MoveResultProcessor {
 		} else if (result == PieceDefined.MoveResult.STRIKE_BOMB) {
 
 			// Attacking piece destroyed
-			board.put(null, move.fc, move.tc);
+			board.put(null, move.fr, move.fc);
 		} // Else: some kind of victory condition
 
 		return result;

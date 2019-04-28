@@ -152,9 +152,9 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 	 * @return Move result in Strategy format
 	 */
 	private MoveResult convertMoveResult(PieceDefined.MoveResult result) {
-		if (result == PieceDefined.MoveResult.STRIKE_DRAW)
+		if (result == PieceDefined.MoveResult.STRIKE_DRAW || result == PieceDefined.MoveResult.DETONATION)
 			return OK;
-		else if (result == PieceDefined.MoveResult.STRIKE_BOMB || result == PieceDefined.MoveResult.DETONATION)
+		else if (result == PieceDefined.MoveResult.STRIKE_BOMB)
 			return colorTurn == RED ? STRIKE_BLUE : STRIKE_RED;
 		else
 			return MoveResult.values()[result.ordinal()];
@@ -241,6 +241,8 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 				// Simulate moving the piece to the new location; if it works, return true.
 				final Piece nPiece = board.getPieceAt(r+i, c+j);
 				if (nPiece == null || nPiece.getPieceColor() != curPiece.getPieceColor()) {
+					if (nPiece != null && nPiece.getPieceType() == Piece.PieceType.BOMB)
+						return true; // Bombs are stateful, can't try moving to one
 					try {
 						curPiece.move(board, r, c, r+i, c+j);
 						return true;
