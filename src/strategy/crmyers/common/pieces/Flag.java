@@ -49,7 +49,7 @@ public class Flag extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc, boolean noRepeatMoves) throws StrategyException {
+	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc) throws StrategyException {
 		throw new StrategyException("Flags cannot move");
 	}
 

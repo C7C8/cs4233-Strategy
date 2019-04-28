@@ -48,7 +48,7 @@ public class Scout extends PieceDefined {
 	 * @throws StrategyException Thrown if move is invalid for any reason (e.g. out of bounds)
 	 */
 	@Override
-	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc, boolean noMoveRepetition) throws StrategyException {
+	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc) throws StrategyException {
 		int dx = tc - fc;
 		int dy = tr - fr;
 
@@ -63,7 +63,7 @@ public class Scout extends PieceDefined {
 			if (board.getPieceAt(r, c) != null || board.getSquareTypeAt(r, c) != strategy.Board.SquareType.NORMAL)
 				throw new StrategyException("Scout cannot jump over pieces/chokepoints");
 		}
-		return super.move(board, fr, fc, tr, tc, noMoveRepetition);
+		return super.move(board, fr, fc, tr, tc);
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import strategy.crmyers.common.StrategyGameImpl;
 
 public class BetaGame extends StrategyGameImpl {
 	public BetaGame(Board board) {
-		super(board, 8, false);
+		super( 8, false);
+		this.board = new BetaBoard(board);
 	}
 }

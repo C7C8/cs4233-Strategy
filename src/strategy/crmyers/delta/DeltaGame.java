@@ -28,6 +28,7 @@ import strategy.crmyers.common.StrategyGameImpl;
 
 public class DeltaGame extends StrategyGameImpl {
 	public DeltaGame(Board board) {
-		super(board, 0, true);
+		super(0, true);
+		this.board = new DeltaBoard(board);
 	}
 }

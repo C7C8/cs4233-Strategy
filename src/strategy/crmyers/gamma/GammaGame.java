@@ -28,6 +28,7 @@ import strategy.crmyers.common.StrategyGameImpl;
 
 public class GammaGame extends StrategyGameImpl {
 	public GammaGame(Board board) {
-		super(board, 0, true);
+		super(0, true);
+		this.board = new GammaBoard(board);
 	}
 }

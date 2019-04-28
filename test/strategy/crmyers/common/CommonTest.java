@@ -176,31 +176,6 @@ public class CommonTest {
 	}
 
 	/**
-	 * Make sure that piece repetition checking works. Totally not needed for this assignment, but it's simple to
-	 * implement, so why not?
-	 */
-	@Test
-	void pieceCheckRepetition() {
-		// Use an anonymous class to define this piece since we really only care about moveRepetition()
-		PieceDefined mobilePiece = new PieceDefined(Piece.PieceColor.BLUE) {
-			@Override
-			public String toString() {
-				return "--";
-			}
-		};
-
-		// Make two moves to start the repetition, both are valid
-		assertFalse(mobilePiece.moveRepetition(0, 0, 1, 0));
-		assertFalse(mobilePiece.moveRepetition(0, 1, 0, 0));
-
-		//Completing the repetition fails...
-		assertTrue(mobilePiece.moveRepetition(0, 0, 1, 0));
-
-		//...but moving to a different square succeeds
-		assertFalse(mobilePiece.moveRepetition(0, 0, 0, 1));
-	}
-
-	/**
 	 * Non-scout pieces can't move more than one square at a time
 	 */
 	@Test
