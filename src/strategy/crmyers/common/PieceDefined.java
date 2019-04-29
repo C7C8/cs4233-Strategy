@@ -53,7 +53,7 @@ public abstract class PieceDefined implements Piece {
 	 * Construct piece
 	 * @param color Piece color
 	 */
-	public PieceDefined(PieceColor color) {
+	protected PieceDefined(PieceColor color) {
 		this.color = color;
 	}
 

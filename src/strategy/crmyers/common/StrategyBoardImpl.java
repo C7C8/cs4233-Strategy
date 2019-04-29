@@ -37,8 +37,8 @@ public class StrategyBoardImpl implements strategy.Board {
 	private final int COLS;
 
 	// Game data
-	protected PieceDefined[][] pieces;
-	protected SquareType[][] squares;
+	final protected PieceDefined[][] pieces;
+	final protected SquareType[][] squares;
 
 	/**
 	 * Initialize the board using predetermined rows and columns count

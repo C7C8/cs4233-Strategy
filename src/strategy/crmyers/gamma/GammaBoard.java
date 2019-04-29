@@ -61,7 +61,7 @@ public class GammaBoard extends StrategyBoardImpl {
 	/**
 	 * Configure the board with choke points
 	 */
-	protected void configureBoard() {
+	private void configureBoard() {
 		squares[2][2] = SquareType.CHOKE;
 		squares[2][3] = SquareType.CHOKE;
 		squares[3][2] = SquareType.CHOKE;

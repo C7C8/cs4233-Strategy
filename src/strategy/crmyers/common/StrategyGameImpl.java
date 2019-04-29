@@ -37,16 +37,16 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 
 	// Game data
 	protected StrategyBoardImpl board;
-	protected Piece.PieceColor colorTurn;
-	protected int turns;
-	protected boolean gameOver;
-	protected ArrayDeque<Move> redMoves;
-	protected ArrayDeque<Move> blueMoves;
+	private Piece.PieceColor colorTurn;
+	private int turns;
+	private boolean gameOver;
+	private final ArrayDeque<Move> redMoves;
+	private final ArrayDeque<Move> blueMoves;
 
 	// Game configuration
-	protected final int maxTurns; // Unlimited if zero
-	protected final boolean noRepeatMoves;
-	protected MoveResultProcessor moveResultProcessor;
+	private final int maxTurns; // Unlimited if zero
+	private final boolean noRepeatMoves;
+	private final MoveResultProcessor moveResultProcessor;
 
 	/**
 	 * Construct a strategy game using given values
@@ -54,7 +54,7 @@ public class StrategyGameImpl implements strategy.StrategyGame {
 	 * @param noRepeatMoves Whether repeated moves should be disallowed
 	 * @param moveResultProcessor What move result processor to use when acting on move results
 	 */
-	public StrategyGameImpl(int maxTurns, boolean noRepeatMoves, MoveResultProcessor moveResultProcessor) {
+	protected StrategyGameImpl(int maxTurns, boolean noRepeatMoves, MoveResultProcessor moveResultProcessor) {
 		this.board = new StrategyBoardImpl(10, 10); // sane default...?
 		this.maxTurns = maxTurns;
 		this.noRepeatMoves = noRepeatMoves;

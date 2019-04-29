@@ -28,7 +28,7 @@ import strategy.Piece;
 /**
  * Interface for a move result processor, responsible for deciding what happens with the result of a move/strike
  */
-public interface MoveResultProcessor {
+interface MoveResultProcessor {
 
 	/**
 	 * Process the result of a move

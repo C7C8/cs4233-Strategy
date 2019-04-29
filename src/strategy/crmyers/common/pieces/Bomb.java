@@ -32,18 +32,7 @@ import strategy.crmyers.common.StrategyBoardImpl;
  */
 public class Bomb extends PieceDefined {
 
-
-	int charges;
-
-	/**
-	 * Create a new bomb
-	 * @param color Bomb color
-	 * @param charges How many times the bomb can explode; on the last detonation it gets removed from play
-	 */
-	public Bomb(PieceColor color, int charges) {
-		super(color);
-		this.charges = charges;
-	}
+	private int charges;
 
 	public Bomb(PieceColor color) {
 		super(color);

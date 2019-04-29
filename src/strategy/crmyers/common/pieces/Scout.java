@@ -32,7 +32,7 @@ import strategy.crmyers.common.PieceDefined;
  */
 public class Scout extends PieceDefined {
 
-	int attackDistance = 0;
+	private int attackDistance = 0;
 
 	public Scout(PieceColor color) {
 		super(color);
