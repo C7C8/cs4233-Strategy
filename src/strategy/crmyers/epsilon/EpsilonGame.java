@@ -35,8 +35,8 @@ import strategy.crmyers.common.pieces.Scout;
 public class EpsilonGame extends StrategyGameImpl {
 	public EpsilonGame(Board board) {
 		super(0, true, new AggressorAdvantageMoveProcessor());
-		// See note in GammaGame constructor about why this exists
-		if (!board.getClass().toString().contains("EpsilonBoard"))
+		// Used to allow mocked test boards to be passed through, this has no effect on normal runs (seriously)
+		if (!board.getClass().toString().contains("crmyers.epsilon.EpsilonBoard"))
 			this.board = new EpsilonBoard(board);
 		else
 			this.board = (StrategyBoardImpl) board;

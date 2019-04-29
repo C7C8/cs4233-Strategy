@@ -29,12 +29,15 @@ import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.StrategyGameImpl;
 
 public class GammaGame extends StrategyGameImpl {
+
+	/**
+	 * Construct a Gamma game using a given board
+	 * @param board Board to play on
+	 */
 	public GammaGame(Board board) {
 		super(0, true, new DefaultMoveProcessor());
-		System.out.println(board.getClass());
-		// YES THIS IS HACKY
-		// BUT I need to do it in order to get mocking to work properly, because Mockito spies
-		// change the returned class type, and there's no way to fix that.
+
+		// Used to allow mocked test boards to be passed through, this has no effect on normal runs (seriously)
 		if (!board.getClass().toString().contains("GammaBoard"))
 			this.board = new GammaBoard(board);
 		else

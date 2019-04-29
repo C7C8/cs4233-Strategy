@@ -29,10 +29,16 @@ import strategy.crmyers.common.StrategyBoardImpl;
 import strategy.crmyers.common.StrategyGameImpl;
 
 public class DeltaGame extends StrategyGameImpl {
+
+	/**
+	 * Construct a delta game
+	 * @param board Board to base off of.
+	 * @implNote Board will be reused if it's already a DeltaBoard.
+	 */
 	public DeltaGame(Board board) {
 		super(0, true, new DefaultMoveProcessor());
-		// See note in GammaGame constructor about why this exists
-		if (!board.getClass().toString().contains("EpsilonBoard"))
+		// Used to allow mocked test boards to be passed through, this has no effect on normal runs (seriously)
+		if (!board.getClass().toString().contains("crmyers.delta.DeltaBoard"))
 			this.board = new DeltaBoard(board);
 		else
 			this.board = (StrategyBoardImpl) board;

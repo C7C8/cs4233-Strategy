@@ -25,7 +25,11 @@ package strategy.crmyers.common;
 
 import strategy.Piece;
 
+/**
+ * Interface for a move result processor, responsible for deciding what happens with the result of a move/strike
+ */
 public interface MoveResultProcessor {
+
 	/**
 	 * Process the result of a move
 	 * @param result Result that the piece output
@@ -33,5 +37,5 @@ public interface MoveResultProcessor {
 	 * @param move Object containing coordinates for move
 	 * @return Processed move result
 	 */
-	public PieceDefined.MoveResult processMove(PieceDefined.MoveResult result, StrategyBoardImpl board, StrategyGameImpl.Move move, Piece.PieceColor colorTurn);
+	PieceDefined.MoveResult processMove(PieceDefined.MoveResult result, StrategyBoardImpl board, StrategyGameImpl.Move move, Piece.PieceColor colorTurn);
 }

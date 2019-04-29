@@ -29,8 +29,9 @@ import static strategy.Piece.PieceColor.BLUE;
 import static strategy.Piece.PieceColor.RED;
 
 public class DefaultMoveProcessor implements MoveResultProcessor {
+
 	/**
-	 * Process the result of a move
+	 * Process the result of a move, with no aggressor advantage
 	 *
 	 * @param result Result that the piece output
 	 * @param board  Board to move on

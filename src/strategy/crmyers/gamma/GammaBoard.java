@@ -30,7 +30,6 @@ import static strategy.Piece.PieceType.*;
 
 public class GammaBoard extends StrategyBoardImpl {
 
-
 	/**
 	 * Initialize the board; in Gamma strategy, there is a 2x2 block of choke points in the center.
 	 */

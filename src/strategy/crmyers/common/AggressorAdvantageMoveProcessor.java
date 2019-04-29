@@ -30,8 +30,9 @@ import static strategy.Piece.PieceColor.RED;
 import static strategy.crmyers.common.PieceDefined.MoveResult.OK;
 
 public class AggressorAdvantageMoveProcessor implements MoveResultProcessor {
+
 	/**
-	 * Process the result of a move
+	 * Process the result of a move, with the aggressor advantage rule
 	 *
 	 * @param result Result that the piece output
 	 * @param board  Board to move on

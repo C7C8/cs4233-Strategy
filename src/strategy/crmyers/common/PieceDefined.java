@@ -49,6 +49,10 @@ public abstract class PieceDefined implements Piece {
 		DETONATION, // If a bomb is struck and it explodes for good
 	}
 
+	/**
+	 * Construct piece
+	 * @param color Piece color
+	 */
 	public PieceDefined(PieceColor color) {
 		this.color = color;
 	}
@@ -66,7 +70,15 @@ public abstract class PieceDefined implements Piece {
 		return Math.abs(tc - fc) != 0 && Math.abs(tr - fr) != 0;
 	}
 
-	static boolean isOneSpace(int fr, int fc, int tr, int tc) {
+	/**
+	 * Helper to screen for moves that are greater than once space
+	 * @param fr From row
+	 * @param fc From column
+	 * @param tr To row
+	 * @param tc To column
+	 * @return True if the move is greater than one space, false otherwise
+	 */
+	private static boolean notOneSpace(int fr, int fc, int tr, int tc) {
 		final int dx = Math.abs(tc - fc);
 		final int dy = Math.abs(tr - fr);
 		return dx > 1 || dy > 1;
@@ -78,9 +90,8 @@ public abstract class PieceDefined implements Piece {
 	}
 
 	/**
-	 * Move the piece.
-	 *
-	 * @param board BetaBoard to move on
+	 * Calculate results of moving the piece. Does not act on those results (leaves decision up to game object)
+	 * @param board Board to move on
 	 * @param fr    From row
 	 * @param fc    From column
 	 * @param tr    To row
@@ -91,8 +102,9 @@ public abstract class PieceDefined implements Piece {
 	public MoveResult move(StrategyBoardImpl board, int fr, int fc, int tr, int tc) throws StrategyException {
 		if (isDiagonal(fr, fc, tr, tc))
 			throw new StrategyException("Diagonal move made");
+
 		// Have to have special code to handle scouts, since scouts call into this code too
-		if (this.getClass() != Scout.class && isOneSpace(fr, fc, tr, tc))
+		if (this.getClass() != Scout.class && notOneSpace(fr, fc, tr, tc))
 			throw new StrategyException("More than one move made by a non-scout piece");
 
 		PieceDefined piece = board.getPieceAt(tr, tc);
@@ -106,16 +118,10 @@ public abstract class PieceDefined implements Piece {
 
 	/**
 	 * Determine the outcome of a particular strike.
-	 *
 	 * @param target Targeted piece.
 	 * @return Result of the strike!
 	 */
 	public MoveResult strike(PieceDefined target) {
-//		if (target.getPieceType() == BOMB)
-//			return pieceLoss();
-//		else if (target.getPieceType() == FLAG)
-//			return color == BLUE ? MoveResult.BLUE_WINS : MoveResult.RED_WINS;
-
 		final int ourRank = getPieceType().ordinal();
 		final int theirRank = target.getPieceType().ordinal();
 		MoveResult result;
@@ -144,7 +150,6 @@ public abstract class PieceDefined implements Piece {
 
 	/**
 	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
-	 *
 	 * @return Strike result
 	 */
 	protected MoveResult pieceVictory() {
@@ -153,7 +158,6 @@ public abstract class PieceDefined implements Piece {
 
 	/**
 	 * Tiny, dumb helper function to convert piece color + victory to the right strike return
-	 *
 	 * @return Strike result
 	 */
 	protected MoveResult pieceLoss() {
@@ -161,7 +165,7 @@ public abstract class PieceDefined implements Piece {
 	}
 
 	/**
-	 * @return Symbol that represents this piece
+	 * @return Two-character symbol that represents this piece
 	 */
 	public abstract String toString();
 

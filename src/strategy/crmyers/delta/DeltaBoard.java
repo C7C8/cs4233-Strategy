@@ -32,13 +32,18 @@ import static strategy.Piece.PieceType.*;
 public class DeltaBoard extends StrategyBoardImpl{
 
 	/**
-	 * Initialize the board; Delta board is a full size board with a full suite of choke points
+	 * Initialize the board; Delta board is a full size board with a full suite of choke points. This does NOT validate
+	 * the board, since any delta board constructed with this would be empty.
 	 */
 	public DeltaBoard() {
 		super(10, 10);
 		configureBoard();
 	}
 
+	/**
+	 * Construct a board
+	 * @param board Strategy board to base off of. Results are validated.
+	 */
 	public DeltaBoard(strategy.Board board) {
 		super(board, 10, 10);
 
@@ -61,7 +66,7 @@ public class DeltaBoard extends StrategyBoardImpl{
 		configureBoard();
 	}
 
-	protected void configureBoard() {
+	private void configureBoard() {
 		squares[4][2] = CHOKE;
 		squares[5][2] = CHOKE;
 		squares[4][3] = CHOKE;

@@ -30,10 +30,20 @@ import strategy.crmyers.delta.DeltaBoard;
  * Epsilon board, really just a re-do of DeltaBoard since the board contains no further game logic.
  */
 public class EpsilonBoard extends DeltaBoard {
+
+	/**
+	 * Construct an Epsilon board. No validation.
+	 * @see EpsilonBoard
+	 */
 	public EpsilonBoard() {
 		super();
 	}
 
+	/**
+	 * Construct an Epsilon board based on a given board. Validates input.
+	 * @param board Board to copy.
+	 * @see EpsilonBoard
+	 */
 	public EpsilonBoard(Board board) {
 		super(board);
 	}
